@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/navbar/Navbar";
+import { Lato } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const lato = Lato({ subsets: ["latin"], weight: ["400", "700", "900"] });
 
 export const metadata: Metadata = {
   title: "Fluffy Life",
@@ -16,8 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-      {/* <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" /> */}
+      <body className={lato.className}>
+        <Navbar />
+        <div>{children}</div>
+      </body>
+      <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />
     </html>
   );
 }
