@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
-import { Lato } from "next/font/google";
+import { Montserrat } from "next/font/google";
 
-const lato = Lato({ subsets: ["latin"], weight: ["400", "700", "900"] });
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Fluffy Life",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={lato.className}>
+      <body className={montserrat.className}>
         <Navbar />
         <div>{children}</div>
       </body>

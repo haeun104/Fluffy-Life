@@ -5,6 +5,7 @@ import logo from "../../app/icon.png";
 
 import { Dancing_Script } from "next/font/google";
 import { useRouter } from "next/navigation";
+
 const font = Dancing_Script({ subsets: ["latin"], weight: ["400", "700"] });
 
 const Logo = () => {
