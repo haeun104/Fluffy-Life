@@ -13,6 +13,7 @@ const config: Config = {
         "light-green": "#64CCC5",
         "light-beige": "#F8F6E3",
         "main-gray": "#6A6A6A",
+        "accent-pink": "#E48586",
       },
       keyframes: {
         heroImages: {
