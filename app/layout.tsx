@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import { Montserrat } from "next/font/google";
+import Modal from "@/components/modals/Modal";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Navbar />
+        <Modal />
         <div>{children}</div>
       </body>
       <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />

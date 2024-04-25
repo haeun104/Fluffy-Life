@@ -1,6 +1,6 @@
 interface ButtonProps {
   title: string;
-  onClick: () => void;
+  onClick?: () => void;
   color?: string;
 }
 
