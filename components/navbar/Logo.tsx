@@ -12,11 +12,11 @@ const Logo = () => {
   const router = useRouter();
   return (
     <div
-      className="text-light-green flex items-center gap-2 cursor-pointer"
+      className="text-main-teal flex items-center gap-2 cursor-pointer"
       onClick={() => router.push("/")}
     >
       <Image alt="logo" src={logo} height={30} width={30} />
-      <div className={`text-2xl ${font.className} font-bold`}>Fluffy Life</div>
+      <div className={`text-3xl ${font.className} font-bold`}>Fluffy Life</div>
     </div>
   );
 };

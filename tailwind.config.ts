@@ -10,10 +10,10 @@ const config: Config = {
     extend: {
       colors: {
         "main-teal": "#219C90",
-        "light-green": "#64CCC5",
+        "accent-light-green": "#64CCC5",
         "light-beige": "#F8F6E3",
         "main-gray": "#6A6A6A",
-        "accent-pink": "#E48586",
+        "accent-light-pink": "#E48586",
       },
       keyframes: {
         heroImages: {

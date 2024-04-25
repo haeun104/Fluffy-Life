@@ -2,17 +2,18 @@ interface ButtonProps {
   title: string;
   onClick: () => void;
   color?: string;
-  style?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onClick, color, style }) => {
+const Button: React.FC<ButtonProps> = ({ title, onClick, color }) => {
   return (
-    <div
+    <button
       onClick={onClick}
-      className={`bg-${color ? color : "accent-pink"} ${style ? style : ""}`}
+      className={`text-white font-bold px-4 py-2 rounded-md hover:opacity-80 ${
+        color ? `bg-${color}` : `bg-accent-light-pink`
+      }`}
     >
       {title}
-    </div>
+    </button>
   );
 };
 
