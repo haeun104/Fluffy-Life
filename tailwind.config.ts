@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         "main-teal": "#219C90",
         "light-green": "#64CCC5",
+        "light-beige": "#F8F6E3",
+        "main-gray": "#6A6A6A",
       },
       keyframes: {
         heroImages: {
@@ -21,7 +23,7 @@ const config: Config = {
         },
       },
       animation: {
-        heroAnimation: "heroImages 12s ease-in-out infinite",
+        heroAnimation: "heroImages 16s ease-in-out infinite",
       },
     },
   },
