@@ -4,7 +4,7 @@ import Logo from "./Logo";
 
 const Navbar = () => {
   return (
-    <div className="my-4">
+    <div className="my-4 relative">
       <Container>
         <div className="flex justify-between items-center">
           <Logo />
