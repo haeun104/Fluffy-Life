@@ -12,6 +12,17 @@ const config: Config = {
         "main-teal": "#219C90",
         "light-green": "#64CCC5",
       },
+      keyframes: {
+        heroImages: {
+          "0%, 100%": { backgroundImage: "url('/images/sleepy-dog.jpg')" },
+          "25%": { backgroundImage: "url('/images/playing-dogs.jpg')" },
+          "50%": { backgroundImage: "url('/images/training-dogs.jpg')" },
+          "75%": { backgroundImage: "url('/images/swimming-dog.jpg')" },
+        },
+      },
+      animation: {
+        heroAnimation: "heroImages 12s ease-in-out infinite",
+      },
     },
   },
   plugins: [],
