@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import { Montserrat } from "next/font/google";
-import Modal from "@/components/modals/Modal";
+import SignUpModal from "@/components/modals/SignUpModal";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Navbar />
+        <SignUpModal />
         <div>{children}</div>
       </body>
       <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />

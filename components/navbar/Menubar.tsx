@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import Button from "../Button";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { useState } from "react";
-import Modal from "../modals/Modal";
 import MenuItem from "./MenuItem";
+import useSignUpModal from "@/hooks/useSignUpModal";
 
 const menuItems = [
   {
@@ -28,6 +27,7 @@ const menuItems = [
 
 const Menubar = () => {
   const [toggle, setToggle] = useState(false);
+  const signUpModal = useSignUpModal();
 
   return (
     <>
@@ -46,7 +46,7 @@ const Menubar = () => {
         </ul>
         <div className="flex gap-6">
           <Button title="LOGIN" color="main-gray" />
-          <Button title="SIGN UP" />
+          <Button title="SIGN UP" onClick={signUpModal.onOpen} />
         </div>
       </div>
       <div className="lg:hidden">
@@ -74,7 +74,6 @@ const Menubar = () => {
           <li className="text-accent-light-pink cursor-pointer">sign up</li>
         </ul>
       </div>
-      <Modal />
     </>
   );
 };
