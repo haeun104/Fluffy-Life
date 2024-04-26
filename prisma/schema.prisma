@@ -29,7 +29,7 @@ model User {
   mobile         String?
 
   // accounts Account[]
-  pets Pets[]
+  pets Pet[]
   // hotel HotelReservation[]
   // grooming GroomingReservation[]
 }
@@ -53,7 +53,7 @@ model User {
 //   @@unique([provider, providerAccountId])
 // }
 
-model Pets {
+model Pet {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   userId     String  @db.ObjectId
   name       String

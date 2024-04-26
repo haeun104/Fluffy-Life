@@ -45,7 +45,7 @@ const Menubar = () => {
           ))}
         </ul>
         <div className="flex gap-6">
-          <Button title="LOGIN" color="main-gray" />
+          <Button title="LOGIN" style="bg-accent-light-green" />
           <Button title="SIGN UP" onClick={signUpModal.onOpen} />
         </div>
       </div>
@@ -70,9 +70,9 @@ const Menubar = () => {
           {menuItems.map((item, index) => (
             <MenuItem key={index} title={item.title} url={item.url} />
           ))}
-          <li className="text-main-gray cursor-pointer">login</li>
+          <li className="text-accent-light-green cursor-pointer">login</li>
           <li
-            className="text-accent-light-pink cursor-pointer"
+            className="text-accent-red cursor-pointer"
             onClick={signUpModal.onOpen}
           >
             sign up

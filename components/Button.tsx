@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       className={`text-white font-bold px-4 py-2 rounded-md hover:opacity-80 ${
-        color ? `bg-${color}` : `bg-accent-light-pink`
+        color ? `bg-${color}` : `bg-accent-red`
       } ${style ? style : ""} disabled:cursor-not-allowed`}
       disabled={disabled ? disabled : false}
     >
