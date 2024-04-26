@@ -71,7 +71,12 @@ const Menubar = () => {
             <MenuItem key={index} title={item.title} url={item.url} />
           ))}
           <li className="text-main-gray cursor-pointer">login</li>
-          <li className="text-accent-light-pink cursor-pointer">sign up</li>
+          <li
+            className="text-accent-light-pink cursor-pointer"
+            onClick={signUpModal.onOpen}
+          >
+            sign up
+          </li>
         </ul>
       </div>
     </>

@@ -9,7 +9,7 @@ interface ModalProps {
   onClose: () => void;
   onSubmit?: () => void;
   bodyContent: React.ReactElement;
-  actionTitle: string;
+  actionLabel: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   onSubmit,
   bodyContent,
-  actionTitle,
+  actionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -30,14 +30,16 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className="absolute top-0 left-0 h-screen w-screen opacity-70 bg-neutral-800 flex justify-center items-center">
-      <div className="max-w-[300px] bg-white px-6 py-4 rounded-lg relative">
+    <div className="absolute top-0 left-0 h-screen w-screen bg-neutral-800/70 flex justify-center items-center">
+      <div className="bg-white px-6 py-8 rounded-lg relative w-full max-w-[500px]">
         <IoMdClose
           className="cursor-pointer absolute right-4"
           onClick={onClose}
         />
         {bodyContent}
-        <Button title={actionTitle} onClick={onSubmit} />
+        <div className="flex pt-4">
+          <Button title={actionLabel} onClick={onSubmit} style="flex-1" />
+        </div>
       </div>
     </div>
   );
