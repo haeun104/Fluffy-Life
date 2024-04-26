@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Navbar />
-        <Modal />
         <div>{children}</div>
       </body>
       <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />

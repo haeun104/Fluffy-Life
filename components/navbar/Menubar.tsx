@@ -4,6 +4,27 @@ import Link from "next/link";
 import Button from "../Button";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { useState } from "react";
+import Modal from "../modals/Modal";
+import MenuItem from "./MenuItem";
+
+const menuItems = [
+  {
+    title: "about us",
+    url: "/about",
+  },
+  {
+    title: "hotel",
+    url: "/hotel",
+  },
+  {
+    title: "grooming",
+    url: "/grooming",
+  },
+  {
+    title: "events",
+    url: "/events",
+  },
+];
 
 const Menubar = () => {
   const [toggle, setToggle] = useState(false);
@@ -12,26 +33,16 @@ const Menubar = () => {
     <>
       <div className="hidden lg:flex items-center gap-10">
         <ul className="uppercase font-bold text-main-teal flex gap-6">
-          <Link href={"/about"}>
-            <li className="border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal">
-              about us
-            </li>
-          </Link>
-          <Link href={"/hotel"}>
-            <li className="border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal">
-              hotel
-            </li>
-          </Link>
-          <Link href={"/grooming"}>
-            <li className="border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal">
-              grooming
-            </li>
-          </Link>
-          <Link href={"/events"}>
-            <li className="border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal">
-              events
-            </li>
-          </Link>
+          {menuItems.map((item, index) => (
+            <MenuItem
+              key={index}
+              title={item.title}
+              url={item.url}
+              style={
+                "border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal"
+              }
+            />
+          ))}
         </ul>
         <div className="flex gap-6">
           <Button title="LOGIN" color="main-gray" />
@@ -56,22 +67,14 @@ const Menubar = () => {
             !toggle && "hidden"
           }`}
         >
-          <Link href={"/about"}>
-            <li>about us</li>
-          </Link>
-          <Link href={"/hotel"}>
-            <li>hotel</li>
-          </Link>
-          <Link href={"/grooming"}>
-            <li>grooming</li>
-          </Link>
-          <Link href={"/events"}>
-            <li>events</li>
-          </Link>
+          {menuItems.map((item, index) => (
+            <MenuItem key={index} title={item.title} url={item.url} />
+          ))}
           <li className="text-main-gray cursor-pointer">login</li>
           <li className="text-accent-light-pink cursor-pointer">sign up</li>
         </ul>
       </div>
+      <Modal />
     </>
   );
 };
