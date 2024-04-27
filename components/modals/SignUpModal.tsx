@@ -10,6 +10,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 const SignUpModal = () => {
   const signUpModal = useSignUpModal();
@@ -42,10 +43,44 @@ const SignUpModal = () => {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
+    reset,
   } = useForm<FieldValues>({
+    defaultValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      passwordCheck: "",
+    },
     resolver: zodResolver(schema),
   });
 
+  useEffect(() => {
+    if (!signUpModal.isOpen) {
+      reset();
+    }
+  }, [signUpModal.isOpen, reset]);
+
+  // Create a new user in DB
+  const createUser: SubmitHandler<FieldValues> = (data) => {
+    const { passwordCheck, ...userData } = data;
+
+    // axios
+    //   .post("/api/emailCheck", userData)
+    //   .then((response) => console.log(response))
+    //   .catch((error) => console.log(error));
+
+    axios
+      .post("/api/signup", userData)
+      .then(() => {
+        toast.success("Successfully registered!");
+        signUpModal.onClose();
+        reset();
+      })
+      .catch((error) => {
+        toast.error("Something went wrong");
+      });
+  };
   const bodyContent = (
     <div>
       <Heading
@@ -96,21 +131,6 @@ const SignUpModal = () => {
       </div>
     </div>
   );
-
-  // Create a new user in DB
-  const createUser: SubmitHandler<FieldValues> = (data) => {
-    const { passwordCheck, ...userData } = data;
-
-    axios
-      .post("/api/signup", userData)
-      .then(() => {
-        toast.success("Successfully registered!");
-        signUpModal.onClose();
-      })
-      .catch((error) => {
-        toast.error("Something went wrong");
-      });
-  };
 
   return (
     <Modal
