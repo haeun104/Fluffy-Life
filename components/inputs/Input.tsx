@@ -1,4 +1,9 @@
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldError,
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+} from "react-hook-form";
 
 interface InputProps {
   id: string;
@@ -25,8 +30,15 @@ const Input: React.FC<InputProps> = ({
         id={id}
         {...register(id, { required })}
         placeholder="  "
-        className="border-solid border-neutral-300 border-[1px] rounded-md outline-none p-2"
+        className={`border-solid ${
+          errors[id] ? "border-accent-red " : "border-neutral-300"
+        } border-[1px] rounded-md outline-none p-2`}
       />
+      {errors[id] && (
+        <span className="text-accent-red text-sm">
+          {(errors[id] as FieldError).message}
+        </span>
+      )}
     </div>
   );
 };
