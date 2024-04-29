@@ -65,22 +65,37 @@ const SignUpModal = () => {
   const createUser: SubmitHandler<FieldValues> = (data) => {
     const { passwordCheck, ...userData } = data;
 
-    // axios
-    //   .post("/api/emailCheck", userData)
-    //   .then((response) => console.log(response))
-    //   .catch((error) => console.log(error));
-
     axios
-      .post("/api/signup", userData)
-      .then(() => {
-        toast.success("Successfully registered!");
-        signUpModal.onClose();
-        reset();
+      .post("/api/emailCheck", userData)
+      .then((response) => {
+        const existingEmail = response.data?.email; // Check if email already exists in DB
+        if (
+          existingEmail !== undefined &&
+          existingEmail !== null &&
+          existingEmail !== ""
+        ) {
+          toast.error("This email exists already. Input other one");
+          return;
+        }
+        // Create a new user only when entered email doesn't exist in DB
+        axios
+          .post("/api/signup", userData)
+          .then(() => {
+            toast.success("Successfully registered!");
+            signUpModal.onClose();
+            reset();
+          })
+          .catch((error) => {
+            toast.error("Something went wrong");
+            console.error(error);
+          });
       })
       .catch((error) => {
         toast.error("Something went wrong");
+        console.error(error);
       });
   };
+
   const bodyContent = (
     <div>
       <Heading
