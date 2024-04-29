@@ -155,6 +155,7 @@ const SignUpModal = () => {
       bodyContent={bodyContent}
       disabled={isSubmitting}
       onSubmit={handleSubmit(createUser)}
+      style="bg-accent-red"
     />
   );
 };

@@ -5,6 +5,7 @@ import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { useState } from "react";
 import MenuItem from "./MenuItem";
 import useSignUpModal from "@/hooks/useSignUpModal";
+import useLoginModal from "@/hooks/useLoginModal";
 
 const menuItems = [
   {
@@ -28,6 +29,7 @@ const menuItems = [
 const Menubar = () => {
   const [toggle, setToggle] = useState(false);
   const signUpModal = useSignUpModal();
+  const loginModal = useLoginModal();
 
   return (
     <>
@@ -45,7 +47,11 @@ const Menubar = () => {
           ))}
         </ul>
         <div className="flex gap-6">
-          <Button title="LOGIN" style="bg-accent-light-green" />
+          <Button
+            title="LOGIN"
+            style="bg-accent-light-green"
+            onClick={loginModal.onOpen}
+          />
           <Button title="SIGN UP" onClick={signUpModal.onOpen} />
         </div>
       </div>
@@ -70,7 +76,12 @@ const Menubar = () => {
           {menuItems.map((item, index) => (
             <MenuItem key={index} title={item.title} url={item.url} />
           ))}
-          <li className="text-accent-light-green cursor-pointer">login</li>
+          <li
+            className="text-accent-light-green cursor-pointer"
+            onClick={loginModal.onOpen}
+          >
+            login
+          </li>
           <li
             className="text-accent-red cursor-pointer"
             onClick={signUpModal.onOpen}

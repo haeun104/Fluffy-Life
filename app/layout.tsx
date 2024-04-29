@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Montserrat } from "next/font/google";
 import SignUpModal from "@/components/modals/SignUpModal";
 import ToasterProvider from "@/libs/ToasterProvider";
+import LoginModal from "@/components/modals/LoginModal";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={montserrat.className}>
         <Navbar />
         <SignUpModal />
+        <LoginModal />
         <ToasterProvider />
         <div>{children}</div>
       </body>

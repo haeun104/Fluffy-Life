@@ -11,6 +11,7 @@ interface ModalProps {
   bodyContent: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
+  style?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -20,6 +21,7 @@ const Modal: React.FC<ModalProps> = ({
   bodyContent,
   actionLabel,
   disabled,
+  style,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -43,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({
           <Button
             title={actionLabel}
             onClick={onSubmit}
-            style="flex-1 py-[12px]"
+            style={`flex-1 py-[12px] ${style}`}
             disabled={disabled}
           />
         </div>
