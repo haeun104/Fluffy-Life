@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import SignUpModal from "@/components/modals/SignUpModal";
 import ToasterProvider from "@/libs/ToasterProvider";
 import LoginModal from "@/components/modals/LoginModal";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -13,15 +14,17 @@ export const metadata: Metadata = {
   description: "Premium dog care services",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const currentUser = await getCurrentUser();
+
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         <SignUpModal />
         <LoginModal />
         <ToasterProvider />

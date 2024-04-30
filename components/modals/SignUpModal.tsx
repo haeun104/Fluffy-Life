@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 
 const SignUpModal = () => {
   const signUpModal = useSignUpModal();
@@ -140,7 +141,10 @@ const SignUpModal = () => {
         required
         errors={errors}
       />
-      <div className="border-solid border-neutral-500 border-[2px] rounded-md px-4 py-[10px] text-center flex items-center cursor-pointer mt-6">
+      <div
+        className="border-solid border-neutral-500 border-[2px] rounded-md px-4 py-[10px] text-center flex items-center cursor-pointer mt-6"
+        onClick={() => signIn("google")}
+      >
         <FcGoogle size={20} />
         <div className="flex-1">Continue with Google</div>
       </div>
