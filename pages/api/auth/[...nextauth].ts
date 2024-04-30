@@ -34,7 +34,7 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user.hashedPassword) {
-          throw new Error("Email doesn't exist in DB");
+          throw new Error("Email doesn't exist");
         }
 
         // Check if entered password matches with DB
@@ -44,7 +44,7 @@ export const authOptions: AuthOptions = {
         );
 
         if (!isCorrectPassword) {
-          throw new Error("Password doesn't match with DB");
+          throw new Error("Password doesn't match");
         }
 
         return user;
