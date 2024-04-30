@@ -6,6 +6,7 @@ import Image from "next/image";
 import MenuItem from "./MenuItem";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 interface UserMenuProps {
   currentUser: UserData | null;
@@ -14,6 +15,10 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!currentUser) {
+    return <div></div>;
+  }
 
   if (currentUser) {
     return (
@@ -42,6 +47,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               title="My Profile"
               style="text-main-gray"
               onClick={() => router.push("/profile")}
+            />
+            <MenuItem
+              title="Sign Out"
+              onClick={() => signOut()}
+              style="text-main-gray"
             />
           </div>
         )}
