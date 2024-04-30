@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 import useSignUpModal from "@/hooks/useSignUpModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import { UserData } from "@/types";
+import { useRouter } from "next/navigation";
 
 export const menuItems = [
   {
@@ -32,6 +33,7 @@ interface MenubarProps {
 const Menubar: React.FC<MenubarProps> = ({ currentUser }) => {
   const signUpModal = useSignUpModal();
   const loginModal = useLoginModal();
+  const router = useRouter();
 
   return (
     <>
@@ -41,9 +43,9 @@ const Menubar: React.FC<MenubarProps> = ({ currentUser }) => {
             <MenuItem
               key={index}
               title={item.title}
-              url={item.url}
+              onClick={() => router.push(item.url)}
               style={
-                "border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal"
+                "border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal cursor-pointer"
               }
             />
           ))}

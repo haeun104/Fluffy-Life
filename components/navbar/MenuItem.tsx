@@ -1,16 +1,16 @@
-import Link from "next/link";
+"use client";
 
 interface MenuItemProps {
   title: string;
   style?: string;
-  url: string;
+  onClick: () => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ title, style, url }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ title, style, onClick }) => {
   return (
-    <Link href={url}>
-      <li className={style ? style : ""}>{title}</li>
-    </Link>
+    <div className={style ? style : ""} onClick={onClick}>
+      {title}
+    </div>
   );
 };
 

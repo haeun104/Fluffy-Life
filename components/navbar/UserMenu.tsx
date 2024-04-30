@@ -11,6 +11,7 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   if (currentUser) {
     return (
+      <>
       <div className="flex h-full gap-2 items-center cursor-pointer">
         <div className="text-main-gray font-semibold group-hover:text-white uppercase hidden lg:flex">
           {`${currentUser.firstName} ${currentUser.lastName}`}
@@ -19,6 +20,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <Image src={avatar} alt="avatar" height={30} width={30} />
         </div>
       </div>
+      </>
     );
   }
 };

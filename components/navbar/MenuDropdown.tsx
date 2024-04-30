@@ -7,6 +7,7 @@ import MenuItem from "./MenuItem";
 import { UserData } from "@/types";
 import useLoginModal from "@/hooks/useLoginModal";
 import useSignUpModal from "@/hooks/useSignUpModal";
+import { useRouter } from "next/navigation";
 
 interface MenuDropdownProps {
   currentUser: UserData | null;
@@ -16,6 +17,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
   const [toggle, setToggle] = useState(false);
   const loginModal = useLoginModal();
   const signUpModal = useSignUpModal();
+  const router = useRouter();
 
   return (
     <div className="lg:hidden">
@@ -31,29 +33,34 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
       >
         <IoMdClose size={36} />
       </div>
-      <ul
+      <div
         className={`uppercase font-bold text-main-teal flex flex-col gap-6 absolute left-0 w-full bg-white px-[50px] py-[30px] ${
           !toggle && "hidden"
         }`}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index} title={item.title} url={item.url} />
+          <MenuItem
+            key={index}
+            title={item.title}
+            onClick={() => router.push(item.url)}
+            style="cursor-pointer"
+          />
         ))}
-        <li
+        <div
           className={
             currentUser ? "hidden" : "text-accent-light-green cursor-pointer"
           }
           onClick={loginModal.onOpen}
         >
           login
-        </li>
-        <li
+        </div>
+        <div
           className={currentUser ? "hidden" : "text-accent-red cursor-pointer"}
           onClick={signUpModal.onOpen}
         >
           sign up
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   );
 };
