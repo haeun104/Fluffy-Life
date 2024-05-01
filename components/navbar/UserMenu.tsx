@@ -27,7 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           className="text-main-gray font-semibold group-hover:text-white uppercase hidden lg:flex"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {`${currentUser.firstName} ${currentUser.lastName}`}
+          {currentUser.name}
         </div>
         <div
           className="rounded-full overflow-hidden"

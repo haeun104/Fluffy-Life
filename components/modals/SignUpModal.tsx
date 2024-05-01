@@ -23,8 +23,7 @@ const SignUpModal = () => {
         .string()
         .min(1, { message: "Email must be input" })
         .email("Invalid email"),
-      firstName: z.string().min(1, { message: "First name must be input" }),
-      lastName: z.string().min(1, { message: "Last name must be input" }),
+      name: z.string().min(1, { message: "Name must be input" }),
       password: z
         .string()
         .min(8, { message: "Password must contain min 7 characters" })
@@ -48,8 +47,7 @@ const SignUpModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       email: "",
-      firstName: "",
-      lastName: "",
+      name: "",
       password: "",
       passwordCheck: "",
     },
@@ -112,15 +110,8 @@ const SignUpModal = () => {
         errors={errors}
       />
       <Input
-        id="firstName"
-        label="First Name"
-        register={register}
-        required
-        errors={errors}
-      />
-      <Input
-        id="lastName"
-        label="Last Name"
+        id="name"
+        label="Name"
         register={register}
         required
         errors={errors}
