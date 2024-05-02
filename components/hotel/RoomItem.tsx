@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +10,7 @@ interface RoomItemProps {
   groomingInclude: boolean;
   groomingPrice?: number;
   description: string;
-  image: string;
+  image: StaticImageData;
 }
 
 const RoomItem: React.FC<RoomItemProps> = ({
