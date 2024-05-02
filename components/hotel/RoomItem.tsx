@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import Button from "../Button";
+import { useRouter } from "next/navigation";
 
 interface RoomItemProps {
   roomType: string;
@@ -17,8 +21,9 @@ const RoomItem: React.FC<RoomItemProps> = ({
   description,
   image,
 }) => {
+  const router = useRouter();
   return (
-    <div className="cursor-pointer border-solid border-[1px] border-[#EEEEEE] rounded-lg overflow-hidden flex flex-col max-w-[350px] sm:max-w-[800px] sm:min-w-full sm:flex-row md:min-w-[800px]">
+    <div className="border-solid border-[1px] border-[#EEEEEE] rounded-lg overflow-hidden flex flex-col max-w-[350px] sm:max-w-[800px] sm:min-w-full sm:flex-row md:min-w-[800px]">
       <div className="sm:max-w-[350px] sm:max-h-[200px]">
         <Image src={image} alt={roomType} />
       </div>
@@ -30,6 +35,11 @@ const RoomItem: React.FC<RoomItemProps> = ({
         ) : (
           <div className="text-sm font-bold">{`from ${roomPrice} PLN per night`}</div>
         )}
+        <Button
+          title="Go to reserve"
+          style="bg-main-gray max-w-[150px] text-sm my-2"
+          onClick={() => router.push(`/hotel/${roomType}`)}
+        />
       </div>
     </div>
   );

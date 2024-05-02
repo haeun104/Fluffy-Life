@@ -19,7 +19,7 @@ const rooms = [
     image: standardImage,
   },
   {
-    roomType: "Suite Package",
+    roomType: "Suite-Package",
     roomPrice: 150,
     groomingInclude: true,
     groomingPrice: 150,
@@ -27,7 +27,7 @@ const rooms = [
     image: suiteImage,
   },
   {
-    roomType: "Standard Package",
+    roomType: "Standard-Package",
     roomPrice: 100,
     groomingInclude: true,
     groomingPrice: 180,
