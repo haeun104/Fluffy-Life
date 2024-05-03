@@ -63,15 +63,28 @@ model Pet {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Room {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  roomType        String
+  roomPrice       Int
+  groomingInclude Boolean
+  groomingPrice   Int?
+  title           String
+  imageUrl        String
+  description     String
+
+  reservation HotelReservation[]
+}
+
 model HotelReservation {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   userId     String   @db.ObjectId
-  roomId     String
-  roomType   String
+  roomId     String   @db.ObjectId
   startDate  DateTime
   endDate    DateTime
   totalPrice Int
   createdAt  DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }

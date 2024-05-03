@@ -1,7 +1,6 @@
 "use client";
 
 import Container from "@/components/Container";
-import Calendar from "@/components/calendar/Calendar";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
 import { RoomData } from "@/types";
