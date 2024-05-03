@@ -5,20 +5,22 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 
 interface RoomItemProps {
+  roomId: string;
   roomType: string;
   roomPrice: number;
   groomingInclude: boolean;
   groomingPrice?: number;
-  description: string;
+  title: string;
   image: StaticImageData;
 }
 
 const RoomItem: React.FC<RoomItemProps> = ({
+  roomId,
   roomType,
   roomPrice,
   groomingInclude,
   groomingPrice,
-  description,
+  title,
   image,
 }) => {
   const router = useRouter();
@@ -29,7 +31,7 @@ const RoomItem: React.FC<RoomItemProps> = ({
       </div>
       <div className="py-2 px-4 min-h-[100px] flex flex-col gap-2 justify-center">
         <h2 className="font-bold">{roomType}</h2>
-        <p className="text-sm text-main-gray font-light">{description}</p>
+        <p className="text-sm text-main-gray font-light">{title}</p>
         {groomingInclude ? (
           <div className="text-sm font-bold">{`from ${roomPrice} PLN per night + ${groomingPrice} PLN one-off fee`}</div>
         ) : (
@@ -38,7 +40,7 @@ const RoomItem: React.FC<RoomItemProps> = ({
         <Button
           title="Go to reserve"
           style="bg-main-gray max-w-[150px] text-sm my-2"
-          onClick={() => router.push(`/hotel/${roomType}`)}
+          onClick={() => router.push(`/hotel/${roomId}`)}
         />
       </div>
     </div>
