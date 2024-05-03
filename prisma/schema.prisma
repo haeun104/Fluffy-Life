@@ -27,8 +27,9 @@ model User {
   postalCode     String?
   mobile         String?
 
-  accounts Account[]
-  pets     Pet[]
+  accounts          Account[]
+  pets              Pet[]
+  hotelReservations HotelReservation[]
 }
 
 model Account {
@@ -58,6 +59,19 @@ model Pet {
   age        String
   chipNumber String
   remark     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model HotelReservation {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  roomId     String
+  roomType   String
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Int
+  createdAt  DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

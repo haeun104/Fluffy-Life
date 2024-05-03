@@ -1,7 +1,9 @@
 "use client";
 
 import Container from "@/components/Container";
+import Calendar from "@/components/calendar/Calendar";
 import RoomDetails from "@/components/hotel/RoomDetails";
+import RoomReservation from "@/components/hotel/RoomReservation";
 import { RoomData } from "@/types";
 import { rooms } from "@/util/rooms";
 import { useEffect, useState } from "react";
@@ -28,6 +30,7 @@ const HotelRoomPage = ({ params }: { params: HotelRoomParams }) => {
   return (
     <Container>
       <RoomDetails selectedRoom={selectedRoom} />
+      <RoomReservation selectedRoom={selectedRoom} />
     </Container>
   );
 };
