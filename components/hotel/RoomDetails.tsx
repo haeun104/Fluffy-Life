@@ -19,7 +19,6 @@ const RoomDetails: React.FC<RoomDetailProps> = ({ selectedRoom }) => {
           objectFit="cover"
         />
       </div>
-      <p>{selectedRoom.description}</p>
     </div>
   );
 };
