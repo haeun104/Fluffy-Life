@@ -10,6 +10,7 @@ interface RoomReservationProps {
   onSubmit: () => void;
   totalPrice: number;
   totalDays: number;
+  disableDates: Date[];
 }
 
 const RoomReservation: React.FC<RoomReservationProps> = ({
@@ -19,6 +20,7 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
   onSubmit,
   totalPrice,
   totalDays,
+  disableDates,
 }) => {
   return (
     <div className="flex flex-col border-solid border-[1px] rounded-lg p-4">
@@ -30,6 +32,7 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
       <Calendar
         value={dataRange}
         onChange={(value) => onChangeDate(value.selection)}
+        disableDates={disableDates}
       />
       <div className="flex">
         <Button

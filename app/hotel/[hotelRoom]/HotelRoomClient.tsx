@@ -4,16 +4,18 @@ import Container from "@/components/Container";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
 import { RoomData, UserData } from "@/types";
+import { HotelReservation } from "@prisma/client";
 import axios from "axios";
-import { differenceInCalendarDays } from "date-fns";
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import toast from "react-hot-toast";
 
 interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
+  reservations: HotelReservation[] | null;
 }
 
 const initialDateRange = {
@@ -25,12 +27,25 @@ const initialDateRange = {
 const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   selectedRoom,
   currentUser,
+  reservations,
 }) => {
   const [dataRange, setDataRange] = useState<Range>(initialDateRange);
   const [totalPrice, setTotalPrice] = useState(selectedRoom.roomPrice);
   const [totalDays, setTotalDays] = useState(0);
 
   const router = useRouter();
+
+  const disabledDates = useMemo(() => {
+    let dates: Date[] = [];
+    reservations?.forEach((reservation) => {
+      const range = eachDayOfInterval({
+        start: new Date(reservation.startDate),
+        end: new Date(reservation.endDate),
+      });
+      dates = [...dates, ...range];
+    });
+    return dates;
+  }, [reservations]);
 
   useEffect(() => {
     if (dataRange.startDate && dataRange.endDate) {
@@ -82,6 +97,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
           onSubmit={createReservation}
           totalPrice={totalPrice}
           totalDays={totalDays}
+          disableDates={disabledDates}
         />
       </div>
     </Container>
