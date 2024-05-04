@@ -2,6 +2,7 @@ import getCurrentUser from "@/actions/getCurrentUser";
 import HotelRoomClient from "./HotelRoomClient";
 import getRoomDetail from "@/actions/getRoomDetail";
 import getHotelReservation from "@/actions/getHotelReservation";
+import { HotelReservation } from "@prisma/client";
 
 interface HotelRoomParams {
   hotelRoom: string;
@@ -9,10 +10,11 @@ interface HotelRoomParams {
 
 const HotelRoomPage = async ({ params }: { params: HotelRoomParams }) => {
   const room = await getRoomDetail(params.hotelRoom);
-  const reservations = await getHotelReservation(params.hotelRoom);
+  const reservations: HotelReservation[] | undefined =
+    await getHotelReservation(params.hotelRoom);
   const currentUser = await getCurrentUser();
 
-  if (!room || !reservations) {
+  if (!room) {
     return null;
   }
 

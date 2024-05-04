@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
-  reservations: HotelReservation[] | null;
+  reservations: HotelReservation[] | undefined;
 }
 
 const initialDateRange = {

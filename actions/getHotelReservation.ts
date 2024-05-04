@@ -7,9 +7,6 @@ export default async function getHotelReservation(roomId: string) {
         roomId: roomId,
       },
     });
-    if (reservations.length === 0) {
-      return null;
-    }
 
     return reservations;
   } catch (error) {
