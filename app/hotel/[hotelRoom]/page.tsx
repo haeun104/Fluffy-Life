@@ -1,37 +1,18 @@
-"use client";
-
-import Container from "@/components/Container";
-import RoomDetails from "@/components/hotel/RoomDetails";
-import RoomReservation from "@/components/hotel/RoomReservation";
-import { RoomData } from "@/types";
-import { rooms } from "@/util/rooms";
-import { useEffect, useState } from "react";
+import HotelRoomClient from "./HotelRoomClient";
+import getRoomDetail from "@/actions/getRoomDetail";
 
 interface HotelRoomParams {
   hotelRoom: string;
 }
 
-const HotelRoomPage = ({ params }: { params: HotelRoomParams }) => {
-  const [selectedRoom, setSelectedRoom] = useState<RoomData | undefined>();
+const HotelRoomPage = async ({ params }: { params: HotelRoomParams }) => {
+  const room = await getRoomDetail(params.hotelRoom);
 
-  useEffect(() => {
-    const getRoomData = (id: string) => {
-      const room = rooms.find((room) => room.roomId === id);
-      if (room) {
-        setSelectedRoom(room);
-      }
-    };
-    if (params) {
-      getRoomData(params.hotelRoom);
-    }
-  }, [params]);
+  if (!room) {
+    return null;
+  }
 
-  return (
-    <Container>
-      <RoomDetails selectedRoom={selectedRoom} />
-      <RoomReservation selectedRoom={selectedRoom} />
-    </Container>
-  );
+  return <HotelRoomClient selectedRoom={room} />;
 };
 
 export default HotelRoomPage;

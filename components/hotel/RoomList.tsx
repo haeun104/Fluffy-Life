@@ -1,21 +1,25 @@
 import RoomItem from "./RoomItem";
 import Container from "../Container";
-import { rooms } from "@/util/rooms";
+import { RoomData } from "@/types";
 
-const RoomList = () => {
+interface RoomListProps {
+  rooms: RoomData[];
+}
+
+const RoomList: React.FC<RoomListProps> = ({ rooms }) => {
   return (
     <Container>
       <div className="flex flex-col gap-4 items-center">
         {rooms.map((room) => (
           <RoomItem
-            key={room.roomId}
-            roomId={room.roomId}
+            key={room.id}
+            id={room.id}
             roomType={room.roomType}
             roomPrice={room.roomPrice}
             groomingInclude={room.groomingInclude}
             groomingPrice={room.groomingPrice}
             title={room.title}
-            image={room.image}
+            imageUrl={room.imageUrl}
           />
         ))}
       </div>

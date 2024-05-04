@@ -1,9 +1,16 @@
 import RoomList from "@/components/hotel/RoomList";
+import getAllRooms from "@/actions/getAllRooms";
 
-const HotelPage = () => {
+const HotelPage = async () => {
+  const rooms = await getAllRooms();
+
+  if (!rooms) {
+    return null;
+  }
+
   return (
     <div>
-      <RoomList />
+      <RoomList rooms={rooms} />
     </div>
   );
 };

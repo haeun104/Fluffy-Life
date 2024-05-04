@@ -7,11 +7,11 @@ import "react-date-range/dist/theme/default.css";
 
 const Calendar = () => {
     return <DateRange 
-     rangeColors={["#262626"]}
-     date={new Date()}
-     direction="vertical"
-     showDateDisplay={false}
-     minDate={new Date()}
+    //  rangeColors={["#262626"]}
+    //  date={new Date()}
+    //  direction="vertical"
+    //  showDateDisplay={false}
+    //  minDate={new Date()}
     />
 }
 

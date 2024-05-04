@@ -1,5 +1,4 @@
 import { User } from "@prisma/client";
-import { StaticImageData } from "next/image";
 
 export type UserData = Omit<
   User,
@@ -7,12 +6,12 @@ export type UserData = Omit<
 > & { createdAt: string; updatedAt: string; emailVerified: string | null };
 
 export type RoomData = {
-  roomId: string;
+  id: string;
   roomType: string;
   roomPrice: number;
-  groomingPrice?: number;
+  groomingPrice: number | null;
   groomingInclude: boolean;
   title: string;
-  image: StaticImageData;
+  imageUrl: string;
   description: string;
 };
