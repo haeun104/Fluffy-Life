@@ -19,6 +19,11 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
   const signUpModal = useSignUpModal();
   const router = useRouter();
 
+  const handleItemClick = (url: string) => {
+    router.push(url);
+    setToggle(!toggle);
+  };
+
   return (
     <div className="lg:hidden">
       <div
@@ -42,7 +47,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
           <MenuItem
             key={index}
             title={item.title}
-            onClick={() => router.push(item.url)}
+            onClick={() => handleItemClick(item.url)}
             style="cursor-pointer"
           />
         ))}
