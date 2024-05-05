@@ -32,9 +32,11 @@ const ReservationInputs = () => {
         label="Mobile"
         required
       />
-      <div className="flex gap-2 w-full items-center">
-        <input type="checkbox" />
-        <span>Save to My Profile</span>
+      <div>
+        <label className="cursor-pointer">
+          <input type="checkbox" />
+          <span className="ml-2">Save to My Profile</span>
+        </label>
       </div>
     </div>
   );
