@@ -8,3 +8,7 @@ body,
   height: 100%;
   box-sizing: border-box;
 }
+
+.rdrMonth {
+  max-width: 300px;
+}
