@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { menuItems } from "./Menubar";
 import MenuItem from "./MenuItem";
@@ -19,10 +19,23 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
   const signUpModal = useSignUpModal();
   const router = useRouter();
 
-  const handleItemClick = (url: string) => {
-    router.push(url);
+  const handleItemClick = useCallback(
+    (url: string) => {
+      router.push(url);
+      setToggle(!toggle);
+    },
+    [router, toggle]
+  );
+
+  const handleLoginClick = useCallback(() => {
+    loginModal.onOpen();
     setToggle(!toggle);
-  };
+  }, [loginModal, toggle]);
+
+  const handleSignUpClick = useCallback(() => {
+    signUpModal.onOpen();
+    setToggle(!toggle);
+  }, [signUpModal, toggle]);
 
   return (
     <div className="lg:hidden">
@@ -55,13 +68,13 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
           className={
             currentUser ? "hidden" : "text-accent-light-green cursor-pointer"
           }
-          onClick={loginModal.onOpen}
+          onClick={handleLoginClick}
         >
           login
         </div>
         <div
           className={currentUser ? "hidden" : "text-accent-red cursor-pointer"}
-          onClick={signUpModal.onOpen}
+          onClick={handleSignUpClick}
         >
           sign up
         </div>
