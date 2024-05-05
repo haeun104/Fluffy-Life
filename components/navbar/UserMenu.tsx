@@ -7,6 +7,7 @@ import MenuItem from "./MenuItem";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
+import toast from "react-hot-toast";
 
 interface UserMenuProps {
   currentUser: UserData | null;
@@ -19,6 +20,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   if (!currentUser) {
     return <div></div>;
   }
+
+  const logOut = async () => {
+    await signOut()
+      .then(() => toast.success("Successfully logged out!"))
+      .then(() => router.push("/"))
+      .catch((error) => console.error(error));
+  };
 
   if (currentUser) {
     return (
@@ -50,7 +58,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             />
             <MenuItem
               title="Sign Out"
-              onClick={() => signOut()}
+              onClick={() => logOut()}
               style="text-main-gray"
             />
           </div>

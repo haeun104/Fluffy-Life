@@ -68,22 +68,24 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
       return;
     }
 
-    axios
-      .post("/api/hotelReservation", {
-        userId: currentUser.id,
-        roomId: selectedRoom.id,
-        startDate: dataRange.startDate,
-        endDate: dataRange.endDate,
-        totalPrice,
-      })
-      .then(() => {
-        toast.success("Successfully reserved!");
-        router.push("/");
-      })
-      .catch((error) => {
-        toast.error("Something went wrong");
-        console.error(error);
-      });
+    router.push(`/hotel/reservation/${selectedRoom.id}`);
+
+    // axios
+    //   .post("/api/hotelReservation", {
+    //     userId: currentUser.id,
+    //     roomId: selectedRoom.id,
+    //     startDate: dataRange.startDate,
+    //     endDate: dataRange.endDate,
+    //     totalPrice,
+    //   })
+    //   .then(() => {
+    //     toast.success("Successfully reserved!");
+    //     router.push("/");
+    //   })
+    //   .catch((error) => {
+    //     toast.error("Something went wrong");
+    //     console.error(error);
+    //   });
   };
 
   return (
