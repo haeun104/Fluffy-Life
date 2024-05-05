@@ -3,6 +3,8 @@
 import Container from "@/components/Container";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
+import ReservationModal from "@/components/modals/ReservationModal";
+import useReservationModal from "@/hooks/useReservationModal";
 import { RoomData, UserData } from "@/types";
 import { HotelReservation } from "@prisma/client";
 import axios from "axios";
@@ -34,6 +36,8 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   const [totalDays, setTotalDays] = useState(0);
 
   const router = useRouter();
+
+  const reservationModal = useReservationModal();
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -68,7 +72,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
       return;
     }
 
-    router.push(`/hotel/reservation/${selectedRoom.id}`);
+    reservationModal.onOpen();
 
     // axios
     //   .post("/api/hotelReservation", {
@@ -89,20 +93,27 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   };
 
   return (
-    <Container>
-      <div className="flex flex-col gap-6 max-w-[900px] mx-auto">
-        <RoomDetails selectedRoom={selectedRoom} />
-        <RoomReservation
-          selectedRoom={selectedRoom}
-          dataRange={dataRange}
-          onChangeDate={(value) => setDataRange(value)}
-          onSubmit={createReservation}
-          totalPrice={totalPrice}
-          totalDays={totalDays}
-          disableDates={disabledDates}
-        />
-      </div>
-    </Container>
+    <>
+      <Container>
+        <div className="flex flex-col gap-6 max-w-[900px] mx-auto">
+          <RoomDetails selectedRoom={selectedRoom} />
+          <RoomReservation
+            selectedRoom={selectedRoom}
+            dataRange={dataRange}
+            onChangeDate={(value) => setDataRange(value)}
+            onSubmit={createReservation}
+            totalPrice={totalPrice}
+            totalDays={totalDays}
+            disableDates={disabledDates}
+          />
+        </div>
+      </Container>
+      <ReservationModal
+        dataRange={dataRange}
+        totalPrice={totalPrice}
+        totalDays={totalDays}
+      />
+    </>
   );
 };
 
