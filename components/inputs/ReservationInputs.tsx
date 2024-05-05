@@ -1,18 +1,28 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import Input from "../inputs/Input";
+import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes } from "react";
 
-const ReservationInputs = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
+interface ReservationInputsProps {
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors;
+  updateProfile: (value: boolean) => void;
+}
+
+const ReservationInputs: React.FC<ReservationInputsProps> = ({
+  register,
+  errors,
+  updateProfile,
+}) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    updateProfile(e.target.checked);
+  };
+
   return (
     <div className="flex flex-col">
       <Input
-        id="petName"
+        id="name"
         register={register}
         errors={errors}
         label="Pet Name"
@@ -34,7 +44,7 @@ const ReservationInputs = () => {
       />
       <div>
         <label className="cursor-pointer">
-          <input type="checkbox" />
+          <input type="checkbox" onChange={handleOnChange} />
           <span className="ml-2">Save to My Profile</span>
         </label>
       </div>

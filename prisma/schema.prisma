@@ -55,12 +55,13 @@ model Pet {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   userId     String  @db.ObjectId
   name       String
-  breed      String
-  age        String
-  chipNumber String
+  breed      String?
+  age        String?
+  chipNumber String  @unique
   remark     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  HotelReservation HotelReservation[]
 }
 
 model Room {
@@ -77,14 +78,16 @@ model Room {
 }
 
 model HotelReservation {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  roomId     String   @db.ObjectId
-  startDate  DateTime
-  endDate    DateTime
-  totalPrice Int
-  createdAt  DateTime @default(now())
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  roomId        String   @db.ObjectId
+  petChipNumber String
+  startDate     DateTime
+  endDate       DateTime
+  totalPrice    Int
+  createdAt     DateTime @default(now())
 
   user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  pet         Pet  @relation(fields: [petChipNumber], references: [chipNumber], onDelete: Cascade)
 }

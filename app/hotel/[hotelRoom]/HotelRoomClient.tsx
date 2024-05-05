@@ -7,9 +7,7 @@ import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
 import { RoomData, UserData } from "@/types";
 import { HotelReservation } from "@prisma/client";
-import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import toast from "react-hot-toast";
@@ -34,8 +32,6 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   const [dataRange, setDataRange] = useState<Range>(initialDateRange);
   const [totalPrice, setTotalPrice] = useState(selectedRoom.roomPrice);
   const [totalDays, setTotalDays] = useState(0);
-
-  const router = useRouter();
 
   const reservationModal = useReservationModal();
 
@@ -66,30 +62,13 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
     }
   }, [dataRange, selectedRoom]);
 
-  const createReservation = () => {
+  const openReservationModal = () => {
     if (currentUser === null) {
       toast.error("Log in first!");
       return;
     }
 
     reservationModal.onOpen();
-
-    // axios
-    //   .post("/api/hotelReservation", {
-    //     userId: currentUser.id,
-    //     roomId: selectedRoom.id,
-    //     startDate: dataRange.startDate,
-    //     endDate: dataRange.endDate,
-    //     totalPrice,
-    //   })
-    //   .then(() => {
-    //     toast.success("Successfully reserved!");
-    //     router.push("/");
-    //   })
-    //   .catch((error) => {
-    //     toast.error("Something went wrong");
-    //     console.error(error);
-    //   });
   };
 
   return (
@@ -101,7 +80,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
             selectedRoom={selectedRoom}
             dataRange={dataRange}
             onChangeDate={(value) => setDataRange(value)}
-            onSubmit={createReservation}
+            onSubmit={openReservationModal}
             totalPrice={totalPrice}
             totalDays={totalDays}
             disableDates={disabledDates}
@@ -112,6 +91,8 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
         dataRange={dataRange}
         totalPrice={totalPrice}
         totalDays={totalDays}
+        selectedRoom={selectedRoom}
+        currentUser={currentUser}
       />
     </>
   );
