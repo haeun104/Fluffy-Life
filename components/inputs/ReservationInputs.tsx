@@ -45,7 +45,7 @@ const ReservationInputs: React.FC<ReservationInputsProps> = ({
       <div>
         <label className="cursor-pointer">
           <input type="checkbox" onChange={handleOnChange} />
-          <span className="ml-2">Save to My Profile</span>
+          <span className="ml-2">Save to My Account</span>
         </label>
       </div>
     </div>

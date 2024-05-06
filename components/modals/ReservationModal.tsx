@@ -106,7 +106,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         })
         .then(() => {
           if (profileUpdate) {
-            axios.post("/api/profile", {
+            axios.post("/api/account", {
               mobile: mobile,
               userId: currentUser.id,
             });

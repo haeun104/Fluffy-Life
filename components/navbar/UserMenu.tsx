@@ -17,15 +17,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!currentUser) {
-    return <div></div>;
-  }
-
   const logOut = async () => {
-    await signOut()
-      .then(() => toast.success("Successfully logged out!"))
-      .then(() => router.push("/"))
-      .catch((error) => console.error(error));
+    try {
+      await signOut();
+      toast.success("Successfully logged out!");
+      router.replace("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (currentUser) {
@@ -49,12 +48,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             <MenuItem
               title="My Reservations"
               style="text-main-gray"
-              onClick={() => router.push("/reservations")}
+              onClick={() => {
+                router.push("/reservations");
+                setIsOpen(false);
+              }}
             />
             <MenuItem
-              title="My Profile"
+              title="My Account"
               style="text-main-gray"
-              onClick={() => router.push("/profile")}
+              onClick={() => {
+                router.push("/account");
+                setIsOpen(false);
+              }}
             />
             <MenuItem
               title="Sign Out"

@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { mobile, street, city, postalCode, userId } = body;
 
-  const updateProfile = await prisma.user.update({
+  const updatePersonalInfo = await prisma.user.update({
     where: {
       id: userId,
     },
@@ -17,5 +17,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(updateProfile);
+  return NextResponse.json(updatePersonalInfo);
 }
