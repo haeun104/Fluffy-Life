@@ -11,7 +11,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
-    <div className="my-4 relative">
+    <div className="py-4 relative border-b-[1px] border-b-solid border-[#EEEEEE]">
       <Container>
         <div className="flex justify-between items-center gap-6">
           <MenuDropdown currentUser={currentUser} />
