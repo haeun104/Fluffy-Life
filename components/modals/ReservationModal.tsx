@@ -10,6 +10,8 @@ import { RoomData, UserData } from "@/types";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface ReservationModalProps {
   dataRange: Range;
@@ -31,11 +33,22 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 
   const router = useRouter();
 
+  const schema = z.object({
+    name: z.string().min(1, { message: "Name must be input" }),
+    chipNumber: z.string().min(1, { message: "Name must be input" }),
+    mobile: z
+      .number()
+      .min(6, { message: "Invalid mobile number" })
+      .max(6, { message: "Invalid mobile number" }),
+  });
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
   const bodyContent = (
     <>
@@ -106,6 +119,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         .then(() => {
           toast.success("Successfully reserved!");
           router.push("/");
+          reservationModal.onClose();
         })
         .catch((error) => {
           toast.error("Something went wrong");
