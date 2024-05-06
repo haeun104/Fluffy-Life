@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { userId, roomId, startDate, endDate, totalPrice } = body;
+  const { userId, roomId, startDate, endDate, totalPrice, petChipNumber } =
+    body;
 
   const reservation = await prisma.hotelReservation.create({
     data: {
@@ -12,6 +13,7 @@ export async function POST(request: Request) {
       startDate,
       endDate,
       totalPrice,
+      petChipNumber,
     },
   });
 

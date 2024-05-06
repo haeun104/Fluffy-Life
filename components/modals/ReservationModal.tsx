@@ -79,8 +79,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   );
 
   const createReservation: SubmitHandler<FieldValues> = (data) => {
-    const { name, chipNumber, mobile } = data;
-
+    const { chipNumber, mobile, name } = data;
     if (currentUser !== null) {
       axios
         .post("/api/hotelReservation", {
@@ -92,15 +91,17 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
           totalPrice,
         })
         .then(() => {
-          axios.patch("/api/profile", {
-            mobile,
-          });
-        })
-        .then(() => {
-          axios.post("/api/pet", {
-            name,
-            chipNumber,
-          });
+          if (profileUpdate) {
+            axios.post("/api/profile", {
+              mobile: mobile,
+              userId: currentUser.id,
+            });
+            axios.post("/api/pet", {
+              name: name,
+              chipNumber: chipNumber,
+              userId: currentUser.id,
+            });
+          }
         })
         .then(() => {
           toast.success("Successfully reserved!");
