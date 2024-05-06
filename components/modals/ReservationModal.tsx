@@ -46,6 +46,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -128,10 +129,15 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     }
   };
 
+  const handleCloseClick = () => {
+    reservationModal.onClose();
+    reset();
+  };
+
   return (
     <Modal
       isOpen={reservationModal.isOpen}
-      onClose={reservationModal.onClose}
+      onClose={handleCloseClick}
       bodyContent={bodyContent}
       actionLabel="Confirm Reservation"
       style="bg-accent-red"
