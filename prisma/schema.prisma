@@ -56,7 +56,7 @@ model Pet {
   userId     String  @db.ObjectId
   name       String
   breed      String?
-  age        String?
+  age        Int?
   chipNumber String  @unique
   remark     String?
 

@@ -1,22 +1,27 @@
 import getCurrentUser from "@/actions/getCurrentUser";
+import getPets from "@/actions/getPets";
 import Container from "@/components/Container";
 import PersonalInfo from "@/components/account/PersonalInfo";
+import PetInfo from "@/components/account/PetInfo";
 
 const AccountPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
     return null;
-  }
+  } else {
+    const pets = await getPets(currentUser.id);
 
-  return (
-    <Container>
-      <div className="mt-10">
-        <h2 className="font-bold text-xl text-main-teal">My Account</h2>
-        <PersonalInfo currentUser={currentUser} />
-      </div>
-    </Container>
-  );
+    return (
+      <Container>
+        <h2 className="font-bold text-xl text-main-teal mt-10">My Account</h2>
+        <div className="flex flex-col gap-10">
+          <PersonalInfo currentUser={currentUser} />
+          <PetInfo currentUser={currentUser} pets={pets} />
+        </div>
+      </Container>
+    );
+  }
 };
 
 export default AccountPage;
