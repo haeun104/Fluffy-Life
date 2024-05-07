@@ -5,6 +5,9 @@ import Input from "../inputs/Input";
 import { FieldValues, useForm } from "react-hook-form";
 import Button from "../Button";
 import { MouseEvent, useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface PersonalInfoProps {
   currentUser: UserData | null;
@@ -67,6 +70,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   const [inputStates, setInputStates] =
     useState<initialInputStatesType[]>(initialInputStates);
 
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -82,7 +87,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
     },
   });
 
-  const updateInputStates = (e: MouseEvent<HTMLButtonElement>, id: string) => {
+  // Update editable state for each input
+  const updateInputStates = (id: string) => {
     const selectedInput = inputStates.find((state) => state.id === id);
     if (selectedInput) {
       const updatedInput = {
@@ -100,6 +106,32 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
         return 0;
       });
       setInputStates(newInputStates);
+    }
+  };
+
+  // Update user info in DB
+  const updateUserInfo = async (data: FieldValues) => {
+    try {
+      if (currentUser) {
+        const dataToUpdate = { ...data, userId: currentUser.id };
+        axios.post("/api/account", dataToUpdate);
+        router.refresh();
+        return;
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
+    }
+  };
+
+  // Implement user info update and change editable state
+  const handleSaveClick = async (id: string) => {
+    try {
+      await handleSubmit(updateUserInfo)();
+      updateInputStates(id);
+    } catch (error) {
+      toast.error("Failed to update user info");
+      console.error(error);
     }
   };
 
@@ -123,13 +155,17 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
             />
             <button
               type="button"
-              onClick={(e) => updateInputStates(e, item.id)}
+              onClick={() => updateInputStates(item.id)}
               className="underline absolute top-0 right-0"
             >
               {item.btnLabel}
             </button>
             {!item.editDisable && (
-              <Button title="Save" style="mb-4 bg-accent-light-green" />
+              <Button
+                title="Save"
+                style="mb-4 bg-accent-light-green"
+                onClick={() => handleSaveClick(item.id)}
+              />
             )}
           </div>
         ))}
