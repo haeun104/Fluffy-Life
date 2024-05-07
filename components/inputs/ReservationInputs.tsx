@@ -2,7 +2,7 @@
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import Input from "../inputs/Input";
-import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes } from "react";
+import { ChangeEvent } from "react";
 
 interface ReservationInputsProps {
   register: UseFormRegister<FieldValues>;

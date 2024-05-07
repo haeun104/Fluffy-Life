@@ -12,6 +12,7 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   required?: boolean;
   errors: FieldErrors;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,10 +22,13 @@ const Input: React.FC<InputProps> = ({
   register,
   required,
   errors,
+  disabled,
 }) => {
   return (
     <div className="w-full flex flex-col mb-4">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className="mb-2">
+        {label}
+      </label>
       <input
         type={type ? type : "text"}
         id={id}
@@ -32,7 +36,8 @@ const Input: React.FC<InputProps> = ({
         placeholder="  "
         className={`border-solid ${
           errors[id] ? "border-accent-red " : "border-neutral-300"
-        } border-[1px] rounded-md outline-none p-2`}
+        } border-[1px] rounded-md outline-none p-2 disabled:border-none disabled:bg-white disabled:px-0 disabled:text-gray-500`}
+        disabled={disabled}
       />
       {errors[id] && (
         <span className="text-accent-red text-sm">
