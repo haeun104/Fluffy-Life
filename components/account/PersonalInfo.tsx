@@ -14,7 +14,6 @@ interface PersonalInfoProps {
 }
 
 interface initialInputStatesType {
-  order: number;
   id: string;
   label: string;
   btnLabel: string;
@@ -23,42 +22,36 @@ interface initialInputStatesType {
 
 const initialInputStates = [
   {
-    order: 1,
     id: "name",
     label: "Name",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 2,
     id: "email",
     label: "Email",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 3,
     id: "street",
     label: "Street",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 4,
     id: "city",
     label: "City",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 5,
     id: "postalCode",
     label: "Postal code",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 6,
     id: "mobile",
     label: "Mobile",
     btnLabel: "Edit",
@@ -87,26 +80,19 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
     },
   });
 
-  // Update editable state for each input
-  const updateInputStates = (id: string) => {
-    const selectedInput = inputStates.find((state) => state.id === id);
-    if (selectedInput) {
-      const updatedInput = {
-        ...selectedInput,
-        btnLabel: selectedInput.btnLabel === "Edit" ? "Cancel" : "Edit",
-        editDisable: !selectedInput.editDisable,
-      };
-      const filteredInputs = inputStates.filter((state) => state.id !== id);
-      const newInputStates = [...filteredInputs, updatedInput];
-
-      newInputStates.sort((a, b) => {
-        if (a.order && b.order) {
-          return a.order - b.order;
-        }
-        return 0;
-      });
-      setInputStates(newInputStates);
-    }
+  //Toggle editable state for a selected input
+  const updateEditableState = (id: string) => {
+    const updatedInputs = inputStates.map((state) => {
+      if (state.id === id) {
+        return {
+          ...state,
+          btnLabel: state.btnLabel === "Edit" ? "Cancel" : "Edit",
+          editDisable: !state.editDisable,
+        };
+      }
+      return state;
+    });
+    setInputStates(updatedInputs);
   };
 
   // Update user info in DB
@@ -128,7 +114,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   const handleSaveClick = async (id: string) => {
     try {
       await handleSubmit(updateUserInfo)();
-      updateInputStates(id);
+      updateEditableState(id);
     } catch (error) {
       toast.error("Failed to update user info");
       console.error(error);
@@ -155,7 +141,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
             />
             <button
               type="button"
-              onClick={() => updateInputStates(item.id)}
+              onClick={() => updateEditableState(item.id)}
               className="underline absolute top-0 right-0"
             >
               {item.btnLabel}

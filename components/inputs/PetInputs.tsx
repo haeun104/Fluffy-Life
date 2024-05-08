@@ -4,6 +4,12 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "../Button";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { UserData } from "@/types";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface PetInputsProps {
   name: string;
@@ -12,39 +18,42 @@ interface PetInputsProps {
   chipNumber: string;
   remark: string | null;
   number: number;
+  currentUser: UserData | null;
+}
+
+interface initialInputStatesType {
+  id: string;
+  label: string;
+  btnLabel: string;
+  editDisable: boolean;
 }
 
 const initialInputStates = [
   {
-    order: 1,
     id: "name",
     label: "Name",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 2,
     id: "breed",
     label: "Breed",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 3,
     id: "age",
     label: "Age",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 4,
     id: "chipNumber",
     label: "Chip Number",
     btnLabel: "Edit",
     editDisable: true,
   },
   {
-    order: 5,
     id: "remark",
     label: "Remark",
     btnLabel: "Edit",
@@ -59,8 +68,20 @@ const PetInputs: React.FC<PetInputsProps> = ({
   chipNumber,
   remark,
   number,
+  currentUser,
 }) => {
-  const [inputStates, setInputStates] = useState(initialInputStates);
+  const [inputStates, setInputStates] =
+    useState<initialInputStatesType[]>(initialInputStates);
+
+  const router = useRouter();
+
+  const schema = z.object({
+    name: z.string().min(1, { message: "Name must be input" }),
+    breed: z.string().nullable(),
+    age: z.number().nullable(),
+    chipNumber: z.string().min(1, { message: "Name must be input" }),
+    remark: z.string().nullable(),
+  });
 
   const {
     register,
@@ -74,13 +95,53 @@ const PetInputs: React.FC<PetInputsProps> = ({
       chipNumber,
       remark,
     },
+    resolver: zodResolver(schema),
   });
 
-  // Update user info in DB
-  const updateUserInfo = async (data: FieldValues) => {};
+  //Toggle editable state for a selected input
+  const updateEditableState = (id: string) => {
+    const updatedInputs = inputStates.map((state) => {
+      if (state.id === id) {
+        return {
+          ...state,
+          btnLabel: state.btnLabel === "Edit" ? "Cancel" : "Edit",
+          editDisable: !state.editDisable,
+        };
+      }
+      return state;
+    });
+    setInputStates(updatedInputs);
+  };
+
+  // Update pet info in DB
+  const updatePetInfo = async (data: FieldValues) => {
+    if (currentUser) {
+      try {
+        const dataToUpdate = {
+          ...data,
+          age: parseFloat(data.age),
+          userId: currentUser.id,
+        };
+        // console.log(dataToUpdate);
+        axios.post("/api/pet", dataToUpdate);
+        router.refresh();
+      } catch (error) {
+        toast.error("Something went wrong");
+        console.error(error);
+      }
+    }
+  };
 
   // Implement user info update and change editable state
-  const handleSaveClick = async (id: string) => {};
+  const handleSaveClick = async (id: string) => {
+    try {
+      await handleSubmit(updatePetInfo)();
+      updateEditableState(id);
+    } catch (error) {
+      toast.error("Failed to update pet info");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mt-5">
@@ -97,10 +158,11 @@ const PetInputs: React.FC<PetInputsProps> = ({
               label={item.label}
               errors={errors}
               disabled={item.editDisable}
+              type={item.id === "age" ? "number" : "text"}
             />
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => updateEditableState(item.id)}
               className="underline absolute top-0 right-0"
             >
               {item.btnLabel}

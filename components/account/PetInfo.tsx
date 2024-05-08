@@ -35,6 +35,7 @@ const PetInfo: React.FC<PetInfoProps> = ({ currentUser, pets }) => {
             age={pet.age}
             chipNumber={pet.chipNumber}
             remark={pet.remark}
+            currentUser={currentUser}
           />
         ))}
       </div>
