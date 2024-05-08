@@ -10,8 +10,10 @@ import axios from "axios";
 import { UserData } from "@/types";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IoMdCloseCircle } from "react-icons/io";
 
 interface PetInputsProps {
+  id: string;
   name: string;
   breed: string | null;
   age: number | null;
@@ -62,6 +64,7 @@ const initialInputStates = [
 ];
 
 const PetInputs: React.FC<PetInputsProps> = ({
+  id,
   name,
   breed,
   age,
@@ -121,8 +124,8 @@ const PetInputs: React.FC<PetInputsProps> = ({
           ...data,
           age: parseFloat(data.age),
           userId: currentUser.id,
+          id: id,
         };
-        // console.log(dataToUpdate);
         axios.post("/api/pet", dataToUpdate);
         router.refresh();
       } catch (error) {
@@ -143,10 +146,22 @@ const PetInputs: React.FC<PetInputsProps> = ({
     }
   };
 
+  // Delete a selected pet in DB
+  const deletePet = async (petId: string) => {
+    try {
+      await axios.delete(`/api/pet/${petId}`);
+      router.refresh();
+      toast.success("Successfully deleted");
+    } catch (error) {
+      toast.error("Failed to delete a pet");
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="mt-5">
+    <div className="my-5">
       <h3 className="mb-2 font-bold">Pet {number + 1}</h3>
-      <div className="mt-2 max-w-[600px] flex flex-col gap-4">
+      <div className="mt-2 max-w-[600px] flex flex-col gap-4 relative">
         {inputStates.map((item, index) => (
           <div
             key={index}
@@ -176,6 +191,12 @@ const PetInputs: React.FC<PetInputsProps> = ({
             )}
           </div>
         ))}
+        <div
+          className="mt-2 absolute -top-10 right-0 cursor-pointer"
+          onClick={() => deletePet(id)}
+        >
+          <IoMdCloseCircle size={24} />
+        </div>
       </div>
     </div>
   );

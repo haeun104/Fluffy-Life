@@ -30,6 +30,7 @@ const PetInfo: React.FC<PetInfoProps> = ({ currentUser, pets }) => {
           <PetInputs
             key={index}
             number={index}
+            id={pet.id}
             name={pet.name}
             breed={pet.breed}
             age={pet.age}
@@ -39,6 +40,7 @@ const PetInfo: React.FC<PetInfoProps> = ({ currentUser, pets }) => {
           />
         ))}
       </div>
+      <div></div>
     </div>
   );
 };

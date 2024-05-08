@@ -3,18 +3,18 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { userId, name, breed, age, chipNumber, remark } = body;
+  const { userId, name, breed, age, chipNumber, remark, id } = body;
 
   const existingPet = await prisma.pet.findUnique({
     where: {
-      chipNumber,
+      id,
     },
   });
 
   if (existingPet) {
     const updatePet = await prisma.pet.update({
       where: {
-        chipNumber,
+        id,
       },
       data: {
         name,
@@ -38,3 +38,4 @@ export async function POST(request: Request) {
     return NextResponse.json(createPet);
   }
 }
+
