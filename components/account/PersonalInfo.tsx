@@ -4,7 +4,7 @@ import { UserData } from "@/types";
 import Input from "../inputs/Input";
 import { FieldValues, useForm } from "react-hook-form";
 import Button from "../Button";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";

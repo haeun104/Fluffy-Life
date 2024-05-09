@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
   const existingPet = await prisma.pet.findUnique({
     where: {
-      id,
+      chipNumber,
     },
   });
 
@@ -38,4 +38,3 @@ export async function POST(request: Request) {
     return NextResponse.json(createPet);
   }
 }
-

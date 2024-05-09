@@ -3,6 +3,7 @@ import getPets from "@/actions/getPets";
 import Container from "@/components/Container";
 import PersonalInfo from "@/components/account/PersonalInfo";
 import PetInfo from "@/components/account/PetInfo";
+import PetRegisterModal from "@/components/modals/PetRegisterModal";
 
 const AccountPage = async () => {
   const currentUser = await getCurrentUser();
@@ -19,6 +20,7 @@ const AccountPage = async () => {
           <PersonalInfo currentUser={currentUser} />
           <PetInfo currentUser={currentUser} pets={pets} />
         </div>
+        <PetRegisterModal currentUser={currentUser}/>
       </Container>
     );
   }
