@@ -159,13 +159,13 @@ const PetInputs: React.FC<PetInputsProps> = ({
   };
 
   return (
-    <div className="my-5">
-      <h3 className="mb-2 font-bold">Pet {number + 1}</h3>
+    <div className="my-8">
+      <h3 className="mb-4 font-bold">Pet {number + 1}</h3>
       <div className="mt-2 max-w-[600px] flex flex-col gap-4 relative">
         {inputStates.map((item, index) => (
           <div
             key={index}
-            className="relative border-b-[1px] border-solid border-[#EEEEEE]"
+            className="relative border-b-[1px] border-solid border-[#EEEEEE] mt-4"
           >
             <Input
               register={register}

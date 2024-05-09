@@ -19,6 +19,7 @@ const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -80,6 +81,7 @@ const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
       await axios.post("/api/pet", dataToRegister);
       toast.success("Successfully registered");
       petRegisterModal.onClose();
+      reset();
       router.refresh();
     } catch (error) {
       toast.error("Failed to register a pet");

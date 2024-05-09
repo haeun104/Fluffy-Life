@@ -122,15 +122,15 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-8">
       <h3 className="font-bold text-lg text-accent-light-green">
         Personal Information
       </h3>
-      <div className="mt-2 max-w-[600px] flex flex-col gap-4">
+      <div className="mt-2 flex flex-col gap-4">
         {inputStates.map((item, index) => (
           <div
             key={index}
-            className="relative border-b-[1px] border-solid border-[#EEEEEE]"
+            className="relative border-b-[1px] border-solid border-[#EEEEEE] mt-4"
           >
             <Input
               id={item.id}

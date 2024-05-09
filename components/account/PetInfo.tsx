@@ -15,17 +15,17 @@ const PetInfo: React.FC<PetInfoProps> = ({ currentUser, pets }) => {
   const petRegisterModal = usePetRegisterModal();
   return (
     <div>
-      <div className="flex justify-between max-w-[600px]">
+      <div className="flex justify-between">
         <h3 className="font-bold text-lg text-accent-light-green">My Pet</h3>
         <div
-          className="flex items-center cursor-pointer"
+          className="flex items-center cursor-pointer text-main-teal"
           onClick={petRegisterModal.onOpen}
         >
-          <IoMdAddCircle />
+          <IoMdAddCircle size={20}/>
           Add a pet
         </div>
       </div>
-      <div className="max-w-[600px]">
+      <div>
         {!pets || pets.length === 0 ? (
           <div className="text-center my-6">There is no pet registered</div>
         ) : (
