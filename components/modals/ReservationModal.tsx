@@ -36,10 +36,10 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   const schema = z.object({
     name: z.string().min(1, { message: "Name must be input" }),
     chipNumber: z.string().min(1, { message: "Name must be input" }),
-    mobile: z
-      .number()
-      .min(6, { message: "Invalid mobile number" })
-      .max(6, { message: "Invalid mobile number" }),
+    mobile: z.union([
+      z.string().length(9, { message: "Enter 9 digits" }),
+      z.number().min(100000000).max(999999999),
+    ]),
   });
 
   const {

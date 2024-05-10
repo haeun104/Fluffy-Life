@@ -1,7 +1,7 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import HotelRoomClient from "./HotelRoomClient";
 import getRoomDetail from "@/actions/getRoomDetail";
-import getHotelReservation from "@/actions/getHotelReservation";
+import getHotelReservation from "@/actions/getRoomReservation";
 import { HotelReservation } from "@prisma/client";
 
 interface HotelRoomParams {
