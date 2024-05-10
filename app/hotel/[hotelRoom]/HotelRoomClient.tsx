@@ -74,7 +74,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   return (
     <>
       <Container>
-        <div className="flex flex-col gap-6 max-w-[900px] mx-auto">
+        <div className="flex flex-col gap-6 max-w-[900px] mx-auto py-10">
           <RoomDetails selectedRoom={selectedRoom} />
           <RoomReservation
             selectedRoom={selectedRoom}

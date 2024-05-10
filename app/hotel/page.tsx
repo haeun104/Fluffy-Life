@@ -9,7 +9,7 @@ const HotelPage = async () => {
   }
 
   return (
-    <div>
+    <div className="py-10">
       <RoomList rooms={rooms} />
     </div>
   );

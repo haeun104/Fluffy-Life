@@ -15,8 +15,8 @@ const AccountPage = async () => {
 
     return (
       <Container>
-        <div className="max-w-[600px] mx-auto">
-        <h2 className="font-bold text-xl text-main-teal mt-10">My Account</h2>
+        <div className="max-w-[600px] mx-auto py-10">
+        <h2 className="font-bold text-xl text-main-teal">My Account</h2>
         <div className="flex flex-col gap-10">
           <PersonalInfo currentUser={currentUser} />
           <PetInfo currentUser={currentUser} pets={pets} />
