@@ -43,11 +43,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <Image src={avatar} alt="avatar" height={30} width={30} />
         </div>
         {isOpen && (
-          <div className="absolute right-0 top-14 flex flex-col gap-4 bg-white px-4 py-2 rounded-lg w-[300px]">
-            <span className="bg-white h-[16px] w-[16px] absolute right-[10px] -top-[4px] rotate-45"></span>
+          <div className="absolute right-0 top-12 flex flex-col bg-white w-[200px] border-solid border-l-[1px] border-r-[1px] border-b-[1px] border-[#EEEEEE]">
+            {/* <span className="bg-white h-[16px] w-[16px] absolute right-[10px] -top-[4px] rotate-45"></span> */}
             <MenuItem
               title="My Reservations"
-              style="text-main-gray"
+              style="text-main-gray px-4 py-2 hover:bg-[#EEEEEE]"
               onClick={() => {
                 router.push("/reservations");
                 setIsOpen(false);
@@ -55,7 +55,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             />
             <MenuItem
               title="My Account"
-              style="text-main-gray"
+              style="text-main-gray px-4 py-2 hover:bg-[#EEEEEE]"
               onClick={() => {
                 router.push("/account");
                 setIsOpen(false);
@@ -64,7 +64,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             <MenuItem
               title="Sign Out"
               onClick={() => logOut()}
-              style="text-main-gray"
+              style="text-main-gray px-4 py-2 hover:bg-[#EEEEEE]"
             />
           </div>
         )}
