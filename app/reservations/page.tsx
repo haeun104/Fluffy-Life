@@ -1,5 +1,5 @@
 import getCurrentUser from "@/actions/getCurrentUser";
-import getHotelReservation from "@/actions/getHotelReservation";
+import getHotelReservation from "@/actions/getHotelReservationsByUser";
 import Container from "@/components/Container";
 import HotelReservations from "@/components/reservation/HotelReservations";
 

@@ -5,12 +5,15 @@ import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { isAfter } from "date-fns";
 import { BsThreeDots } from "react-icons/bs";
+import Image from "next/image";
 
 interface ReservationItemProps {
   id: string;
   startDate: Date;
   endDate: Date;
   totalPrice: number;
+  imageUrl: string;
+  roomType: string;
 }
 
 const ReservationItem: React.FC<ReservationItemProps> = ({
@@ -18,6 +21,8 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   startDate,
   endDate,
   totalPrice,
+  imageUrl,
+  roomType,
 }) => {
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
@@ -37,11 +42,11 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
 
   return (
     <div className="border-solid border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex gap-4">
-      <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md">
-        room image
+      <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden">
+        <Image src={imageUrl} alt="room" height={70} width={70} />
       </div>
       <div className="flex-1 flex flex-col justify-between">
-        <h3 className="font-bold">room name</h3>
+        <h3 className="font-bold">{roomType}</h3>
         <span className="font-bold">{totalPrice} PLN</span>
         <p className="text-sm">{`from ${formatDate.start} to ${formatDate.end}`}</p>
         {isReservationPassed && <span className="text-sm">Finished</span>}
@@ -79,17 +84,17 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         <div
           className={`text-sm text-right absolute top-6 right-0 ${
             menuHidden ? "hidden" : ""
-          } bg-white border-solid border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2`}
+          } bg-white border-solid border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2 whitespace-nowrap`}
         >
           {!isReservationPassed ? (
             <>
-              <div>Edit reservation</div>
-              <div>Cancel reservation</div>
+              <div className="cursor-pointer mb-2">Edit reservation</div>
+              <div className="cursor-pointer">Cancel reservation</div>
             </>
           ) : (
             <>
-              <div>Write a review</div>
-              <div>Reserve again</div>
+              <div className="cursor-pointer mb-2">Write a review</div>
+              <div className="cursor-pointer">Reserve again</div>
             </>
           )}
         </div>

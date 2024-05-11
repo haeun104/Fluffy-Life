@@ -87,7 +87,7 @@ model HotelReservation {
   totalPrice    Int
   createdAt     DateTime @default(now())
 
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  pet         Pet  @relation(fields: [petChipNumber], references: [chipNumber], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  pet  Pet  @relation(fields: [petChipNumber], references: [chipNumber], onDelete: Cascade)
 }

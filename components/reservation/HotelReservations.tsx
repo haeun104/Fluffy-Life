@@ -1,6 +1,17 @@
-import { HotelReservation } from "@prisma/client";
+import { Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
-import getRoomDetail from "@/actions/getRoomDetail";
+
+interface HotelReservation {
+  id: string;
+  userId: string;
+  roomId: string;
+  petChipNumber: string;
+  startDate: Date;
+  endDate: Date;
+  totalPrice: number;
+  createdAt: Date;
+  room: Room;
+}
 
 interface HotelReservationsProps {
   hotelReservations: HotelReservation[] | undefined;
@@ -9,15 +20,6 @@ interface HotelReservationsProps {
 const HotelReservations: React.FC<HotelReservationsProps> = ({
   hotelReservations,
 }) => {
-  const getRoomInfo = async (roomId: string) => {
-    try {
-      const room = await getRoomDetail(roomId);
-      return room;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="">
       <h3 className="text-accent-light-green font-bold text-lg mt-8">Hotel</h3>
@@ -25,15 +27,20 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
         <div>There is no reservations</div>
       ) : (
         <div className="flex flex-col gap-4 mt-4">
-          {hotelReservations.map((reservation) => (
-            <ReservationItem
-              key={reservation.id}
-              id={reservation.id}
-              startDate={reservation.startDate}
-              endDate={reservation.endDate}
-              totalPrice={reservation.totalPrice}
-            />
-          ))}
+          {hotelReservations.map((reservation) => {
+            const { imageUrl, roomType } = reservation.room;
+            return (
+              <ReservationItem
+                key={reservation.id}
+                id={reservation.id}
+                startDate={reservation.startDate}
+                endDate={reservation.endDate}
+                totalPrice={reservation.totalPrice}
+                imageUrl={imageUrl}
+                roomType={roomType}
+              />
+            );
+          })}
         </div>
       )}
     </div>
