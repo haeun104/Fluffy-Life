@@ -6,6 +6,8 @@ import { format } from "date-fns";
 import { isAfter } from "date-fns";
 import { BsThreeDots } from "react-icons/bs";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ReservationItemProps {
   id: string;
@@ -27,6 +29,8 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
 
+  const router = useRouter();
+
   useEffect(() => {
     setIsReservationPassed(isAfter(new Date(), startDate));
   }, [startDate]);
@@ -39,6 +43,12 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
       end,
     };
   }, [startDate, endDate]);
+
+  const goToReservationDetails = (id: string) => {
+    router.push(`/reservations/${id}`);
+  };
+
+  const handleCancelClick = () => {};
 
   return (
     <div className="border-solid border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex gap-4">
@@ -56,6 +66,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           <Button
             title="Edit reservation"
             style="bg-accent-light-green text-sm font-normal"
+            onClick={() => goToReservationDetails(id)}
           />
           <Button
             title="Cancel reservation"
@@ -88,7 +99,12 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         >
           {!isReservationPassed ? (
             <>
-              <div className="cursor-pointer mb-2">Edit reservation</div>
+              <div
+                className="cursor-pointer mb-2"
+                onClick={() => goToReservationDetails(id)}
+              >
+                Edit reservation
+              </div>
               <div className="cursor-pointer">Cancel reservation</div>
             </>
           ) : (
