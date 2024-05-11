@@ -17,6 +17,7 @@ interface ReservationItemProps {
   totalPrice: number;
   imageUrl: string;
   roomType: string;
+  roomId: string;
 }
 
 const ReservationItem: React.FC<ReservationItemProps> = ({
@@ -26,6 +27,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   totalPrice,
   imageUrl,
   roomType,
+  roomId,
 }) => {
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
@@ -47,6 +49,10 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
 
   const goToReservationDetails = (id: string) => {
     router.push(`/reservations/${id}`);
+  };
+
+  const goToReservationPage = (roomId: string) => {
+    router.push(`/hotel/${roomId}`);
   };
 
   const handleCancelClick = async (reservationId: string) => {
@@ -93,6 +99,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           <Button
             title="Reserve again"
             style="bg-accent-red text-sm font-normal"
+            onClick={() => goToReservationPage(roomId)}
           />
         </div>
       )}
@@ -126,7 +133,12 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           ) : (
             <>
               <div className="cursor-pointer mb-2">Write a review</div>
-              <div className="cursor-pointer">Reserve again</div>
+              <div
+                className="cursor-pointer"
+                onClick={() => goToReservationPage(roomId)}
+              >
+                Reserve again
+              </div>
             </>
           )}
         </div>

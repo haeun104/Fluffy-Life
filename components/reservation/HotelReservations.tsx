@@ -28,7 +28,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
       ) : (
         <div className="flex flex-col gap-4 mt-4">
           {hotelReservations.map((reservation) => {
-            const { imageUrl, roomType } = reservation.room;
+            const { imageUrl, roomType, id } = reservation.room;
             return (
               <ReservationItem
                 key={reservation.id}
@@ -38,6 +38,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
                 totalPrice={reservation.totalPrice}
                 imageUrl={imageUrl}
                 roomType={roomType}
+                roomId={id}
               />
             );
           })}
