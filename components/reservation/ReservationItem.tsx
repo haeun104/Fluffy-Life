@@ -9,6 +9,8 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import useHotelReviewModal from "@/hooks/useHotelReviewModal";
+import HotelReviewModal from "../modals/HotelReviewModal";
 
 interface ReservationItemProps {
   id: string;
@@ -31,6 +33,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
 }) => {
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
+  const hotelReviewModal = useHotelReviewModal();
 
   const router = useRouter();
 
@@ -67,6 +70,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   };
 
   return (
+    <>
     <div className="border-solid border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex gap-4">
       <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden">
         <Image src={imageUrl} alt="room" height={70} width={70} />
@@ -95,6 +99,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           <Button
             title="Write a review"
             style="bg-accent-light-green text-sm font-normal"
+            onClick={() => hotelReviewModal.onOpen()}
           />
           <Button
             title="Reserve again"
@@ -132,7 +137,12 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             </>
           ) : (
             <>
-              <div className="cursor-pointer mb-2">Write a review</div>
+              <div
+                className="cursor-pointer mb-2"
+                onClick={() => hotelReviewModal.onOpen()}
+              >
+                Write a review
+              </div>
               <div
                 className="cursor-pointer"
                 onClick={() => goToReservationPage(roomId)}
@@ -144,6 +154,8 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         </div>
       </div>
     </div>
+    <HotelReviewModal />
+    </>
   );
 };
 
