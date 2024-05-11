@@ -75,6 +75,7 @@ model Room {
   description     String
 
   reservation HotelReservation[]
+  review      HotelReview[]
 }
 
 model HotelReservation {
@@ -90,4 +91,15 @@ model HotelReservation {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
   pet  Pet  @relation(fields: [petChipNumber], references: [chipNumber], onDelete: Cascade)
+}
+
+model HotelReview {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String @db.ObjectId
+  roomId        String @db.ObjectId
+  reservationId String
+  rating        Int
+  review        String
+
+  reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }
