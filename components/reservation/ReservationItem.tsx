@@ -8,6 +8,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface ReservationItemProps {
   id: string;
@@ -48,7 +49,16 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
     router.push(`/reservations/${id}`);
   };
 
-  const handleCancelClick = () => {};
+  const handleCancelClick = async (reservationId: string) => {
+    try {
+      await axios.delete(`/api/hotelReservation/${reservationId}`);
+      toast.success("Successfully deleted");
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to delete the reservation");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="border-solid border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex gap-4">
@@ -71,6 +81,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           <Button
             title="Cancel reservation"
             style="bg-[#DDDDDD] text-sm font-normal"
+            onClick={() => handleCancelClick(id)}
           />
         </div>
       ) : (
@@ -105,7 +116,12 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
               >
                 Edit reservation
               </div>
-              <div className="cursor-pointer">Cancel reservation</div>
+              <div
+                className="cursor-pointer"
+                onClick={() => handleCancelClick(id)}
+              >
+                Cancel reservation
+              </div>
             </>
           ) : (
             <>
