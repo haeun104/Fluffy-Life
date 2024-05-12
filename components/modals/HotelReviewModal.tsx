@@ -5,6 +5,9 @@ import Modal from "./Modal";
 import Image from "next/image";
 import { MdStarOutline } from "react-icons/md";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface HotelReviewModalProps {
   roomId: string;
@@ -29,6 +32,9 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
   const [rating, setRating] = useState<number | null>(null);
   const [hover, setHover] = useState<number | null>(null);
   const [feedback, setFeedback] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const bodyContent = (
     <>
@@ -84,6 +90,7 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
               onChange={(e) => setFeedback(e.target.value)}
             ></textarea>
           </label>
+          {error !== null && <p className="text-accent-red text-sm">{error}</p>}
         </div>
       </div>
     </>
@@ -95,6 +102,32 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     setFeedback("");
   };
 
+  const handleSubmit = async (rating: number | null, review: string) => {
+    try {
+      setError(null);
+      if (rating === null || review === "") {
+        setError("Rating and feedback must be input");
+        return;
+      }
+
+      const data = {
+        userId: currentUser,
+        roomId,
+        reservationId,
+        rating,
+        review,
+      };
+
+      await axios.post("/api/review", data);
+      toast.success("Successfully registered");
+      hotelReviewModal.onClose();
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to register a review");
+      console.error(error);
+    }
+  };
+
   return (
     <Modal
       isOpen={hotelReviewModal.isOpen}
@@ -102,6 +135,7 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
       actionLabel="Submit"
       bodyContent={bodyContent}
       style="bg-accent-light-green"
+      onSubmit={() => handleSubmit(rating, feedback)}
     />
   );
 };
