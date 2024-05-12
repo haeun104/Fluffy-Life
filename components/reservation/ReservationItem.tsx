@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import useHotelReviewModal from "@/hooks/useHotelReviewModal";
 import HotelReviewModal from "../modals/HotelReviewModal";
+import { HotelReview } from "@prisma/client";
 
 interface ReservationItemProps {
   id: string;
@@ -21,6 +22,7 @@ interface ReservationItemProps {
   roomType: string;
   roomId: string;
   currentUser: string;
+  review: HotelReview | null;
 }
 
 const ReservationItem: React.FC<ReservationItemProps> = ({
@@ -32,6 +34,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   roomType,
   roomId,
   currentUser,
+  review,
 }) => {
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
@@ -99,7 +102,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         ) : (
           <div className="hidden sm:flex sm:flex-col sm:gap-2 min-w-[160px]">
             <Button
-              title="Write a review"
+              title={review !== null ? "Edit your review" : "Write a review"}
               style="bg-accent-light-green text-sm font-normal"
               onClick={() => hotelReviewModal.onOpen()}
             />
@@ -143,7 +146,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                   className="cursor-pointer mb-2"
                   onClick={() => hotelReviewModal.onOpen()}
                 >
-                  Write a review
+                  {review !== null ? "Edit your review" : "Write a review"}
                 </div>
                 <div
                   className="cursor-pointer"
@@ -164,6 +167,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         endDate={formatDate.end}
         reservationId={id}
         currentUser={currentUser}
+        review={review}
       />
     </>
   );

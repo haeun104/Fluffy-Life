@@ -1,4 +1,4 @@
-import { Room } from "@prisma/client";
+import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
 import getCurrentUser from "@/actions/getCurrentUser";
 
@@ -16,16 +16,32 @@ interface HotelReservation {
 
 interface HotelReservationsProps {
   hotelReservations: HotelReservation[] | undefined;
+  hotelReviews: HotelReview[] | undefined;
 }
 
 const HotelReservations: React.FC<HotelReservationsProps> = async ({
   hotelReservations,
+  hotelReviews,
 }) => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
     return null;
   }
+
+  const checkExistingReview = (reservationId: string) => {
+    if (!hotelReviews) {
+      return null;
+    }
+    const review = hotelReviews.find(
+      (review) => review.reservationId === reservationId
+    );
+
+    if (!review) {
+      return null;
+    }
+    return review;
+  };
 
   return (
     <>
@@ -50,6 +66,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = async ({
                   roomType={roomType}
                   roomId={id}
                   currentUser={currentUser.id}
+                  review={checkExistingReview(reservation.id)}
                 />
               );
             })}

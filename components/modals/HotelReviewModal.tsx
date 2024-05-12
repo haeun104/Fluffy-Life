@@ -4,10 +4,11 @@ import useHotelReviewModal from "@/hooks/useHotelReviewModal";
 import Modal from "./Modal";
 import Image from "next/image";
 import { MdStarOutline } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { HotelReview } from "@prisma/client";
 
 interface HotelReviewModalProps {
   roomId: string;
@@ -17,6 +18,7 @@ interface HotelReviewModalProps {
   endDate: string;
   reservationId: string;
   currentUser: string;
+  review: HotelReview | null;
 }
 
 const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
@@ -27,6 +29,7 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
   endDate,
   reservationId,
   currentUser,
+  review,
 }) => {
   const hotelReviewModal = useHotelReviewModal();
   const [rating, setRating] = useState<number | null>(null);
@@ -35,6 +38,13 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (review !== null) {
+      setRating(review.rating);
+      setFeedback(review.review);
+    }
+  }, [review]);
 
   const bodyContent = (
     <>
@@ -132,7 +142,7 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     <Modal
       isOpen={hotelReviewModal.isOpen}
       onClose={handleCloseClick}
-      actionLabel="Submit"
+      actionLabel={review !== null ? "Update" : "Submit"}
       bodyContent={bodyContent}
       style="bg-accent-light-green"
       onSubmit={() => handleSubmit(rating, feedback)}

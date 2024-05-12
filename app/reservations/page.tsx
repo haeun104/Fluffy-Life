@@ -1,5 +1,6 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import getHotelReservation from "@/actions/getHotelReservationsByUser";
+import getHotelReviews from "@/actions/getHotelReviews";
 import Container from "@/components/Container";
 import HotelReservations from "@/components/reservation/HotelReservations";
 
@@ -8,12 +9,16 @@ const ReservationsPage = async () => {
 
   if (currentUser) {
     const hotelReservations = await getHotelReservation(currentUser.id);
+    const hotelReviews = await getHotelReviews(currentUser.id);
 
     return (
       <Container>
         <div className="py-10 max-w-[600px] mx-auto">
           <h2 className="text-main-teal text-lg font-bold">My Reservations</h2>
-          <HotelReservations hotelReservations={hotelReservations} />
+          <HotelReservations
+            hotelReservations={hotelReservations}
+            hotelReviews={hotelReviews}
+          />
         </div>
       </Container>
     );
