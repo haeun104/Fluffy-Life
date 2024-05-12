@@ -112,10 +112,10 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     setFeedback("");
   };
 
-  const handleSubmit = async (rating: number | null, review: string) => {
+  const handleSubmit = async (rating: number | null, text: string) => {
     try {
       setError(null);
-      if (rating === null || review === "") {
+      if (rating === null || text === "") {
         setError("Rating and feedback must be input");
         return;
       }
@@ -125,11 +125,17 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
         roomId,
         reservationId,
         rating,
-        review,
+        review: text,
       };
 
-      await axios.post("/api/review", data);
-      toast.success("Successfully registered");
+      if (review !== null) {
+        await axios.put(`/api/review/${review.id}`, { rating, review: text });
+        toast.success("Successfully updated");
+      } else {
+        await axios.post("/api/review", data);
+        toast.success("Successfully registered");
+      }
+
       hotelReviewModal.onClose();
       router.refresh();
     } catch (error) {
