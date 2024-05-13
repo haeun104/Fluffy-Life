@@ -43,7 +43,6 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ reviews }) => {
           })}
         </div>
       </div>
-
       <div
         className={`border-solid border-y-[1px] border-[#EEEEEE] h-[200px] mt-4 flex ${
           reviews?.length === 0 && "justify-center items-center"

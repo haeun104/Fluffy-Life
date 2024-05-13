@@ -4,38 +4,48 @@ import useHotelReviewModal from "@/hooks/useHotelReviewModal";
 import Modal from "./Modal";
 import Image from "next/image";
 import { MdStarOutline } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { HotelReview } from "@prisma/client";
+import { HotelReservation, HotelReview } from "@prisma/client";
+import { RoomData } from "@/types";
+import { format } from "date-fns";
 
 interface HotelReviewModalProps {
-  roomId: string;
-  imageUrl: string;
-  roomType: string;
-  startDate: string;
-  endDate: string;
-  reservationId: string;
-  currentUser: string;
+  reservation: HotelReservation | undefined;
   review: HotelReview | null;
+  currentUser: string;
+  room: RoomData | undefined;
 }
 
 const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
-  roomId,
-  imageUrl,
-  roomType,
-  startDate,
-  endDate,
-  reservationId,
-  currentUser,
+  reservation,
   review,
+  currentUser,
+  room,
 }) => {
   const hotelReviewModal = useHotelReviewModal();
   const [rating, setRating] = useState<number | null>(null);
   const [hover, setHover] = useState<number | null>(null);
   const [feedback, setFeedback] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const formatDate = useMemo(() => {
+    if (reservation) {
+      const start = format(reservation.startDate, "MM/dd/yyyy");
+      const end = format(reservation.endDate, "MM/dd/yyyy");
+      return {
+        start,
+        end,
+      };
+    } else {
+      return {
+        start: "",
+        end: "",
+      };
+    }
+  }, [reservation]);
 
   const router = useRouter();
 
@@ -50,15 +60,23 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     <>
       <h2 className="font-bold mb-4">Share your feedback with us!</h2>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-2">
-          <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden">
-            <Image src={imageUrl} alt={roomType} height={70} width={70} />
+        {room && reservation && (
+          <div className="flex gap-2">
+            <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden">
+              <Image
+                src={room.imageUrl}
+                alt={room.roomType}
+                height={70}
+                width={70}
+              />
+            </div>
+            <div className="flex-1 flex flex-col justify-between">
+              <h3 className="">{room.roomType}</h3>
+              <p className="text-sm">{`from ${formatDate.start} to ${formatDate.end}`}</p>
+            </div>
           </div>
-          <div className="flex-1 flex flex-col justify-between">
-            <h3 className="">{roomType}</h3>
-            <p className="text-sm">{`from ${startDate} to ${endDate}`}</p>
-          </div>
-        </div>
+        )}
+
         <div>
           <h3 className="font-bold">Rating</h3>
           <div className="flex">
@@ -122,8 +140,8 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
 
       const data = {
         userId: currentUser,
-        roomId,
-        reservationId,
+        roomId: room?.id,
+        reservationId: reservation?.id,
         rating,
         review: text,
       };

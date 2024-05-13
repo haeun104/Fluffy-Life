@@ -9,9 +9,6 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import useHotelReviewModal from "@/hooks/useHotelReviewModal";
-import HotelReviewModal from "../modals/HotelReviewModal";
-import { HotelReview } from "@prisma/client";
 
 interface ReservationItemProps {
   id: string;
@@ -21,8 +18,8 @@ interface ReservationItemProps {
   imageUrl: string;
   roomType: string;
   roomId: string;
-  currentUser: string;
-  review: HotelReview | null;
+  existingReview: boolean;
+  openHotelReviewModal: (reservationId: string) => void;
 }
 
 const ReservationItem: React.FC<ReservationItemProps> = ({
@@ -33,12 +30,11 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   imageUrl,
   roomType,
   roomId,
-  currentUser,
-  review,
+  existingReview,
+  openHotelReviewModal,
 }) => {
   const [isReservationPassed, setIsReservationPassed] = useState<boolean>();
   const [menuHidden, setMenuHidden] = useState(true);
-  const hotelReviewModal = useHotelReviewModal();
 
   const router = useRouter();
 
@@ -74,6 +70,10 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
     }
   };
 
+  const handleModalOpen = (reservationId: string) => {
+    openHotelReviewModal(reservationId);
+  };
+
   return (
     <>
       <div className="border-solid border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex gap-4">
@@ -102,9 +102,9 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         ) : (
           <div className="hidden sm:flex sm:flex-col sm:gap-2 min-w-[160px]">
             <Button
-              title={review !== null ? "Edit your review" : "Write a review"}
+              title={existingReview ? "Edit your review" : "Write a review"}
               style="bg-accent-light-green text-sm font-normal"
-              onClick={() => hotelReviewModal.onOpen()}
+              onClick={() => handleModalOpen(id)}
             />
             <Button
               title="Reserve again"
@@ -144,9 +144,9 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
               <>
                 <div
                   className="cursor-pointer mb-2"
-                  onClick={() => hotelReviewModal.onOpen()}
+                  onClick={() => handleModalOpen(id)}
                 >
-                  {review !== null ? "Edit your review" : "Write a review"}
+                  {existingReview ? "Edit your review" : "Write a review"}
                 </div>
                 <div
                   className="cursor-pointer"
@@ -159,16 +159,6 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
           </div>
         </div>
       </div>
-      <HotelReviewModal
-        roomId={roomId}
-        imageUrl={imageUrl}
-        roomType={roomType}
-        startDate={formatDate.start}
-        endDate={formatDate.end}
-        reservationId={id}
-        currentUser={currentUser}
-        review={review}
-      />
     </>
   );
 };

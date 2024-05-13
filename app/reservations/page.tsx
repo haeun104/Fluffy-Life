@@ -18,6 +18,7 @@ const ReservationsPage = async () => {
           <HotelReservations
             hotelReservations={hotelReservations}
             hotelReviews={hotelReviews}
+            currentUser={currentUser}
           />
         </div>
       </Container>

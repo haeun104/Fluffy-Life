@@ -1,6 +1,11 @@
+"use client";
+
 import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
-import getCurrentUser from "@/actions/getCurrentUser";
+import HotelReviewModal from "../modals/HotelReviewModal";
+import { useCallback, useState } from "react";
+import { RoomData, UserData } from "@/types";
+import useHotelReviewModal from "@/hooks/useHotelReviewModal";
 
 interface HotelReservation {
   id: string;
@@ -17,30 +22,52 @@ interface HotelReservation {
 interface HotelReservationsProps {
   hotelReservations: HotelReservation[] | undefined;
   hotelReviews: HotelReview[] | undefined;
+  currentUser: UserData;
 }
 
-const HotelReservations: React.FC<HotelReservationsProps> = async ({
+const HotelReservations: React.FC<HotelReservationsProps> = ({
   hotelReservations,
   hotelReviews,
+  currentUser,
 }) => {
-  const currentUser = await getCurrentUser();
+  const [bookingForReview, setBookingForReview] = useState<HotelReservation>();
+  const [reservationRoom, setReservationRoom] = useState<RoomData>();
+  const [reviewToUpdate, setReviewToUpdate] = useState<HotelReview | null>(
+    null
+  );
 
-  if (!currentUser) {
-    return null;
-  }
+  const hotelReviewModal = useHotelReviewModal();
 
-  const checkExistingReview = (reservationId: string) => {
-    if (!hotelReviews) {
-      return null;
+  const checkExistingReview = useCallback(
+    (reservationId: string) => {
+      if (!hotelReviews) {
+        return null;
+      }
+      const review = hotelReviews.find(
+        (review) => review.reservationId === reservationId
+      );
+
+      if (!review) {
+        return null;
+      }
+
+      return review;
+    },
+    [hotelReviews]
+  );
+
+  const openHotelReviewModal = (id: string) => {
+    if (hotelReservations) {
+      const reservation = hotelReservations.find(
+        (reservation) => reservation.id === id
+      );
+      if (reservation) {
+        setBookingForReview(reservation);
+        setReservationRoom(reservation.room);
+      }
     }
-    const review = hotelReviews.find(
-      (review) => review.reservationId === reservationId
-    );
-
-    if (!review) {
-      return null;
-    }
-    return review;
+    setReviewToUpdate(checkExistingReview(id));
+    hotelReviewModal.onOpen();
   };
 
   return (
@@ -65,14 +92,22 @@ const HotelReservations: React.FC<HotelReservationsProps> = async ({
                   imageUrl={imageUrl}
                   roomType={roomType}
                   roomId={id}
-                  currentUser={currentUser.id}
-                  review={checkExistingReview(reservation.id)}
+                  existingReview={
+                    checkExistingReview(reservation.id) === null ? false : true
+                  }
+                  openHotelReviewModal={openHotelReviewModal}
                 />
               );
             })}
           </div>
         )}
       </div>
+      <HotelReviewModal
+        reservation={bookingForReview}
+        review={reviewToUpdate}
+        currentUser={currentUser.id}
+        room={reservationRoom}
+      />
     </>
   );
 };

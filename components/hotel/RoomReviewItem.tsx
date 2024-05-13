@@ -1,6 +1,4 @@
 
-
-
 const RoomReviewItem = () => {
     return;
 }

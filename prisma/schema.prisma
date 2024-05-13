@@ -30,6 +30,7 @@ model User {
   accounts          Account[]
   pets              Pet[]
   hotelReservations HotelReservation[]
+  HotelReview       HotelReview[]
 }
 
 model Account {
@@ -94,12 +95,14 @@ model HotelReservation {
 }
 
 model HotelReview {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String @db.ObjectId
-  roomId        String @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  roomId        String   @db.ObjectId
   reservationId String
   rating        Int
   review        String
+  createdAt     DateTime @default(now())
 
   reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

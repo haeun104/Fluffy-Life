@@ -8,11 +8,13 @@ export default async function getHotelReviews(
     const query = byUser
       ? { userId: roomIdOrUserId }
       : { roomId: roomIdOrUserId };
-    const checkExistingReview = await prisma.hotelReview.findMany({
+    const reviews = await prisma.hotelReview.findMany({
       where: query,
+      include: {
+        user: true,
+      },
     });
-    return checkExistingReview;
-    
+    return reviews;
   } catch (error) {
     console.error(error);
   }
