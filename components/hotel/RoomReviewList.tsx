@@ -3,9 +3,22 @@
 import { HotelReview } from "@prisma/client";
 import { useMemo } from "react";
 import { MdStarOutline } from "react-icons/md";
+import RoomReviewItem from "./RoomReviewItem";
+import { UserData } from "@/types";
+
+interface RoomReviewWithUser {
+  id: string;
+  userId: string;
+  roomId: string;
+  reservationId: string;
+  rating: number;
+  review: string;
+  createdAt: Date;
+  user: UserData;
+}
 
 interface RoomReviewProps {
-  reviews: HotelReview[] | undefined;
+  reviews: RoomReviewWithUser[] | undefined;
 }
 
 const RoomReviewList: React.FC<RoomReviewProps> = ({ reviews }) => {
@@ -51,7 +64,20 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ reviews }) => {
         {reviews?.length === 0 ? (
           <div>There is no review registered yet</div>
         ) : (
-          <div></div>
+          <div className="flex gap-4">
+            {reviews?.map((review, index) => {
+              const { name } = review.user;
+              return (
+                <RoomReviewItem
+                  key={index}
+                  rating={review.rating}
+                  review={review.review}
+                  createdAt={review.createdAt}
+                  userName={name}
+                />
+              );
+            })}
+          </div>
         )}
       </div>
     </div>
