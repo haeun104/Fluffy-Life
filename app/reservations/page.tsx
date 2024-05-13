@@ -9,7 +9,7 @@ const ReservationsPage = async () => {
 
   if (currentUser) {
     const hotelReservations = await getHotelReservation(currentUser.id);
-    const hotelReviews = await getHotelReviews(currentUser.id);
+    const hotelReviews = await getHotelReviews(currentUser.id, true);
 
     return (
       <Container>

@@ -3,10 +3,11 @@
 import Container from "@/components/Container";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
+import RoomReview from "@/components/hotel/RoomReview";
 import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
 import { RoomData, UserData } from "@/types";
-import { HotelReservation } from "@prisma/client";
+import { HotelReservation, HotelReview } from "@prisma/client";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
@@ -16,6 +17,7 @@ interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
   reservations: HotelReservation[] | undefined;
+  reviews: HotelReview[] | undefined;
 }
 
 const initialDateRange = {
@@ -28,6 +30,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   selectedRoom,
   currentUser,
   reservations,
+  reviews,
 }) => {
   const [dataRange, setDataRange] = useState<Range>(initialDateRange);
   const [totalPrice, setTotalPrice] = useState(selectedRoom.roomPrice);
@@ -85,6 +88,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
             totalDays={totalDays}
             disableDates={disabledDates}
           />
+          <RoomReview reviews={reviews} />
         </div>
       </Container>
       <ReservationModal

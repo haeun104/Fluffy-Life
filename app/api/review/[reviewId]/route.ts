@@ -23,6 +23,6 @@ export async function PUT(
       review,
     },
   });
-
+  
   return NextResponse.json(updateReview);
 }
