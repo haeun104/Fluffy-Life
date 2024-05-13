@@ -77,7 +77,7 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
                     className="hover:cursor-pointer"
                     color={
                       currentRating <= ((hover !== null ? hover : rating) ?? 0)
-                        ? "#ffc109"
+                        ? "#000000"
                         : "#e4e5e9"
                     }
                     onMouseEnter={() => setHover(currentRating)}

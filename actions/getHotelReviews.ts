@@ -11,8 +11,8 @@ export default async function getHotelReviews(
     const checkExistingReview = await prisma.hotelReview.findMany({
       where: query,
     });
-
     return checkExistingReview;
+    
   } catch (error) {
     console.error(error);
   }

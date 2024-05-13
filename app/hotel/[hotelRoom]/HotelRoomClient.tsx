@@ -3,7 +3,7 @@
 import Container from "@/components/Container";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
-import RoomReview from "@/components/hotel/RoomReview";
+import RoomReviewList from "@/components/hotel/RoomReviewList";
 import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
 import { RoomData, UserData } from "@/types";
@@ -88,7 +88,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
             totalDays={totalDays}
             disableDates={disabledDates}
           />
-          <RoomReview reviews={reviews} />
+          <RoomReviewList reviews={reviews} />
         </div>
       </Container>
       <ReservationModal
