@@ -103,6 +103,6 @@ model HotelReview {
   review        String
   createdAt     DateTime @default(now())
 
-  reservation Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

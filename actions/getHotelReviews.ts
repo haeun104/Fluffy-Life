@@ -12,6 +12,7 @@ export default async function getHotelReviews(
       where: query,
       include: {
         user: true,
+        room: true,
       },
     });
     return reviews;

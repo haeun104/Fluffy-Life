@@ -2,10 +2,10 @@
 
 import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
-import HotelReviewModal from "../modals/HotelReviewModal";
+import HotelReviewModal from "../modals/ReviewRegistrationModal";
 import { useCallback, useState } from "react";
 import { RoomData, UserData } from "@/types";
-import useHotelReviewModal from "@/hooks/useHotelReviewModal";
+import useHotelReviewModal from "@/hooks/useReviewRegistrationModal";
 
 interface HotelReservation {
   id: string;

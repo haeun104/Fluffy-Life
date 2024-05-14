@@ -1,6 +1,6 @@
 "use client";
 
-import useHotelReviewModal from "@/hooks/useHotelReviewModal";
+import useHotelReviewModal from "@/hooks/useReviewRegistrationModal";
 import Modal from "./Modal";
 import Image from "next/image";
 import { MdStarOutline } from "react-icons/md";

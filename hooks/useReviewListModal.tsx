@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-interface HotelReviewStore {
+interface ReviewListStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-const useHotelReviewModal = create<HotelReviewStore>((set) => ({
+const useReviewListModal = create<ReviewListStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
 
-export default useHotelReviewModal;
+export default useReviewListModal;

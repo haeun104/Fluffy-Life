@@ -9,7 +9,7 @@ interface ModalProps {
   onClose: () => void;
   onSubmit?: () => void;
   bodyContent: React.ReactElement;
-  actionLabel: string;
+  actionLabel?: string;
   disabled?: boolean;
   style?: string;
 }
@@ -41,14 +41,16 @@ const Modal: React.FC<ModalProps> = ({
           onClick={onClose}
         />
         {bodyContent}
-        <div className="flex pt-4">
-          <Button
-            title={actionLabel}
-            onClick={onSubmit}
-            style={`flex-1 py-[12px] ${style}`}
-            disabled={disabled}
-          />
-        </div>
+        {actionLabel && (
+          <div className="flex pt-4">
+            <Button
+              title={actionLabel}
+              onClick={onSubmit}
+              style={`flex-1 py-[12px] ${style}`}
+              disabled={disabled}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

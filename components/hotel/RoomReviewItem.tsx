@@ -1,3 +1,6 @@
+import useReviewListModal from "@/hooks/useReviewListModal";
+import { format } from "date-fns";
+import { useMemo } from "react";
 import { IoMdStar } from "react-icons/io";
 
 interface RoomReviewItemProps {
@@ -5,6 +8,7 @@ interface RoomReviewItemProps {
   review: string;
   createdAt: Date;
   userName: string;
+  modal?: boolean;
 }
 
 const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
@@ -12,9 +16,16 @@ const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
   review,
   createdAt,
   userName,
+  modal,
 }) => {
+  const formattedDate = useMemo(() => {
+    return format(createdAt, "MM/dd/yyyy");
+  }, [createdAt]);
+
+  const reviewListModal = useReviewListModal();
+
   return (
-    <div className="md:w-1/2 py-4">
+    <div className={`py-4 ${modal ? "w-full" : "md:w-1/2"}`}>
       <div className="text-sm">{userName}</div>
       <div className="flex">
         {[...Array(5)].map((star, index) => {
@@ -28,7 +39,18 @@ const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
           );
         })}
       </div>
-      <p className="mt-2">{review}</p>
+      <div className="text-sm mt-2">{formattedDate}</div>
+      <div className="text-sm mt-2">
+        <p className={`mb-2 ${modal ? "break-words" : "truncate"}`}>{review}</p>
+        {review.length >= 70 && !modal && (
+          <span
+            className="border-b-[1px] border-black cursor-pointer"
+            onClick={() => reviewListModal.onOpen()}
+          >
+            More
+          </span>
+        )}
+      </div>
     </div>
   );
 };
