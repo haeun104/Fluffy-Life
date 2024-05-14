@@ -57,14 +57,14 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ reviews }) => {
         </div>
       </div>
       <div
-        className={`border-solid border-y-[1px] border-[#EEEEEE] h-[200px] mt-4 flex ${
-          reviews?.length === 0 && "justify-center items-center"
+        className={`border-solid border-y-[1px] border-[#EEEEEE] mt-4 flex ${
+          reviews?.length === 0 && "justify-center items-center h-[200px]"
         }`}
       >
         {reviews?.length === 0 ? (
           <div>There is no review registered yet</div>
         ) : (
-          <div className="flex gap-4">
+          <div className="w-full flex flex-col md:flex-row">
             {reviews?.map((review, index) => {
               const { name } = review.user;
               return (
