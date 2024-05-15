@@ -25,7 +25,6 @@ const RoomSearchInputs: React.FC<RoomSearchInputsProps> = ({
         label="Check-in"
         type="date"
         register={register}
-        required
         errors={errors}
         disabled={isSubmitting}
         min={getFormattedDate(new Date())}
@@ -35,7 +34,6 @@ const RoomSearchInputs: React.FC<RoomSearchInputsProps> = ({
         label="Check-out"
         type="date"
         register={register}
-        required
         errors={errors}
         disabled={isSubmitting}
         min={getFormattedDate(new Date())}
@@ -49,13 +47,13 @@ const RoomSearchInputs: React.FC<RoomSearchInputsProps> = ({
             errors["roomType"] ? "border-accent-red " : "border-neutral-300"
           } border-[1px] rounded-md outline-none p-2 disabled:border-none disabled:bg-white disabled:px-0 disabled:text-gray-500 h-[44px]`}
           id="roomType"
-          {...register("roomType", { required: true })}
+          {...register("roomType")}
         >
           <option value="all">All</option>
-          <option value="suite">Suite</option>
-          <option value="standard">Standard</option>
-          <option value="suite-package">Suite Package</option>
-          <option value="standard-package">Standard Package</option>
+          <option value="Suite">Suite</option>
+          <option value="Standard">Standard</option>
+          <option value="Suite Package">Suite Package</option>
+          <option value="Standard Package">Standard Package</option>
         </select>
         {errors["roomType"] && (
           <span className="text-accent-red text-sm">

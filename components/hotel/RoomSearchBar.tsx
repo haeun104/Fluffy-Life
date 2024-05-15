@@ -5,17 +5,47 @@ import { IoMdSearch } from "react-icons/io";
 import RoomSearchModal from "../modals/RoomSearchModal";
 import RoomSearchInputs from "../inputs/RoomSearchInputs";
 import { FieldValues, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const RoomSearchBar = () => {
   const roomSearchModal = useRoomSearchModal();
+
+  const schema = z
+    .object({
+      startDate: z.string(),
+      endDate: z.string(),
+      roomType: z.string(),
+    })
+    .refine(
+      (data) => {
+        return (
+          (data.startDate !== "" && data.endDate !== "") ||
+          (data.startDate === "" && data.endDate === "")
+        );
+      },
+      {
+        message: "Both of check in and out dates need to be input",
+        path: ["startDate", "endDate"],
+      }
+    );
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<FieldValues>({
+    defaultValues: {
+      startDate: "",
+      endDate: "",
+      roomType: "all",
+    },
+    resolver: zodResolver(schema),
+  });
 
-  const searchAvailableRoom = (data: FieldValues) => {};
+  const searchAvailableRoom = (data: FieldValues) => {
+    console.log(data);
+  };
 
   return (
     <>

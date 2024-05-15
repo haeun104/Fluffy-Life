@@ -2,9 +2,20 @@ import RoomList from "@/components/hotel/RoomList";
 import getAllRooms from "@/actions/getAllRooms";
 import Container from "@/components/Container";
 import RoomSearchBar from "@/components/hotel/RoomSearchBar";
+import getAvailableRooms from "@/actions/getAvailableRooms";
+
+interface SearchQueryType {
+  startDate: string;
+  endDate: string;
+  roomType: string;
+}
 
 const HotelPage = async () => {
-  const rooms = await getAllRooms();
+  let rooms = await getAllRooms();
+
+  const fetchAvailableRooms = async (searchQuery: SearchQueryType) => {
+      rooms = await getAvailableRooms(searchQuery);
+  };
 
   if (!rooms) {
     return null;
