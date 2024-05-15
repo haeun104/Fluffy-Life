@@ -53,6 +53,9 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     if (review !== null) {
       setRating(review.rating);
       setFeedback(review.review);
+    } else {
+      setRating(null);
+      setFeedback("");
     }
   }, [review]);
 
@@ -126,8 +129,6 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
 
   const handleCloseClick = () => {
     hotelReviewModal.onClose();
-    setRating(null);
-    setFeedback("");
   };
 
   const handleSubmit = async (rating: number | null, text: string) => {

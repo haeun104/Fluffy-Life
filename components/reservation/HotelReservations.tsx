@@ -38,25 +38,23 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
 
   const hotelReviewModal = useHotelReviewModal();
 
-  const checkExistingReview = useCallback(
-    (reservationId: string) => {
-      if (!hotelReviews) {
-        return null;
-      }
-      const review = hotelReviews.find(
-        (review) => review.reservationId === reservationId
-      );
+  const checkExistingReview = (reservationId: string) => {
+    if (!hotelReviews) {
+      return null;
+    }
+    const review = hotelReviews.find(
+      (review) => review.reservationId === reservationId
+    );
 
-      if (!review) {
-        return null;
-      }
+    if (!review) {
+      return null;
+    }
 
-      return review;
-    },
-    [hotelReviews]
-  );
+    return review;
+  };
 
-  const openHotelReviewModal = (id: string) => {
+  const openHotelReviewModal = async (id: string) => {
+
     if (hotelReservations) {
       const reservation = hotelReservations.find(
         (reservation) => reservation.id === id
