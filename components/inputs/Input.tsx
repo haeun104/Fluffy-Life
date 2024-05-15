@@ -13,7 +13,7 @@ interface InputProps {
   required?: boolean;
   errors: FieldErrors;
   disabled?: boolean;
-  min?: string
+  min?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -28,7 +28,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="w-full flex flex-col mb-4">
-      <label htmlFor={id} className="mb-2">
+      <label htmlFor={id} className="mb-2 text-sm">
         {label}
       </label>
       <input

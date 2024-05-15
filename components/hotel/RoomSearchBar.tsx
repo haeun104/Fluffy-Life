@@ -3,32 +3,35 @@
 import useRoomSearchModal from "@/hooks/useRoomSearchModal";
 import { IoMdSearch } from "react-icons/io";
 import RoomSearchModal from "../modals/RoomSearchModal";
+import RoomSearchInputs from "../inputs/RoomSearchInputs";
+import { FieldValues, useForm } from "react-hook-form";
 
 const RoomSearchBar = () => {
   const roomSearchModal = useRoomSearchModal();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const searchAvailableRoom = (data: FieldValues) => {};
+
   return (
     <>
-      <form className="hidden border-solid border-[1px] border-[#EEEEEE] rounded-lg p-2 sm:flex">
-        <label className="w-[30%]">
-          <input type="date" />
-        </label>
-        <label className="w-[30%]">
-          <input type="date" />
-        </label>
-        <label className="w-[30%]">
-          <select name="" id="">
-            <option value="">All</option>
-            <option value="">Suite</option>
-            <option value="">Standard</option>
-            <option value="">Suite Package</option>
-            <option value="">Standard Package</option>
-          </select>
-        </label>
-        <div className="w-[10%]">
-          <button></button>
-        </div>
-      </form>
+      <div className="hidden sm:flex gap-2 items-end">
+        <RoomSearchInputs
+          register={register}
+          errors={errors}
+          isSubmitting={isSubmitting}
+        />
+        <button
+          className="mb-4 h-[44px] flex items-center"
+          onClick={handleSubmit(searchAvailableRoom)}
+        >
+          <IoMdSearch size={28} />
+        </button>
+      </div>
       <div
         className="border-solid border-[1px] border-[#EEEEEE] rounded-lg p-2 flex justify-between items-center cursor-pointer sm:hidden"
         onClick={() => roomSearchModal.onOpen()}
