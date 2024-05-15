@@ -13,6 +13,7 @@ interface InputProps {
   required?: boolean;
   errors: FieldErrors;
   disabled?: boolean;
+  min?: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,6 +24,7 @@ const Input: React.FC<InputProps> = ({
   required,
   errors,
   disabled,
+  min,
 }) => {
   return (
     <div className="w-full flex flex-col mb-4">
@@ -38,6 +40,7 @@ const Input: React.FC<InputProps> = ({
           errors[id] ? "border-accent-red " : "border-neutral-300"
         } border-[1px] rounded-md outline-none p-2 disabled:border-none disabled:bg-white disabled:px-0 disabled:text-gray-500`}
         disabled={disabled}
+        min={min}
       />
       {errors[id] && (
         <span className="text-accent-red text-sm">
