@@ -71,6 +71,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   };
 
   const handleModalOpen = (reservationId: string) => {
+    setMenuHidden(true);
     openHotelReviewModal(reservationId);
   };
 

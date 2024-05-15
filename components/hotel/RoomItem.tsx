@@ -25,8 +25,8 @@ const RoomItem: React.FC<RoomItemProps> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="border-solid border-[1px] border-[#EEEEEE] rounded-lg overflow-hidden flex flex-col max-w-[350px] sm:max-w-[800px] sm:min-w-full sm:flex-row md:min-w-[800px]">
-      <div className="sm:max-w-[350px] sm:max-h-[200px]">
+    <div className="border-solid border-[1px] border-[#EEEEEE] rounded-lg overflow-hidden flex flex-col sm:flex-row ">
+      <div className="sm:max-h-[200px] sm:w-[350px] shrink-0">
         <Image src={imageUrl} alt={roomType} height={200} width={350} priority/>
       </div>
       <div className="py-2 px-4 min-h-[100px] flex flex-col gap-2 justify-center">
