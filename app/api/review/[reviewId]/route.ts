@@ -23,6 +23,21 @@ export async function PUT(
       review,
     },
   });
-  
+
   return NextResponse.json(updateReview);
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: HotelReviewParams }
+) {
+  const { reviewId } = params;
+
+  const deleteReview = await prisma.hotelReview.delete({
+    where: {
+      id: reviewId,
+    },
+  });
+
+  return NextResponse.json(deleteReview);
 }

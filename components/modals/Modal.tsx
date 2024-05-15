@@ -10,6 +10,8 @@ interface ModalProps {
   onSubmit?: () => void;
   bodyContent: React.ReactElement;
   actionLabel?: string;
+  secondaryActionLabel?: string;
+  secondaryAction?: () => void;
   disabled?: boolean;
   style?: string;
 }
@@ -22,6 +24,8 @@ const Modal: React.FC<ModalProps> = ({
   actionLabel,
   disabled,
   style,
+  secondaryAction,
+  secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -41,16 +45,24 @@ const Modal: React.FC<ModalProps> = ({
           onClick={onClose}
         />
         {bodyContent}
-        {actionLabel && (
-          <div className="flex pt-4">
+        <div className={`flex pt-4 ${secondaryActionLabel && "gap-4"}`}>
+          {actionLabel && (
             <Button
               title={actionLabel}
               onClick={onSubmit}
               style={`flex-1 py-[12px] ${style}`}
               disabled={disabled}
             />
-          </div>
-        )}
+          )}
+          {secondaryActionLabel && (
+            <Button
+              title={secondaryActionLabel}
+              onClick={secondaryAction}
+              style="flex-1 py-[12px] bg-main-gray"
+              disabled={disabled}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

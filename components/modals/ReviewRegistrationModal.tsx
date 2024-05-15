@@ -162,6 +162,20 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      if (review !== null) {
+        await axios.delete(`/api/review/${review.id}`);
+        toast.success("Successfully deleted");
+        hotelReviewModal.onClose();
+        router.refresh();
+      }
+    } catch (error) {
+      toast.error("Failed to delete a review");
+      console.error(error);
+    }
+  };
+
   return (
     <Modal
       isOpen={hotelReviewModal.isOpen}
@@ -170,6 +184,8 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
       bodyContent={bodyContent}
       style="bg-accent-light-green"
       onSubmit={() => handleSubmit(rating, feedback)}
+      secondaryActionLabel={review !== null ? "Delete" : undefined}
+      secondaryAction={handleDelete}
     />
   );
 };
