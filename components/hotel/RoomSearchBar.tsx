@@ -9,6 +9,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RoomData } from "@/types";
 import getAvailableRooms from "@/actions/getAvailableRooms";
+import { useState } from "react";
+import { changeDateStrOrder } from "@/util";
 
 export const schema = z
   .object({
@@ -41,12 +43,18 @@ export const schema = z
   );
 
 interface RoomSearchBarProps {
-  updateAvailableRooms: (rooms: RoomData[]) => void;
+  updateAvailableRooms: (rooms: RoomData[] | undefined) => void;
 }
 
 const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
   updateAvailableRooms,
 }) => {
+  const [searchData, setSearchData] = useState({
+    startDate: "MM/DD/YYYY",
+    endDate: "MM/DD/YYYY",
+    roomType: "All",
+  });
+
   const roomSearchModal = useRoomSearchModal();
 
   const {
@@ -57,19 +65,20 @@ const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
     defaultValues: {
       startDate: "",
       endDate: "",
-      roomType: "all",
+      roomType: "All",
     },
     resolver: zodResolver(schema),
   });
 
   const searchAvailableRoom = async (data: FieldValues) => {
-    console.log(data);
-    
     try {
       const availableRooms = await getAvailableRooms(data);
-      console.log(availableRooms);
-      
-      // updateAvailableRooms(availableRooms);
+      updateAvailableRooms(availableRooms);
+      setSearchData({
+        startDate: changeDateStrOrder(data.startDate),
+        endDate: changeDateStrOrder(data.endDate),
+        roomType: data.roomType,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -98,21 +107,21 @@ const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
       >
         <div className="flex flex-col">
           <span className="text-xs font-bold">Check-in</span>
-          <span className="text-sm">MM/DD/YYYY</span>
+          <span className="text-sm">{searchData.startDate}</span>
         </div>
         <div className="flex flex-col">
           <span className="text-xs font-bold">Check-out</span>
-          <span className="text-sm">MM/DD/YYYY</span>
+          <span className="text-sm">{searchData.endDate}</span>
         </div>
         <div className="flex flex-col">
           <span className="text-xs font-bold">Room type</span>
-          <span className="text-sm text-center">All</span>
+          <span className="text-sm text-center">{searchData.roomType}</span>
         </div>
         <div>
           <IoMdSearch size={28} />
         </div>
       </div>
-      <RoomSearchModal />
+      <RoomSearchModal searchAvailableRoom={searchAvailableRoom} />
     </>
   );
 };

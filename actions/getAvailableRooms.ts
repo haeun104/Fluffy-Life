@@ -17,7 +17,7 @@ export default async function getAvailableRooms(roomQuery: FieldValues) {
         },
         room: {
           roomType:
-            roomQuery.roomType !== "all" ? roomQuery.roomType : undefined,
+            roomQuery.roomType !== "All" ? roomQuery.roomType : undefined,
         },
         startDate: {
           gte: today,
@@ -48,7 +48,7 @@ export default async function getAvailableRooms(roomQuery: FieldValues) {
       }
     });
 
-    if (roomQuery.roomType === "all") {
+    if (roomQuery.roomType === "All") {
       const availableRooms = await prisma.room.findMany({
         where: {
           id: {

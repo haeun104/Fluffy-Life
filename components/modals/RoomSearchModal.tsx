@@ -5,7 +5,13 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../hotel/RoomSearchBar";
 
-const RoomSearchModal = () => {
+interface RoomSearchModalProps {
+  searchAvailableRoom: (data: FieldValues) => void;
+}
+
+const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
+  searchAvailableRoom,
+}) => {
   const roomSearchModal = useRoomSearchModal();
 
   const {
@@ -34,7 +40,9 @@ const RoomSearchModal = () => {
     </div>
   );
 
-  const searchAvailableRoom = (data: FieldValues) => {
+  const checkAvailableRoom = (data: FieldValues) => {
+    searchAvailableRoom(data);
+    roomSearchModal.onClose();
     console.log(data);
   };
 
@@ -45,7 +53,7 @@ const RoomSearchModal = () => {
       actionLabel="Search"
       bodyContent={bodyContent}
       style="bg-accent-light-green"
-      onSubmit={handleSubmit(searchAvailableRoom)}
+      onSubmit={handleSubmit(checkAvailableRoom)}
     />
   );
 };

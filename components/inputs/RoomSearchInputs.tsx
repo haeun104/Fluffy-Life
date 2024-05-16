@@ -49,7 +49,7 @@ const RoomSearchInputs: React.FC<RoomSearchInputsProps> = ({
           id="roomType"
           {...register("roomType")}
         >
-          <option value="all">All</option>
+          <option value="All">All</option>
           <option value="Suite">Suite</option>
           <option value="Standard">Standard</option>
           <option value="Suite Package">Suite Package</option>
