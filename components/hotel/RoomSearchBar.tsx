@@ -7,6 +7,8 @@ import RoomSearchInputs from "../inputs/RoomSearchInputs";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RoomData } from "@/types";
+import getAvailableRooms from "@/actions/getAvailableRooms";
 
 export const schema = z
   .object({
@@ -38,7 +40,13 @@ export const schema = z
     }
   );
 
-const RoomSearchBar = () => {
+interface RoomSearchBarProps {
+  updateAvailableRooms: (rooms: RoomData[]) => void;
+}
+
+const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
+  updateAvailableRooms,
+}) => {
   const roomSearchModal = useRoomSearchModal();
 
   const {
@@ -54,8 +62,17 @@ const RoomSearchBar = () => {
     resolver: zodResolver(schema),
   });
 
-  const searchAvailableRoom = (data: FieldValues) => {
+  const searchAvailableRoom = async (data: FieldValues) => {
     console.log(data);
+    
+    try {
+      const availableRooms = await getAvailableRooms(data);
+      console.log(availableRooms);
+      
+      // updateAvailableRooms(availableRooms);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
