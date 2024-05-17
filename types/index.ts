@@ -1,4 +1,4 @@
-import { Room, User } from "@prisma/client";
+import { Pet, Room, User } from "@prisma/client";
 
 export type UserData = Omit<
   User,
@@ -26,4 +26,18 @@ export interface RoomReview {
   createdAt: Date;
   user: UserData;
   room: Room;
+}
+
+export interface HotelReservationData {
+  id: string;
+  userId: string;
+  roomId: string;
+  petChipNumber: string;
+  startDate: string;
+  endDate: string;
+  totalPrice: number;
+  createdAt: Date;
+  user: User;
+  room: Room;
+  pet: Pet;
 }
