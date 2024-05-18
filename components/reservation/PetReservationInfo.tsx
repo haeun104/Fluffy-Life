@@ -5,6 +5,11 @@ import Input from "../inputs/Input";
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import Button from "../Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { schema } from "../inputs/PetInputs";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface PetReservationInfoProps {
   reservation: HotelReservationData;
@@ -17,10 +22,12 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 
   const { name, chipNumber, age, breed, remark } = reservation.pet;
 
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       name,
@@ -29,7 +36,20 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
       chipNumber,
       remark,
     },
+    resolver: zodResolver(schema),
   });
+
+  const updatePetInfo = async (data: FieldValues) => {
+    try {
+      setDisabled(true);
+      await axios.put(`/api/hotelReservation/${reservation.id}`, data);
+      toast.success("Successfully updated!");
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to update pet info");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -58,6 +78,7 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           errors={errors}
           required
           disabled={disabled}
+          type="number"
         />
         <Input
           id="chipNumber"
@@ -84,7 +105,11 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
         />
       ) : (
         <div className="flex gap-2">
-          <Button title="Save" style="bg-main-teal flex-1" />
+          <Button
+            title="Save"
+            style="bg-main-teal flex-1"
+            onClick={handleSubmit(updatePetInfo)}
+          />
           <Button
             title="Cancel"
             onClick={() => setDisabled(true)}

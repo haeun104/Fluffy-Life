@@ -83,7 +83,7 @@ model HotelReservation {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   userId        String   @db.ObjectId
   roomId        String   @db.ObjectId
-  petChipNumber String
+  petChipNumber String   @unique
   startDate     DateTime
   endDate       DateTime
   totalPrice    Int

@@ -63,6 +63,14 @@ const initialInputStates = [
   },
 ];
 
+export const schema = z.object({
+  name: z.string().min(1, { message: "Name must be input" }),
+  breed: z.string().nullable(),
+  age: z.number().nullable(),
+  chipNumber: z.string().min(1, { message: "Chip number must be input" }),
+  remark: z.string().nullable(),
+});
+
 const PetInputs: React.FC<PetInputsProps> = ({
   id,
   name,
@@ -77,14 +85,6 @@ const PetInputs: React.FC<PetInputsProps> = ({
     useState<initialInputStatesType[]>(initialInputStates);
 
   const router = useRouter();
-
-  const schema = z.object({
-    name: z.string().min(1, { message: "Name must be input" }),
-    breed: z.string().nullable(),
-    age: z.number().nullable(),
-    chipNumber: z.string().min(1, { message: "Name must be input" }),
-    remark: z.string().nullable(),
-  });
 
   const {
     register,
