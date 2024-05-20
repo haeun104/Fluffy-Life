@@ -32,6 +32,7 @@ export interface HotelReservationData {
   id: string;
   userId: string;
   roomId: string;
+  petName: string;
   petChipNumber: string;
   startDate: string;
   endDate: string;

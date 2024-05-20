@@ -20,7 +20,7 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 }) => {
   const [disabled, setDisabled] = useState(true);
 
-  const { name, chipNumber, age, breed, remark } = reservation.pet;
+  const { age, breed, remark } = reservation.pet;
 
   const router = useRouter();
 
@@ -30,11 +30,11 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name,
-      breed,
-      age,
-      chipNumber,
-      remark,
+      name: reservation.petName,
+      chipNumber: reservation.petChipNumber,
+      breed: breed || "",
+      age: age || null,
+      remark: remark || "",
     },
     resolver: zodResolver(schema),
   });
@@ -42,7 +42,8 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
   const updatePetInfo = async (data: FieldValues) => {
     try {
       setDisabled(true);
-      await axios.put(`/api/hotelReservation/${reservation.id}`, data);
+      const dataToUpdate = { ...data, userId: reservation.userId };
+      await axios.put(`/api/hotelReservation/${reservation.id}`, dataToUpdate);
       toast.success("Successfully updated!");
       router.refresh();
     } catch (error) {
@@ -53,11 +54,19 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 
   return (
     <div className="flex flex-col">
-      <h3 className="font-bold text-accent-light-green">Pet</h3>
+      <h3 className="font-bold text-accent-light-green">Pet Information</h3>
       <div className="mt-4">
         <Input
           id="name"
           label="Name"
+          register={register}
+          errors={errors}
+          required
+          disabled={disabled}
+        />
+        <Input
+          id="chipNumber"
+          label="Chip Number"
           register={register}
           errors={errors}
           required
@@ -79,14 +88,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           required
           disabled={disabled}
           type="number"
-        />
-        <Input
-          id="chipNumber"
-          label="Chip Number"
-          register={register}
-          errors={errors}
-          required
-          disabled={disabled}
         />
         <Input
           id="remark"

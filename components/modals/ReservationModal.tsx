@@ -34,7 +34,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   const router = useRouter();
 
   const schema = z.object({
-    name: z.string().min(1, { message: "Name must be input" }),
+    petName: z.string().min(1, { message: "Name must be input" }),
     chipNumber: z.string().min(1, { message: "Name must be input" }),
     mobile: z.union([
       z.string().length(9, { message: "Enter 9 digits" }),
@@ -93,12 +93,13 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   );
 
   const createReservation: SubmitHandler<FieldValues> = (data) => {
-    const { chipNumber, mobile, name } = data;
+    const { chipNumber, mobile, petName } = data;
     if (currentUser !== null) {
       axios
         .post("/api/hotelReservation", {
           userId: currentUser.id,
           roomId: selectedRoom.id,
+          petName: petName,
           petChipNumber: chipNumber,
           startDate: dataRange.startDate,
           endDate: dataRange.endDate,
@@ -111,7 +112,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
               userId: currentUser.id,
             });
             axios.post("/api/pet", {
-              name: name,
+              name: petName,
               chipNumber: chipNumber,
               userId: currentUser.id,
             });

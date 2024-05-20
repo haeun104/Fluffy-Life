@@ -22,7 +22,7 @@ const ReservationInputs: React.FC<ReservationInputsProps> = ({
   return (
     <div className="flex flex-col">
       <Input
-        id="name"
+        id="petName"
         register={register}
         errors={errors}
         label="Pet Name"

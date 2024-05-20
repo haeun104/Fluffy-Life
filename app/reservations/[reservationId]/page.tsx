@@ -50,7 +50,7 @@ const ReservationDetailPage = async ({
               </div>
             </div>
           </div>
-          <PetReservationInfo reservation={reservation}/>
+          <PetReservationInfo reservation={reservation} />
         </div>
       </Container>
     );
