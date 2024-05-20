@@ -34,7 +34,8 @@ export const schema = z
     (data) => {
       const start = new Date(data.startDate).getTime();
       const end = new Date(data.endDate).getTime();
-      return start < end && start !== end;
+      const isBothEmpty = isNaN(start) && isNaN(end);
+      return (start < end && start !== end) || isBothEmpty;
     },
     {
       message: "Check-out date must be later than check-in date",

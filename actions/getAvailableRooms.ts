@@ -19,9 +19,6 @@ export default async function getAvailableRooms(roomQuery: FieldValues) {
           roomType:
             roomQuery.roomType !== "All" ? roomQuery.roomType : undefined,
         },
-        startDate: {
-          gte: today,
-        },
       },
       include: {
         room: true,
