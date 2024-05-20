@@ -13,7 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
     <div className="py-4 relative border-b-[1px] border-b-solid border-[#EEEEEE] z-50">
       <Container>
-        <div className="flex justify-between items-center gap-6">
+        <div className="flex lg:justify-between items-center gap-6">
           <MenuDropdown currentUser={currentUser} />
           <Logo />
           <Menubar currentUser={currentUser} />

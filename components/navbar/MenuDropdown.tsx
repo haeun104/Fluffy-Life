@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { menuItems } from "./Menubar";
 import MenuItem from "./MenuItem";
@@ -18,6 +18,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
   const loginModal = useLoginModal();
   const signUpModal = useSignUpModal();
   const router = useRouter();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleItemClick = useCallback(
     (url: string) => {
@@ -26,6 +27,20 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
     },
     [router, toggle]
   );
+
+  // Close the menu when the user clicks outside
+  const handleClickOutside = (e: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      setToggle(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLoginClick = useCallback(() => {
     loginModal.onOpen();
@@ -38,7 +53,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ currentUser }) => {
   }, [signUpModal, toggle]);
 
   return (
-    <div className="lg:hidden">
+    <div className="lg:hidden" ref={menuRef}>
       <div
         className={`text-main-teal cursor-pointer ${toggle && "hidden"}`}
         onClick={() => setToggle(!toggle)}

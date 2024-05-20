@@ -5,7 +5,7 @@ import MenuItem from "./MenuItem";
 import useSignUpModal from "@/hooks/useSignUpModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import { UserData } from "@/types";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export const menuItems = [
   {
@@ -34,6 +34,7 @@ const Menubar: React.FC<MenubarProps> = ({ currentUser }) => {
   const signUpModal = useSignUpModal();
   const loginModal = useLoginModal();
   const router = useRouter();
+  const pathName = usePathname();
 
   return (
     <>
@@ -44,9 +45,9 @@ const Menubar: React.FC<MenubarProps> = ({ currentUser }) => {
               key={index}
               title={item.title}
               onClick={() => router.push(item.url)}
-              style={
-                "border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal cursor-pointer"
-              }
+              style={`border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal cursor-pointer ${
+                pathName === item.url && "border-b-main-teal"
+              }`}
             />
           ))}
         </ul>

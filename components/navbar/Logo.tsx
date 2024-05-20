@@ -12,7 +12,7 @@ const Logo = () => {
   const router = useRouter();
   return (
     <div
-      className="text-main-teal flex items-center gap-2 cursor-pointer"
+      className="text-main-teal flex items-center gap-2 cursor-pointer mx-auto"
       onClick={() => router.push("/")}
     >
       <Image alt="logo" src={logo} height={35} width={35} />
