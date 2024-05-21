@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 const Footer = () => {
   const router = useRouter();
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-[1024px] mx-auto">
       <div className="mb-4">
         <Logo fontSize="xl" logoSize={25} />
       </div>
 
-      <div className="text-main-teal text-sm flex flex-col gap-4">
-        <div className="flex">
+      <div className="text-main-teal text-sm flex flex-col gap-4 md:flex-row md:gap-0 md:justify-between">
+        <div className="flex md:w-1/2">
           <div className="w-1/2">
             <h4 className="font-bold uppercase">menu</h4>
             <ul>
@@ -52,7 +52,7 @@ const Footer = () => {
             </span>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex md:w-1/2">
           <div className="flex flex-col w-1/2">
             <h4 className="font-bold uppercase">opening hours</h4>
             <div className="mb-2">
