@@ -22,6 +22,9 @@ const config: Config = {
           "50%": { backgroundImage: "url('/images/training-dogs.jpg')" },
           "75%": { backgroundImage: "url('/images/swimming-dog.jpg')" },
         },
+        serviceImages: {
+          
+        }
       },
       animation: {
         heroAnimation: "heroImages 16s ease-in-out infinite",

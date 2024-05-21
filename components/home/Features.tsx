@@ -6,7 +6,7 @@ import Image from "next/image";
 const Features = () => {
   return (
     <div className="bg-main-teal py-10 px-6 text-white">
-      <h2 className="text-xl text-center mb-10">We Can Promise</h2>
+      <h2 className="text-2xl text-center mb-10">We Can Promise</h2>
       <div className="flex flex-col gap-4 lg:flex-row lg:justify-around max-w-[1536px] mx-auto">
         <div className="flex flex-col text-center gap-4">
           <div className="w-[60px] mx-auto">
