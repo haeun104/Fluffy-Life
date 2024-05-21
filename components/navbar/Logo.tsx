@@ -8,15 +8,22 @@ import { useRouter } from "next/navigation";
 
 const font = Dancing_Script({ subsets: ["latin"], weight: ["400", "700"] });
 
-const Logo = () => {
+interface LogoProps {
+  logoSize: number;
+  fontSize: string;
+}
+
+const Logo: React.FC<LogoProps> = ({ logoSize, fontSize }) => {
   const router = useRouter();
   return (
     <div
       className="text-main-teal flex items-center gap-2 cursor-pointer mx-auto"
       onClick={() => router.push("/")}
     >
-      <Image alt="logo" src={logo} height={35} width={35} />
-      <div className={`text-3xl ${font.className} font-bold`}>Fluffy Life</div>
+      <Image alt="logo" src={logo} height={logoSize} width={logoSize} />
+      <div className={`text-${fontSize} ${font.className} font-bold`}>
+        Fluffy Life
+      </div>
     </div>
   );
 };
