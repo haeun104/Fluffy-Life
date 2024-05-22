@@ -4,6 +4,7 @@ import room from "@/public/images/hotel-about.png";
 import grooming from "@/public/images/grooming-about.png";
 import playing from "@/public/images/playing-about.png";
 import event from "@/public/images/event-about.png";
+import Map from "@/components/contact/Map";
 
 const AboutPage = () => {
   return (
@@ -94,6 +95,9 @@ const AboutPage = () => {
           <li>Email: fluffylife@service.com</li>
           <li>Phone: 123-456-789</li>
         </ul>
+        <div className="">
+            <Map />
+        </div>
       </div>
     </Container>
   );
