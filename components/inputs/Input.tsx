@@ -28,7 +28,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="w-full flex flex-col mb-4">
-      <label htmlFor={id} className="mb-2 text-sm">
+      <label htmlFor={id} className="mt-2 text-sm">
         {label}
       </label>
       <input
