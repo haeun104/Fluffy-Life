@@ -1,4 +1,9 @@
 import Container from "@/components/Container";
+import Image from "next/image";
+import room from "@/public/images/hotel-about.png";
+import grooming from "@/public/images/grooming-about.png";
+import playing from "@/public/images/playing-about.png";
+import event from "@/public/images/event-about.png";
 
 const AboutPage = () => {
   return (
@@ -16,6 +21,20 @@ const AboutPage = () => {
         <h3 className="font-bold text-accent-light-green text-lg">
           Our Services
         </h3>
+        <div className="flex flex-col max-w-[350px] sm:flex-row sm:max-w-full  gap-2">
+          <div className="animate-fade-in-1 p-2 bg-white rounded-lg shadow-lg">
+            <Image src={room} alt="room" />
+          </div>
+          <div className="animate-fade-in-2 p-2 bg-white rounded-lg shadow-lg">
+            <Image src={grooming} alt="grooming" />
+          </div>
+          <div className="animate-fade-in-3 p-2 bg-white rounded-lg shadow-lg">
+            <Image src={playing} alt="playing" />
+          </div>
+          <div className="animate-fade-in-4 p-2 bg-white rounded-lg shadow-lg">
+            <Image src={event} alt="event" />
+          </div>
+        </div>
         <h4 className="font-bold text-main-gray">Luxury Dog Hotel</h4>
         <p>
           Our state-of-the-art dog hotel offers a safe, comfortable, and fun
