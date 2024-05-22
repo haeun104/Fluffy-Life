@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       <Container>
         <div className="flex lg:justify-between items-center gap-6">
           <MenuDropdown currentUser={currentUser} />
-          <Logo logoSize={35} fontSize="3xl" />
+          <Logo logoSize={35} />
           <Menubar currentUser={currentUser} />
           <UserMenu currentUser={currentUser} />
         </div>

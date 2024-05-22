@@ -10,7 +10,7 @@ const font = Dancing_Script({ subsets: ["latin"], weight: ["400", "700"] });
 
 interface LogoProps {
   logoSize: number;
-  fontSize: string;
+  fontSize?: string;
 }
 
 const Logo: React.FC<LogoProps> = ({ logoSize, fontSize }) => {
@@ -21,7 +21,7 @@ const Logo: React.FC<LogoProps> = ({ logoSize, fontSize }) => {
       onClick={() => router.push("/")}
     >
       <Image alt="logo" src={logo} height={logoSize} width={logoSize} />
-      <div className={`text-${fontSize} ${font.className} font-bold`}>
+      <div className={`${fontSize || "text-3xl"} ${font.className} font-bold`}>
         Fluffy Life
       </div>
     </div>

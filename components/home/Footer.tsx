@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className="p-4 max-w-[1024px] mx-auto">
       <div className="mb-4">
-        <Logo fontSize="xl" logoSize={25} />
+        <Logo logoSize={25} fontSize="text-lg" />
       </div>
 
       <div className="text-main-teal text-sm flex flex-col gap-4 md:flex-row md:gap-0 md:justify-between">
@@ -18,25 +18,25 @@ const Footer = () => {
             <h4 className="font-bold uppercase">menu</h4>
             <ul>
               <li
-                className="cursor-pointer"
+                className="cursor-pointer hover:underline"
                 onClick={() => router.push("/about")}
               >
                 About us
               </li>
               <li
-                className="cursor-pointer"
+                className="cursor-pointer hover:underline"
                 onClick={() => router.push("/hotel")}
               >
                 Hotel
               </li>
               <li
-                className="cursor-pointer"
+                className="cursor-pointer hover:underline"
                 onClick={() => router.push("/grooming")}
               >
                 Grooming
               </li>
               <li
-                className="cursor-pointer"
+                className="cursor-pointer hover:underline"
                 onClick={() => router.push("/events")}
               >
                 Events
