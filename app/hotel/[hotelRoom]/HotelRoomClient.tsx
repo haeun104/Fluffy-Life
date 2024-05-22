@@ -6,7 +6,7 @@ import RoomReservation from "@/components/hotel/RoomReservation";
 import RoomReviewList from "@/components/hotel/RoomReviewList";
 import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
-import { RoomData, UserData } from "@/types";
+import { RoomData, RoomReview, UserData } from "@/types";
 import { HotelReservation, HotelReview } from "@prisma/client";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
@@ -17,7 +17,7 @@ interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
   reservations: HotelReservation[] | undefined;
-  reviews: HotelReview[] | undefined;
+  reviews: RoomReview[] | undefined;
 }
 
 const initialDateRange = {

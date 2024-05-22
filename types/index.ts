@@ -24,7 +24,7 @@ export interface RoomReview {
   rating: number;
   review: string;
   createdAt: Date;
-  user: UserData;
+  user: User;
   room: Room;
 }
 
