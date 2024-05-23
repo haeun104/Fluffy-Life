@@ -3,6 +3,7 @@
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import grooming from "@/public/images/grooming.png";
 
 interface RoomItemProps {
   id: string;
@@ -26,8 +27,19 @@ const RoomItem: React.FC<RoomItemProps> = ({
   const router = useRouter();
   return (
     <div className="border-solid border-[1px] border-[#EEEEEE] rounded-lg overflow-hidden flex flex-col sm:flex-row ">
-      <div className="sm:max-h-[200px] sm:w-[350px] shrink-0">
-        <Image src={imageUrl} alt={roomType} height={200} width={350} priority/>
+      <div className="sm:max-h-[200px] sm:w-[350px] shrink-0 relative">
+        <Image
+          src={imageUrl}
+          alt={roomType}
+          height={200}
+          width={350}
+          priority
+        />
+        {groomingInclude && (
+          <div className="h-[70px] w-[70px] sm:h-[100px] sm:w-[100px] absolute right-2 bottom-2 rounded-full overflow-hidden border-main-gray border-[1px]">
+            <Image src={grooming} alt="grooming" />
+          </div>
+        )}
       </div>
       <div className="py-2 px-4 min-h-[100px] flex flex-col gap-2 justify-center">
         <h2 className="font-bold">{roomType}</h2>

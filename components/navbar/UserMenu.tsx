@@ -40,52 +40,54 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     }
   };
 
-  if (currentUser) {
-    return (
-      <div
-        className="flex h-full gap-2 items-center cursor-pointer"
-        ref={menuRef}
-      >
-        <div
-          className="text-main-gray font-semibold group-hover:text-white uppercase hidden lg:flex"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {currentUser.name}
-        </div>
-        <div
-          className="rounded-full overflow-hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <Image src={avatar} alt="avatar" height={30} width={30} />
-        </div>
-        {isOpen && (
-          <div className="absolute right-0 top-[69px] flex flex-col bg-white w-screen sm:w-[250px]">
-            <MenuItem
-              title="My Reservations"
-              style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
-              onClick={() => {
-                router.push("/reservations");
-                setIsOpen(false);
-              }}
-            />
-            <MenuItem
-              title="My Account"
-              style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
-              onClick={() => {
-                router.push("/account");
-                setIsOpen(false);
-              }}
-            />
-            <MenuItem
-              title="Sign Out"
-              onClick={() => logOut()}
-              style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
-            />
-          </div>
-        )}
-      </div>
-    );
+  if (currentUser === null) {
+    return <div className="h-[36px] w-[36px] lg:hidden"></div>;
   }
+
+  return (
+    <div
+      className="flex h-full gap-2 items-center cursor-pointer"
+      ref={menuRef}
+    >
+      <div
+        className="text-main-gray font-semibold group-hover:text-white uppercase hidden lg:flex"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {currentUser.name}
+      </div>
+      <div
+        className="rounded-full overflow-hidden"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <Image src={avatar} alt="avatar" height={30} width={30} />
+      </div>
+      {isOpen && (
+        <div className="absolute right-0 top-[69px] flex flex-col bg-white w-screen sm:w-[250px]">
+          <MenuItem
+            title="My Reservations"
+            style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
+            onClick={() => {
+              router.push("/reservations");
+              setIsOpen(false);
+            }}
+          />
+          <MenuItem
+            title="My Account"
+            style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
+            onClick={() => {
+              router.push("/account");
+              setIsOpen(false);
+            }}
+          />
+          <MenuItem
+            title="Sign Out"
+            onClick={() => logOut()}
+            style="text-main-gray px-4 py-2 indent-4 hover:bg-[#EEEEEE]"
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default UserMenu;
