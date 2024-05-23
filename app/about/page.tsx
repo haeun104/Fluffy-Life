@@ -96,7 +96,7 @@ const AboutPage = () => {
           <li>Phone: 123-456-789</li>
         </ul>
         <div className="">
-            <Map />
+          <Map />
         </div>
       </div>
     </Container>
