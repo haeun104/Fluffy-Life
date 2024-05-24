@@ -7,7 +7,7 @@ import RoomReviewList from "@/components/hotel/RoomReviewList";
 import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
 import { RoomData, RoomReview, UserData } from "@/types";
-import { HotelReservation, HotelReview } from "@prisma/client";
+import { HotelReservation } from "@prisma/client";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
