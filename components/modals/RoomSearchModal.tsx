@@ -43,7 +43,6 @@ const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
   const checkAvailableRoom = (data: FieldValues) => {
     searchAvailableRoom(data);
     roomSearchModal.onClose();
-    console.log(data);
   };
 
   return (

@@ -3,10 +3,13 @@
 import { FieldError, FieldValues, useForm } from "react-hook-form";
 import { getFormattedDate } from "@/util";
 import { IoMdSearch } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import queryString from "query-string";
+import { formatISO } from "date-fns";
 
 const QuickSearchBar = () => {
   const router = useRouter();
+  const params = useSearchParams();
 
   const {
     register,
@@ -26,13 +29,27 @@ const QuickSearchBar = () => {
   const service = watch("service");
 
   const submitQuickSearch = (data: FieldValues) => {
-    const query = new URLSearchParams(data).toString();
+    let query = {};
+    if (params) {
+      query = queryString.parse(params.toString());
+    }
+
+    let updatedQuery: any = { ...query, ...data };
+
+    updatedQuery.startDate = formatISO(data.startDate);
+    updatedQuery.endDate = formatISO(data.endDate);
+
     if (data.service === "hotel") {
-      router.push(`/hotel/${query}`);
+      const url = queryString.stringifyUrl(
+        {
+          url: "/hotel",
+          query: updatedQuery,
+        },
+        { skipNull: true }
+      );
+      router.push(url);
     }
-    if (data.service === "grooming") {
-      router.push(`/grooming/${query}`);
-    }
+
     reset();
   };
 

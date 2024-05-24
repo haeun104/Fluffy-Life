@@ -1,10 +1,15 @@
-
 import RoomList from "@/components/hotel/RoomList";
-import getAllRooms from "@/actions/getAllRooms";
 import Container from "@/components/Container";
+import getAvailableRooms, {
+  RoomSearchParams,
+} from "@/actions/getAvailableRooms";
 
-const HotelPage = async () => {
-  let rooms = await getAllRooms();
+const HotelPage = async ({
+  searchParams,
+}: {
+  searchParams: RoomSearchParams;
+}) => {
+  const rooms = await getAvailableRooms(searchParams);
 
   if (!rooms) {
     return null;
@@ -14,7 +19,12 @@ const HotelPage = async () => {
     <Container>
       <div className="py-10 max-w-[350px] sm:max-w-[800px] flex flex-col gap-4 mx-auto">
         <h2 className="text-main-teal text-lg font-bold">Rooms</h2>
-        <RoomList rooms={rooms} />
+        <RoomList
+          rooms={rooms}
+          startDate={searchParams.startDate}
+          endDate={searchParams.endDate}
+          roomType={searchParams.roomType}
+        />
       </div>
     </Container>
   );

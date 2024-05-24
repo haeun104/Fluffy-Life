@@ -7,10 +7,12 @@ import RoomSearchInputs from "../inputs/RoomSearchInputs";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RoomData } from "@/types";
-import getAvailableRooms from "@/actions/getAvailableRooms";
-import { useState } from "react";
-import { changeDateStrOrder } from "@/util";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import queryString from "query-string";
+import { formatISO } from "date-fns";
+import { changeDateFromString } from "@/util";
+import { GrPowerReset } from "react-icons/gr";
 
 export const schema = z
   .object({
@@ -43,51 +45,100 @@ export const schema = z
     }
   );
 
-interface RoomSearchBarProps {
-  updateAvailableRooms: (rooms: RoomData[] | undefined) => void;
+interface RoomSearchProps {
+  startDate: string | undefined;
+  endDate: string | undefined;
+  roomType: string | undefined;
 }
 
-const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
-  updateAvailableRooms,
+const RoomSearchBar: React.FC<RoomSearchProps> = ({
+  startDate,
+  endDate,
+  roomType,
 }) => {
+  const roomSearchModal = useRoomSearchModal();
+  const params = useSearchParams();
+  const router = useRouter();
+
   const [searchData, setSearchData] = useState({
-    startDate: "MM/DD/YYYY",
-    endDate: "MM/DD/YYYY",
+    startDate: "DD/MM/YYYY",
+    endDate: "DD/MM/YYYY",
     roomType: "All",
   });
 
-  const roomSearchModal = useRoomSearchModal();
+  useEffect(() => {
+    if (startDate && endDate) {
+      const start = changeDateFromString(startDate);
+      const end = changeDateFromString(endDate);
+      setSearchData((prev) => ({
+        ...prev,
+        startDate: start,
+        endDate: end,
+      }));
+    }
+    if (roomType) {
+      setSearchData((prev) => ({
+        ...prev,
+        roomType: roomType,
+      }));
+    }
+  }, [startDate, endDate, roomType]);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
     defaultValues: {
-      startDate: "",
-      endDate: "",
-      roomType: "All",
+      startDate: startDate ? new Date(startDate) : "",
+      endDate: endDate ? new Date(endDate) : "",
+      roomType: roomType || "All",
     },
     resolver: zodResolver(schema),
   });
 
-  const searchAvailableRoom = async (data: FieldValues) => {
-    try {
-      const availableRooms = await getAvailableRooms(data);
-      updateAvailableRooms(availableRooms);
-      setSearchData({
-        startDate: changeDateStrOrder(data.startDate),
-        endDate: changeDateStrOrder(data.endDate),
-        roomType: data.roomType,
-      });
-    } catch (error) {
-      console.error(error);
+  const searchAvailableRoom = (data: FieldValues) => {
+    let query = {};
+    if (params) {
+      query = queryString.parse(params.toString());
     }
+
+    let updatedQuery: any = { ...query, ...data };
+
+    updatedQuery.startDate = formatISO(data.startDate);
+    updatedQuery.endDate = formatISO(data.endDate);
+
+    const url = queryString.stringifyUrl(
+      {
+        url: "/hotel",
+        query: updatedQuery,
+      },
+      { skipNull: true }
+    );
+    router.push(url);
+  };
+
+  const resetSearch = () => {
+    setSearchData({
+      startDate: "DD/MM/YYYY",
+      endDate: "DD/MM/YYYY",
+      roomType: "All",
+    });
+    router.push("/hotel");
+    reset();
   };
 
   return (
     <>
-      <div className="hidden sm:flex gap-2 items-start">
+      <div className="hidden sm:flex gap-2 items-start relative">
+        <div
+          className="absolute -top-7 right-0 flex gap-1 items-center cursor-pointer"
+          onClick={resetSearch}
+        >
+          <span>reset</span>
+          <GrPowerReset size={20} className="" />
+        </div>
         <RoomSearchInputs
           register={register}
           errors={errors}
@@ -102,24 +153,29 @@ const RoomSearchBar: React.FC<RoomSearchBarProps> = ({
           </button>
         </div>
       </div>
-      <div
-        className="border-solid border-[1px] border-[#EEEEEE] rounded-lg p-2 flex justify-between items-center cursor-pointer sm:hidden"
-        onClick={() => roomSearchModal.onOpen()}
-      >
-        <div className="flex flex-col">
-          <span className="text-xs font-bold">Check-in</span>
-          <span className="text-sm">{searchData.startDate}</span>
+      <div className="relative sm:hidden">
+        <div className="absolute -top-7 right-3" onClick={resetSearch}>
+          <GrPowerReset size={18} />
         </div>
-        <div className="flex flex-col">
-          <span className="text-xs font-bold">Check-out</span>
-          <span className="text-sm">{searchData.endDate}</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-xs font-bold">Room type</span>
-          <span className="text-sm text-center">{searchData.roomType}</span>
-        </div>
-        <div>
-          <IoMdSearch size={28} />
+        <div
+          className="border-solid border-[1px] border-[#EEEEEE] rounded-lg p-2 flex justify-between items-center cursor-pointer"
+          onClick={() => roomSearchModal.onOpen()}
+        >
+          <div className="flex flex-col">
+            <span className="text-xs font-bold">Check-in</span>
+            <span className="text-sm">{searchData.startDate}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold">Check-out</span>
+            <span className="text-sm">{searchData.endDate}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold">Room type</span>
+            <span className="text-sm text-center">{searchData.roomType}</span>
+          </div>
+          <div>
+            <IoMdSearch size={28} />
+          </div>
         </div>
       </div>
       <RoomSearchModal searchAvailableRoom={searchAvailableRoom} />

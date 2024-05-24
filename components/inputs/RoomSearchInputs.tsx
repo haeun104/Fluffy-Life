@@ -38,8 +38,8 @@ const RoomSearchInputs: React.FC<RoomSearchInputsProps> = ({
         disabled={isSubmitting}
         min={getFormattedDate(new Date())}
       />
-      <div className="w-full flex flex-col mb-4">
-        <label htmlFor="roomType" className="mb-2 text-sm">
+      <div className="w-full flex flex-col mt-2">
+        <label htmlFor="roomType" className="text-sm">
           Room type
         </label>
         <select

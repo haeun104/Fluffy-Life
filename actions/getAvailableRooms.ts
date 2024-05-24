@@ -1,77 +1,49 @@
 "use server";
 
 import prisma from "@/prisma/prismadb";
-import { FieldValues } from "react-hook-form";
-import { isWithinInterval } from "date-fns";
-import { getFormattedDate } from "@/util";
-import getAllRooms from "./getAllRooms";
 
-export default async function getAvailableRooms(roomQuery: FieldValues) {
+export interface RoomSearchParams {
+  roomType?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export default async function getAvailableRooms(params: RoomSearchParams) {
   try {
-    const today = new Date();
+    const { roomType, startDate, endDate } = params;
 
-    const reservations = await prisma.hotelReservation.findMany({
-      where: {
-        endDate: {
-          gt: today,
-        },
-        room: {
-          roomType:
-            roomQuery.roomType !== "All" ? roomQuery.roomType : undefined,
-        },
-      },
-      include: {
-        room: true,
-      },
-    });
+    let query: any = {};
 
-    let bookedRooms: string[] = [];
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
 
-    reservations.forEach((reservation) => {
-      const startDate = getFormattedDate(reservation.startDate);
-      const endDate = getFormattedDate(reservation.endDate);
-
-      const start = isWithinInterval(new Date(startDate), {
-        start: new Date(roomQuery.startDate),
-        end: new Date(roomQuery.endDate),
-      });
-      const end = isWithinInterval(new Date(endDate), {
-        start: new Date(roomQuery.startDate),
-        end: new Date(roomQuery.endDate),
-      });
-
-      if (start || end) {
-        bookedRooms.push(reservation.roomId);
-      }
-    });
-
-    if (roomQuery.roomType === "All") {
-      const availableRooms = await prisma.room.findMany({
-        where: {
-          id: {
-            notIn: bookedRooms,
+      query.NOT = {
+        reservation: {
+          some: {
+            OR: [
+              {
+                endDate: { gte: start },
+                startDate: { lte: start },
+              },
+              {
+                startDate: { lte: end },
+                endDate: { gte: end },
+              },
+            ],
           },
         },
-      });
-
-      return availableRooms;
+      };
     }
-    if (bookedRooms.length > 0) {
-      return [];
+    if (roomType && roomType !== "All") {
+      query.roomType = roomType;
     }
 
-    if (bookedRooms.length === 0) {
-      const availableRoom = await prisma.room.findMany({
-        where: {
-          roomType: roomQuery.roomType,
-        },
-      });
-      return availableRoom;
-    }
+    const availableRooms = await prisma.room.findMany({
+      where: query,
+    });
 
-    const allRooms = await getAllRooms();
-
-    return allRooms;
+    return availableRooms;
   } catch (error) {
     console.error(error);
   }

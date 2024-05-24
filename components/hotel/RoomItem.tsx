@@ -52,7 +52,7 @@ const RoomItem: React.FC<RoomItemProps> = ({
         <Button
           title="Go to reserve"
           style="bg-main-gray max-w-[150px] text-sm my-2"
-          onClick={() => router.push(`/hotel/${id}`)}
+          onClick={() => router.push(`/room/${id}`)}
         />
       </div>
     </div>
