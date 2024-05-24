@@ -23,6 +23,16 @@ export function changeDateStrOrder(dateString: string) {
   return `${day}/${month}/${year}`;
 }
 
+// Change date string order to YYYY-MM-DD
+export function changeDateToYYYMMDD(dateString: string) {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${year}-${month}-${day}`;
+}
+
 // Change date format to DD/MM/YYYY from string
 
 export function changeDateFromString(dateString: string) {

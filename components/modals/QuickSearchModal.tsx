@@ -6,6 +6,58 @@ import { FieldError, FieldValues, useForm } from "react-hook-form";
 import { getFormattedDate } from "@/util";
 import Input from "../inputs/Input";
 import useSearchSubmit from "@/hooks/useSearchSubmit";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const schema = z
+  .object({
+    service: z.string(),
+    startDate: z.string().nullable(),
+    endDate: z.string().nullable(),
+    date: z.string().nullable(),
+  })
+  .refine(
+    (data) => {
+      if (data.service === "hotel") {
+        return data.startDate !== "" && data.endDate !== "";
+      }
+
+      return true;
+    },
+    {
+      message: "Both of check in and out dates need to be input",
+      path: ["startDate"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (
+        data.service === "hotel" &&
+        data.startDate !== null &&
+        data.endDate !== null
+      ) {
+        const start = new Date(data.startDate).getTime();
+        const end = new Date(data.endDate).getTime();
+        const isBothEmpty = isNaN(start) && isNaN(end);
+        return (start < end && start !== end) || isBothEmpty;
+      }
+
+      return true;
+    },
+    {
+      message: "Check-out date must be later than check-in date",
+      path: ["endDate"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.service === "grooming") {
+        return data.date !== "";
+      }
+      return true;
+    },
+    { message: "Date must be chosen", path: ["date"] }
+  );
 
 const QuickSearchModal = () => {
   const quickSearchModal = useQuickSearchModal();
@@ -23,12 +75,21 @@ const QuickSearchModal = () => {
       endDate: "",
       date: "",
     },
+    resolver: zodResolver(schema),
   });
 
   const service = watch("service");
 
   const submitQuickSearch = (data: FieldValues) => {
-    submitSearch(data);
+    let searchData;
+    if (data.service === "hotel") {
+      searchData = { ...data, date: "" };
+    }
+    if (data.service === "grooming") {
+      searchData = { ...data, startDate: "", endDate: "" };
+    }
+    submitSearch(searchData as FieldValues);
+    quickSearchModal.onClose();
   };
 
   const bodyContent = (

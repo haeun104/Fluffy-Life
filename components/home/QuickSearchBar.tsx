@@ -5,6 +5,8 @@ import { getFormattedDate } from "@/util";
 import { IoMdSearch } from "react-icons/io";
 import useQuickSearchModal from "@/hooks/useQuickSearchModal";
 import useSearchSubmit from "@/hooks/useSearchSubmit";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { schema } from "../modals/QuickSearchModal";
 
 const QuickSearchBar = () => {
   const quickSearchModal = useQuickSearchModal();
@@ -22,6 +24,7 @@ const QuickSearchBar = () => {
       endDate: "",
       date: "",
     },
+    resolver: zodResolver(schema),
   });
 
   const service = watch("service");
@@ -32,9 +35,9 @@ const QuickSearchBar = () => {
 
   return (
     <>
-      <div className="mx-auto hidden sm:flex">
+      <div className="mx-auto hidden sm:flex sm:flex-col">
         <div className="flex gap-2 bg-neutral-300 rounded-3xl p-2 text-[#31363F] shadow-md text-xs sm:text-sm">
-          <div className="flex flex-col text-start">
+          <div className="flex flex-col text-start ml-2">
             <label htmlFor="service" className="text-xs indent-1">
               Service
             </label>
@@ -46,12 +49,6 @@ const QuickSearchBar = () => {
               <option value="hotel">Hotel</option>
               <option value="grooming">Grooming</option>
             </select>
-
-            {errors["service"] && (
-              <span className="text-accent-red text-sm">
-                {(errors["service"] as FieldError).message}
-              </span>
-            )}
           </div>
           {service === "hotel" ? (
             <>
@@ -67,11 +64,6 @@ const QuickSearchBar = () => {
                   disabled={isSubmitting}
                   min={getFormattedDate(new Date())}
                 />
-                {errors["startDate"] && (
-                  <span className="text-accent-red text-sm">
-                    {(errors["startDate"] as FieldError).message}
-                  </span>
-                )}
               </div>
               <div className="flex flex-col text-start">
                 <label htmlFor="endDate" className="text-xs">
@@ -85,11 +77,6 @@ const QuickSearchBar = () => {
                   disabled={isSubmitting}
                   min={getFormattedDate(new Date())}
                 />
-                {errors["endDate"] && (
-                  <span className="text-accent-red text-sm">
-                    {(errors["endDate"] as FieldError).message}
-                  </span>
-                )}
               </div>
             </>
           ) : (
@@ -105,11 +92,6 @@ const QuickSearchBar = () => {
                 disabled={isSubmitting}
                 min={getFormattedDate(new Date())}
               />
-              {errors["date"] && (
-                <span className="text-accent-red text-sm">
-                  {(errors["date"] as FieldError).message}
-                </span>
-              )}
             </div>
           )}
           <div className="flex items-center justify-center sm:ml-2">
@@ -119,6 +101,23 @@ const QuickSearchBar = () => {
               onClick={handleSubmit(submitQuickSearch)}
             />
           </div>
+        </div>
+        <div>
+          {errors["startDate"] && (
+            <span className="text-accent-red text-sm">
+              {(errors["startDate"] as FieldError).message}
+            </span>
+          )}
+          {errors["endDate"] && (
+            <span className="text-accent-red text-sm">
+              {(errors["endDate"] as FieldError).message}
+            </span>
+          )}
+          {errors["date"] && (
+            <span className="text-accent-red text-sm">
+              {(errors["date"] as FieldError).message}
+            </span>
+          )}
         </div>
       </div>
       <div

@@ -8,11 +8,10 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import queryString from "query-string";
-import { formatISO } from "date-fns";
-import { changeDateFromString } from "@/util";
+import { useRouter } from "next/navigation";
+import { changeDateFromString, changeDateToYYYMMDD } from "@/util";
 import { GrPowerReset } from "react-icons/gr";
+import useSearchSubmit from "@/hooks/useSearchSubmit";
 
 export const schema = z
   .object({
@@ -57,8 +56,8 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
   roomType,
 }) => {
   const roomSearchModal = useRoomSearchModal();
-  const params = useSearchParams();
   const router = useRouter();
+  const { submitSearch } = useSearchSubmit();
 
   const [searchData, setSearchData] = useState({
     startDate: "DD/MM/YYYY",
@@ -70,6 +69,7 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
     if (startDate && endDate) {
       const start = changeDateFromString(startDate);
       const end = changeDateFromString(endDate);
+
       setSearchData((prev) => ({
         ...prev,
         startDate: start,
@@ -91,32 +91,16 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
     defaultValues: {
-      startDate: startDate ? new Date(startDate) : "",
-      endDate: endDate ? new Date(endDate) : "",
+      startDate: startDate ? changeDateToYYYMMDD(startDate) : "",
+      endDate: endDate ? changeDateToYYYMMDD(endDate) : "",
       roomType: roomType || "All",
     },
     resolver: zodResolver(schema),
   });
 
   const searchAvailableRoom = (data: FieldValues) => {
-    let query = {};
-    if (params) {
-      query = queryString.parse(params.toString());
-    }
-
-    let updatedQuery: any = { ...query, ...data };
-
-    updatedQuery.startDate = formatISO(data.startDate);
-    updatedQuery.endDate = formatISO(data.endDate);
-
-    const url = queryString.stringifyUrl(
-      {
-        url: "/hotel",
-        query: updatedQuery,
-      },
-      { skipNull: true }
-    );
-    router.push(url);
+    const searchData = { ...data, service: "hotel" };
+    submitSearch(searchData);
   };
 
   const resetSearch = () => {
