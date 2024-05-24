@@ -9,6 +9,7 @@ import health from "@/public/images/health-dog-room.png";
 import care from "@/public/images/care-room.png";
 import grooming from "@/public/images/grooming-room.png";
 import swimming from "@/public/images/swimming-pool-room.png";
+import house from "@/public/images/dog-house-room.png";
 import Image from "next/image";
 
 interface RoomReservationProps {
@@ -22,6 +23,11 @@ interface RoomReservationProps {
 }
 
 const roomDescription = [
+  {
+    description: "Single-occupancy room",
+    icon: house,
+    rooms: ["Suite", "Suite Package"],
+  },
   {
     description: "Ultra-comfortable bed",
     icon: bed,
@@ -73,12 +79,12 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
   );
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
+    <div className="flex flex-col lg:flex-row gap-4 lg:justify-between w-full">
       <div className="">
         <h2 className="text-main-teal font-bold mb-4">
           What this room provides
         </h2>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:grid sm:grid-cols-2">
           {descriptions.map((description, index) => (
             <div key={index} className="flex items-center gap-2">
               <Image
@@ -91,10 +97,23 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
             </div>
           ))}
         </div>
-        <p className="text-sm">
-          <span className="font-bold">{selectedRoom.roomPrice} PLN</span> per
-          night
-        </p>
+        <div className="mt-8">
+          <h2 className="text-main-teal font-bold mb-4">Things to know</h2>
+          <div className="flex flex-col">
+            <span>Check-in after 2:00 PM</span>
+            <span>Check-out before 11:00 PM</span>
+          </div>
+          <div className="flex flex-col mt-4">
+            <span>
+              Cancellation is possible up to 48 hours before the reservation
+              date.
+            </span>
+            <span>
+              Date changes can only be made by canceling the reservation and
+              re-booking.
+            </span>
+          </div>
+        </div>
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="font-bold">Select stay period</h2>

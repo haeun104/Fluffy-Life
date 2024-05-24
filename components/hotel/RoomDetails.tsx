@@ -8,9 +8,17 @@ interface RoomDetailProps {
 
 const RoomDetails: React.FC<RoomDetailProps> = ({ selectedRoom }) => {
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="font-bold text-lg">{selectedRoom.roomType}</h2>
-      <p className="text-sm text-main-gray">{selectedRoom.title}</p>
+    <div className="">
+      <div className="flex justify-between">
+        <h2 className="font-bold text-lg">{selectedRoom.roomType}</h2>
+        <p className="text-sm flex flex-col items-end mb-2">
+          <span className="font-bold text-lg">
+            {selectedRoom.roomPrice} PLN
+          </span>
+          per night
+        </p>
+      </div>
+      <p className="text-sm text-main-gray mb-4">{selectedRoom.title}</p>
       <div className="rounded-md overflow-hidden max-w-[900px] h-auto relative">
         <Image
           src={selectedRoom.imageUrl}
