@@ -3,19 +3,17 @@
 import { FieldError, FieldValues, useForm } from "react-hook-form";
 import { getFormattedDate } from "@/util";
 import { IoMdSearch } from "react-icons/io";
-import { useRouter, useSearchParams } from "next/navigation";
-import queryString from "query-string";
-import { formatISO } from "date-fns";
+import useQuickSearchModal from "@/hooks/useQuickSearchModal";
+import useSearchSubmit from "@/hooks/useSearchSubmit";
 
 const QuickSearchBar = () => {
-  const router = useRouter();
-  const params = useSearchParams();
+  const quickSearchModal = useQuickSearchModal();
+  const { submitSearch } = useSearchSubmit();
 
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -29,27 +27,7 @@ const QuickSearchBar = () => {
   const service = watch("service");
 
   const submitQuickSearch = (data: FieldValues) => {
-    let query = {};
-    if (params) {
-      query = queryString.parse(params.toString());
-    }
-
-    let updatedQuery: any = { ...query, ...data };
-
-    updatedQuery.startDate = formatISO(data.startDate);
-    updatedQuery.endDate = formatISO(data.endDate);
-
-    if (data.service === "hotel") {
-      const url = queryString.stringifyUrl(
-        {
-          url: "/hotel",
-          query: updatedQuery,
-        },
-        { skipNull: true }
-      );
-      router.push(url);
-    }
-    reset();
+    submitSearch(data);
   };
 
   return (
@@ -143,7 +121,10 @@ const QuickSearchBar = () => {
           </div>
         </div>
       </div>
-      <div className="shadow-md bg-neutral-300 rounded-3xl p-2 text-[#31363F] flex cursor-pointer min-w-[300px] max-w-[350px] mx-auto sm:hidden">
+      <div
+        className="shadow-md bg-neutral-300 rounded-3xl p-2 text-[#31363F] flex cursor-pointer min-w-[300px] max-w-[350px] mx-auto sm:hidden"
+        onClick={() => quickSearchModal.onOpen()}
+      >
         <div className="text-sm ml-2 flex flex-col flex-1">
           <span className="font-bold">What you need for your dog</span>
           <span>Service &middot; Check-in &middot; Check-out</span>

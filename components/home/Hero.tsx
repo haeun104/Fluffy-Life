@@ -1,7 +1,9 @@
+import QuickSearchModal from "../modals/QuickSearchModal";
 import QuickSearchBar from "./QuickSearchBar";
 
 const Hero = () => {
   return (
+    <>
     <div className="w-full flex flex-col lg:flex-row">
       <div className="h-[600px] lg:w-[50%] xl:w-[60%] 2xl:w-[70%] bg-cover bg-center animate-heroAnimation"></div>
       <div className="flex flex-col justify-center px-6 py-10 text-main-teal gap-4 bg-light-beige lg:w-[50%] xl:w-[40%] 2xl:w-[30%] lg:h-[600px] text-center">
@@ -13,6 +15,8 @@ const Hero = () => {
         <QuickSearchBar />
       </div>
     </div>
+    <QuickSearchModal />
+    </>
   );
 };
 
