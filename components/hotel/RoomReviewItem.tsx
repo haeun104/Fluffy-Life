@@ -39,7 +39,7 @@ const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
           );
         })}
       </div>
-      <div className="text-sm mt-2">{formattedDate}</div>
+      <div className="text-xs mt-2">{formattedDate}</div>
       <div className="text-sm mt-2">
         <p className={`mb-2 ${modal ? "break-words" : "truncate"}`}>{review}</p>
         {review.length >= 70 && !modal && (

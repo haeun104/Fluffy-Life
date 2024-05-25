@@ -9,7 +9,7 @@ interface AverageRatingProps {
 }
 
 const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
-  const [totalRating, setRating] = useState<number>();
+  const [totalRating, setRating] = useState<number>(0);
 
   useEffect(() => {
     if (reviews) {
@@ -25,29 +25,29 @@ const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
     }
   }, [reviews]);
 
-  if (reviews && totalRating) {
-    return (
-      <div>
-        <div className="text-sm">
-          <span className="text-lg font-bold">{totalRating.toFixed(2)}</span> /
-          5
-        </div>
-        <div className="flex">
-          {[...Array(5)].map((star, index) => {
-            const rating = index + 1;
-            return (
-              <div key={index}>
-                <MdStarOutline
-                  size={18}
-                  color={rating <= totalRating ? "#000000" : "#e4e5e9"}
-                />
-              </div>
-            );
-          })}
-        </div>
+  const isNoReviews = !reviews || reviews.length === 0;
+  const displayRating = isNoReviews ? 0 : totalRating?.toFixed(2);
+
+  return (
+    <div>
+      <div className="text-sm">
+        <span className="text-lg font-bold">{displayRating}</span> / 5
       </div>
-    );
-  }
+      <div className="flex">
+        {[...Array(5)].map((star, index) => {
+          const rating = index + 1;
+          return (
+            <div key={index}>
+              <MdStarOutline
+                size={18}
+                color={rating <= totalRating ? "#000000" : "#e4e5e9"}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default AverageRating;
