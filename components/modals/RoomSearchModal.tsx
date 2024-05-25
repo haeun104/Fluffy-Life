@@ -17,12 +17,13 @@ const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
     defaultValues: {
       startDate: "",
       endDate: "",
-      roomType: "all",
+      roomType: "All",
     },
     resolver: zodResolver(schema),
   });
@@ -42,6 +43,7 @@ const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
 
   const checkAvailableRoom = (data: FieldValues) => {
     searchAvailableRoom(data);
+    reset();
     roomSearchModal.onClose();
   };
 

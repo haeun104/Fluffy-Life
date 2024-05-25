@@ -21,10 +21,7 @@ export const schema = z
   })
   .refine(
     (data) => {
-      return (
-        (data.startDate !== "" && data.endDate !== "") ||
-        (data.startDate === "" && data.endDate === "")
-      );
+      return data.startDate !== "" && data.endDate !== "";
     },
     {
       message: "Both of check in and out dates need to be input",
@@ -142,7 +139,10 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
         </div>
       </div>
       <div className="relative sm:hidden">
-        <div className="absolute -top-7 right-3" onClick={resetSearch}>
+        <div
+          className="absolute -top-7 right-3 cursor-pointer"
+          onClick={resetSearch}
+        >
           <GrPowerReset size={18} />
         </div>
         <div
