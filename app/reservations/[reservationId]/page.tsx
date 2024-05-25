@@ -31,7 +31,7 @@ const ReservationDetailPage = async ({
               <div className="rounded-md overflow-hidden h-[200px] relative">
                 <Image src={imageUrl} alt={roomType} fill priority />
               </div>
-              <div className="font-bold mt-2">{roomType}</div>
+              <div className="font-bold mt-4">{roomType}</div>
               <div className="flex justify-between">
                 <h4>Check-in</h4>
                 <div>{reservation.startDate}</div>

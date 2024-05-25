@@ -113,24 +113,26 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
         />
       </div>
       {disabled ? (
-        <Button
-          title="Edit"
-          style="bg-accent-light-green"
-          onClick={() => setDisabled(false)}
-          disabled={isSubmitting}
-        />
+        <div className="flex mx-auto">
+          <Button
+            title="Edit"
+            style="bg-accent-light-green flex-1 w-[200px]"
+            onClick={() => setDisabled(false)}
+            disabled={isSubmitting}
+          />
+        </div>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex gap-2 mx-auto">
           <Button
             title="Save"
-            style="bg-main-teal flex-1"
+            style="bg-main-teal flex-1 w-[150px]"
             onClick={handleSubmit(updatePetInfo)}
             disabled={isSubmitting}
           />
           <Button
             title="Cancel"
             onClick={handleCancelClick}
-            style="bg-main-gray flex-1"
+            style="bg-main-gray flex-1 w-[150px]"
             disabled={isSubmitting}
           />
         </div>
