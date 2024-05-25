@@ -35,7 +35,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 
   const schema = z.object({
     petName: z.string().min(1, { message: "Name must be input" }),
-    chipNumber: z.string().min(1, { message: "Name must be input" }),
+    chipNumber: z.string().min(1, { message: "Chip number must be input" }),
     mobile: z.union([
       z.string().length(9, { message: "Enter 9 digits" }),
       z.number().min(100000000).max(999999999),
@@ -74,7 +74,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
           </div>
           <div className="flex justify-between mb-4">
             <span>Total price</span>
-            <span className="font-bold">Total {totalPrice} PLN</span>
+            <span className="font-bold">{totalPrice} PLN</span>
           </div>
         </div>
       </div>

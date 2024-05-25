@@ -8,24 +8,25 @@ interface CalendarProps {
   value: Range;
   onChange: (value: RangeKeyDict) => void;
   disableDates: Date[];
+  earliestDate: Date;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
   value,
   onChange,
   disableDates,
+  earliestDate,
 }) => {
   return (
     <DateRange
       rangeColors={["#262626"]}
       ranges={[value]}
       onChange={onChange}
-      date={new Date()}
+      date={earliestDate}
       direction="vertical"
       showDateDisplay={false}
       minDate={new Date()}
       disabledDates={disableDates}
-      className=""
     />
   );
 };

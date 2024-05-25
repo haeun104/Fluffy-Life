@@ -20,6 +20,7 @@ interface RoomReservationProps {
   totalPrice: number;
   totalDays: number;
   disableDates: Date[];
+  earliestDate: Date;
 }
 
 const roomDescription = [
@@ -73,6 +74,7 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
   totalPrice,
   totalDays,
   disableDates,
+  earliestDate,
 }) => {
   const descriptions = roomDescription.filter((item) =>
     item.rooms.includes(selectedRoom.roomType)
@@ -122,6 +124,7 @@ const RoomReservation: React.FC<RoomReservationProps> = ({
             value={dataRange}
             onChange={(value) => onChangeDate(value.selection)}
             disableDates={disableDates}
+            earliestDate={earliestDate}
           />
           <div className="flex">
             <Button
