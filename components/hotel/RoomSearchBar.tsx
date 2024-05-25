@@ -110,7 +110,11 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
       roomType: "All",
     });
     router.push("/hotel");
-    reset();
+    reset({
+      startDate: "",
+      endDate: "",
+      roomType: "All",
+    });
   };
 
   return (
