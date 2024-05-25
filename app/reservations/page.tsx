@@ -1,5 +1,5 @@
 import getCurrentUser from "@/actions/getCurrentUser";
-import getHotelReservation from "@/actions/getHotelReservationsByUser";
+import getHotelReservationByUser from "@/actions/getHotelReservationsByUser";
 import getHotelReviews from "@/actions/getHotelReviews";
 import Container from "@/components/Container";
 import HotelReservations from "@/components/reservation/HotelReservations";
@@ -8,8 +8,11 @@ const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (currentUser) {
-    const hotelReservations = await getHotelReservation(currentUser.id);
+    const hotelReservations = await getHotelReservationByUser(currentUser.id);
     const hotelReviews = await getHotelReviews(currentUser.id, true);
+    hotelReservations?.sort(
+      (a, b) => a.startDate.getTime() - b.startDate.getTime()
+    );
 
     return (
       <Container>

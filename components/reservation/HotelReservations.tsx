@@ -2,8 +2,8 @@
 
 import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
-import HotelReviewModal from "../modals/ReviewRegistrationModal";
-import { useCallback, useState } from "react";
+import ReviewRegistrationModal from "../modals/ReviewRegistrationModal";
+import { useState } from "react";
 import { RoomData, UserData } from "@/types";
 import useHotelReviewModal from "@/hooks/useReviewRegistrationModal";
 
@@ -11,6 +11,7 @@ interface HotelReservation {
   id: string;
   userId: string;
   roomId: string;
+  petName: string;
   petChipNumber: string;
   startDate: Date;
   endDate: Date;
@@ -100,7 +101,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
           </div>
         )}
       </div>
-      <HotelReviewModal
+      <ReviewRegistrationModal
         reservation={bookingForReview}
         review={reviewToUpdate}
         currentUser={currentUser.id}
