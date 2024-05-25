@@ -23,7 +23,7 @@ interface RoomReservationProps {
   earliestDate: Date;
 }
 
-const roomDescription = [
+export const roomDescription = [
   {
     description: "Single-occupancy room",
     icon: house,

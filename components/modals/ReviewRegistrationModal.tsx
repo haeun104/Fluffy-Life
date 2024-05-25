@@ -65,13 +65,8 @@ const HotelReviewModal: React.FC<HotelReviewModalProps> = ({
       <div className="flex flex-col gap-4">
         {room && reservation && (
           <div className="flex gap-2">
-            <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden">
-              <Image
-                src={room.imageUrl}
-                alt={room.roomType}
-                height={70}
-                width={70}
-              />
+            <div className="w-[70px] border-solid border-[1px] border-[#EEEEEE] rounded-md overflow-hidden relative">
+              <Image src={room.imageUrl} alt={room.roomType} fill />
             </div>
             <div className="flex-1 flex flex-col justify-between">
               <h3 className="">{room.roomType}</h3>

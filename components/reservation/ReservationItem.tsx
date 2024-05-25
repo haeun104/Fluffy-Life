@@ -69,7 +69,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   };
 
   const goToReservationPage = (roomId: string) => {
-    router.push(`/hotel/${roomId}`);
+    router.push(`/room/${roomId}`);
   };
 
   const handleCancelClick = async (reservationId: string) => {

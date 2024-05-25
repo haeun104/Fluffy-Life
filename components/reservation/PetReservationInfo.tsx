@@ -6,10 +6,10 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import Button from "../Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { schema } from "../inputs/PetInputs";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 interface PetReservationInfoProps {
   reservation: HotelReservationData;
@@ -24,10 +24,16 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 
   const router = useRouter();
 
+  const schema = z.object({
+    name: z.string().min(1, { message: "Name must be input" }),
+    chipNumber: z.string().min(1, { message: "Chip number must be input" }),
+  });
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
     defaultValues: {
       name: reservation.petName,
@@ -41,15 +47,26 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 
   const updatePetInfo = async (data: FieldValues) => {
     try {
-      setDisabled(true);
       const dataToUpdate = { ...data, userId: reservation.userId };
       await axios.put(`/api/hotelReservation/${reservation.id}`, dataToUpdate);
       toast.success("Successfully updated!");
       router.refresh();
+      setDisabled(true);
     } catch (error) {
       toast.error("Failed to update pet info");
       console.error(error);
     }
+  };
+
+  const handleCancelClick = () => {
+    setDisabled(true);
+    reset({
+      name: reservation.petName,
+      chipNumber: reservation.petChipNumber,
+      breed: breed || "",
+      age: age || null,
+      remark: remark || "",
+    });
   };
 
   return (
@@ -77,7 +94,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           label="Breed"
           register={register}
           errors={errors}
-          required
           disabled={disabled}
         />
         <Input
@@ -85,7 +101,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           label="Age"
           register={register}
           errors={errors}
-          required
           disabled={disabled}
           type="number"
         />
@@ -94,7 +109,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           label="Remark"
           register={register}
           errors={errors}
-          required
           disabled={disabled}
         />
       </div>
@@ -103,6 +117,7 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           title="Edit"
           style="bg-accent-light-green"
           onClick={() => setDisabled(false)}
+          disabled={isSubmitting}
         />
       ) : (
         <div className="flex gap-2">
@@ -110,11 +125,13 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
             title="Save"
             style="bg-main-teal flex-1"
             onClick={handleSubmit(updatePetInfo)}
+            disabled={isSubmitting}
           />
           <Button
             title="Cancel"
-            onClick={() => setDisabled(true)}
+            onClick={handleCancelClick}
             style="bg-main-gray flex-1"
+            disabled={isSubmitting}
           />
         </div>
       )}

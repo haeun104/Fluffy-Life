@@ -1,5 +1,6 @@
 import getHotelReservationById from "@/actions/getHotelReservationById";
 import Container from "@/components/Container";
+import { roomDescription } from "@/components/hotel/RoomReservation";
 import PetReservationInfo from "@/components/reservation/PetReservationInfo";
 import Image from "next/image";
 
@@ -15,7 +16,10 @@ const ReservationDetailPage = async ({
   const reservation = await getHotelReservationById(params.reservationId);
 
   if (reservation) {
-    const { imageUrl, roomType, description } = reservation.room;
+    const { imageUrl, roomType } = reservation.room;
+    const descriptions = roomDescription.filter((item) =>
+      item.rooms.includes(roomType)
+    );
 
     return (
       <Container>
@@ -24,10 +28,10 @@ const ReservationDetailPage = async ({
           <div className="my-4">
             <h3 className="font-bold text-accent-light-green mb-4">Room</h3>
             <div className="flex flex-col gap-2">
-              <div className="rounded-md overflow-hidden h-[200px]">
-                <Image src={imageUrl} alt={roomType} width={350} height={200} priority/>
+              <div className="rounded-md overflow-hidden h-[200px] relative">
+                <Image src={imageUrl} alt={roomType} fill priority />
               </div>
-              <div className="font-bold">{roomType}</div>
+              <div className="font-bold mt-2">{roomType}</div>
               <div className="flex justify-between">
                 <h4>Check-in</h4>
                 <div>{reservation.startDate}</div>
@@ -40,13 +44,38 @@ const ReservationDetailPage = async ({
                 <h4>Total Price</h4>
                 <div>{reservation.totalPrice} PLN</div>
               </div>
-              <div className="flex flex-col">
-                <h4>Room Information</h4>
-                <div>{description} </div>
+              <div className="my-4">
+                <h4 className="mb-2 font-bold">Services included</h4>
+                <div className="flex flex-col gap-4 sm:flex-row sm:grid sm:grid-cols-2">
+                  {descriptions.map((description, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Image
+                        src={description.icon}
+                        alt={description.description}
+                        height={30}
+                        width={30}
+                      />
+                      <p>{description.description}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-col">
-                <h4>Additional Information</h4>
-                <div>...</div>
+              <div>
+                <h4 className="mb-4 font-bold">Additional Information</h4>
+                <div className="flex flex-col">
+                  <span>Check-in after 2:00 PM</span>
+                  <span>Check-out before 11:00 PM</span>
+                </div>
+                <div className="flex flex-col mt-4">
+                  <span>
+                    Cancellation is possible up to 48 hours before the
+                    reservation date.
+                  </span>
+                  <span>
+                    Date changes can only be made by canceling the reservation
+                    and re-booking.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
