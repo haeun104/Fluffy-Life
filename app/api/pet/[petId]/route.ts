@@ -1,13 +1,13 @@
 import prisma from "@/prisma/prismadb";
 import { NextResponse } from "next/server";
 
-interface RequestParams {
+interface PetRequestParams {
   petId: string;
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: RequestParams }
+  { params }: { params: PetRequestParams }
 ) {
   const { petId } = params;
 
@@ -18,4 +18,26 @@ export async function DELETE(
   });
 
   return NextResponse.json(deletePet);
+}
+
+export async function PUT(
+  request: Request,
+  { params }: { params: PetRequestParams }
+) {
+  const { petId } = params;
+  const body = await request.json();
+  const { breed, age, remark } = body;
+
+  const updatePetInfo = await prisma.pet.update({
+    where: {
+      id: petId,
+    },
+    data: {
+      breed,
+      age,
+      remark,
+    },
+  });
+
+  return NextResponse.json(updatePetInfo);
 }

@@ -7,7 +7,6 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { UserData } from "@/types";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -20,7 +19,6 @@ interface PetInputsProps {
   chipNumber: string;
   remark: string | null;
   number: number;
-  currentUser: UserData | null;
 }
 
 interface initialInputStatesType {
@@ -38,6 +36,12 @@ const initialInputStates = [
     editDisable: true,
   },
   {
+    id: "chipNumber",
+    label: "Chip Number",
+    btnLabel: "Edit",
+    editDisable: true,
+  },
+  {
     id: "breed",
     label: "Breed",
     btnLabel: "Edit",
@@ -50,12 +54,6 @@ const initialInputStates = [
     editDisable: true,
   },
   {
-    id: "chipNumber",
-    label: "Chip Number",
-    btnLabel: "Edit",
-    editDisable: true,
-  },
-  {
     id: "remark",
     label: "Remark",
     btnLabel: "Edit",
@@ -64,11 +62,14 @@ const initialInputStates = [
 ];
 
 export const schema = z.object({
-  name: z.string().min(1, { message: "Name must be input" }),
-  breed: z.string().nullable(),
-  age: z.number().nullable(),
-  chipNumber: z.string().min(1, { message: "Chip number must be input" }),
-  remark: z.string().nullable(),
+  breed: z.string(),
+  age: z.preprocess((val) => {
+    if (typeof val === "string" && val.trim() !== "") {
+      return parseInt(val, 10);
+    }
+    return val;
+  }, z.number()),
+  remark: z.string(),
 });
 
 const PetInputs: React.FC<PetInputsProps> = ({
@@ -79,7 +80,6 @@ const PetInputs: React.FC<PetInputsProps> = ({
   chipNumber,
   remark,
   number,
-  currentUser,
 }) => {
   const [inputStates, setInputStates] =
     useState<initialInputStatesType[]>(initialInputStates);
@@ -89,7 +89,8 @@ const PetInputs: React.FC<PetInputsProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       name,
@@ -114,24 +115,24 @@ const PetInputs: React.FC<PetInputsProps> = ({
       return state;
     });
     setInputStates(updatedInputs);
+    reset({
+      name,
+      breed,
+      age,
+      chipNumber,
+      remark,
+    });
   };
 
   // Update pet info in DB
   const updatePetInfo = async (data: FieldValues) => {
-    if (currentUser) {
-      try {
-        const dataToUpdate = {
-          ...data,
-          age: parseFloat(data.age),
-          userId: currentUser.id,
-          id: id,
-        };
-        axios.post("/api/pet", dataToUpdate);
-        router.refresh();
-      } catch (error) {
-        toast.error("Something went wrong");
-        console.error(error);
-      }
+    try {
+      await axios.put(`/api/pet/${id}`, data);
+      toast.success("Successfully updated");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
     }
   };
 
@@ -173,20 +174,23 @@ const PetInputs: React.FC<PetInputsProps> = ({
               label={item.label}
               errors={errors}
               disabled={item.editDisable}
-              type={item.id === "age" ? "number" : "text"}
             />
-            <button
-              type="button"
-              onClick={() => updateEditableState(item.id)}
-              className="underline absolute top-0 right-0"
-            >
-              {item.btnLabel}
-            </button>
+            {item.id !== "name" && item.id !== "chipNumber" && (
+              <button
+                type="button"
+                onClick={() => updateEditableState(item.id)}
+                className="underline absolute top-0 right-0"
+                disabled={isSubmitting}
+              >
+                {item.btnLabel}
+              </button>
+            )}
             {!item.editDisable && (
               <Button
                 title="Save"
                 style="mb-4 bg-accent-light-green"
                 onClick={() => handleSaveClick(item.id)}
+                disabled={isSubmitting}
               />
             )}
           </div>
