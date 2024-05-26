@@ -1,17 +1,15 @@
 "use client";
 
-import { UserData } from "@/types";
 import { Pet } from "@prisma/client";
 import PetInputs from "../inputs/PetInputs";
 import { IoMdAddCircle } from "react-icons/io";
 import usePetRegisterModal from "@/hooks/usePetRegisterModal";
 
 interface PetInfoProps {
-  currentUser: UserData | null;
   pets: Pet[] | undefined;
 }
 
-const PetInfo: React.FC<PetInfoProps> = ({ currentUser, pets }) => {
+const PetInfo: React.FC<PetInfoProps> = ({ pets }) => {
   const petRegisterModal = usePetRegisterModal();
   return (
     <div>

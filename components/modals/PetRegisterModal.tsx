@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { UserData } from "@/types";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface PetRegisterModalProps {
   currentUser: UserData | null;
@@ -16,12 +18,37 @@ interface PetRegisterModalProps {
 const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
   const petRegisterModal = usePetRegisterModal();
 
+  const schema = z.object({
+    name: z.string().min(1, { message: "Name must be input" }),
+    chipNumber: z.string().min(1, { message: "Chip number must be input" }),
+    breed: z.string(),
+    age: z.preprocess((val) => {
+      if (typeof val === "string" && val.trim() !== "") {
+        return parseInt(val, 10);
+      }
+      if (val === "") {
+        return null;
+      }
+      return val;
+    }, z.number().nullable()),
+    remark: z.string(),
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<FieldValues>({
+    defaultValues: {
+      name: "",
+      chipNumber: "",
+      breed: "",
+      age: "",
+      remark: "",
+    },
+    resolver: zodResolver(schema),
+  });
 
   const router = useRouter();
 
@@ -34,7 +61,13 @@ const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
           label="Name"
           register={register}
           errors={errors}
-          required
+          disabled={isSubmitting}
+        />
+        <Input
+          id="chipNumber"
+          label="Chip Number"
+          register={register}
+          errors={errors}
           disabled={isSubmitting}
         />
         <Input
@@ -48,16 +81,7 @@ const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
           id="age"
           label="Age"
           register={register}
-          type="number"
           errors={errors}
-          disabled={isSubmitting}
-        />
-        <Input
-          id="chipNumber"
-          label="Chip Number"
-          register={register}
-          errors={errors}
-          required
           disabled={isSubmitting}
         />
         <Input
@@ -83,20 +107,32 @@ const PetRegisterModal: React.FC<PetRegisterModalProps> = ({ currentUser }) => {
       petRegisterModal.onClose();
       reset();
       router.refresh();
-    } catch (error) {
-      toast.error("Failed to register a pet");
-      console.error(error);
+    } catch (error: any) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          toast.error("Pet already exists");
+        }
+      } else {
+        toast.error("Failed to register a pet");
+        console.error(error);
+      }
     }
+  };
+
+  const handleCloseClick = () => {
+    petRegisterModal.onClose();
+    reset();
   };
 
   return (
     <Modal
       isOpen={petRegisterModal.isOpen}
-      onClose={petRegisterModal.onClose}
+      onClose={handleCloseClick}
       bodyContent={bodyContent}
       actionLabel="register"
       style="bg-accent-light-green"
       onSubmit={handleSubmit(registerPet)}
+      disabled={isSubmitting}
     />
   );
 };
