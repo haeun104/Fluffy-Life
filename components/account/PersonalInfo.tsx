@@ -139,13 +139,16 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
               errors={errors}
               disabled={item.editDisable}
             />
-            <button
-              type="button"
-              onClick={() => updateEditableState(item.id)}
-              className="underline absolute top-0 right-0"
-            >
-              {item.btnLabel}
-            </button>
+            {item.id !== "name" && item.id !== "email" && (
+              <button
+                type="button"
+                onClick={() => updateEditableState(item.id)}
+                className="underline absolute top-0 right-0"
+              >
+                {item.btnLabel}
+              </button>
+            )}
+
             {!item.editDisable && (
               <Button
                 title="Save"
