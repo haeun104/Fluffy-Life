@@ -99,8 +99,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   const updateUserInfo = async (data: FieldValues) => {
     try {
       if (currentUser) {
-        const dataToUpdate = { ...data, userId: currentUser.id };
-        axios.post("/api/account", dataToUpdate);
+        await axios.put(`/api/account/${currentUser.id}`, data);
+        toast.success("Successfully updated");
         router.refresh();
         return;
       }

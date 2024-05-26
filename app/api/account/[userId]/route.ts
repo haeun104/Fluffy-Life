@@ -1,19 +1,25 @@
 import prisma from "@/prisma/prismadb";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { userId: string } }
+) {
+  const { userId } = params;
   const body = await request.json();
-  const { mobile, street, city, postalCode, userId } = body;
+  const { name, email, street, city, postalCode, mobile } = body;
 
   const updatePersonalInfo = await prisma.user.update({
     where: {
       id: userId,
     },
     data: {
-      mobile,
+      name,
+      email,
       street,
       city,
       postalCode,
+      mobile,
     },
   });
 
