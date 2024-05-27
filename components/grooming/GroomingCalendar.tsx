@@ -5,8 +5,12 @@ import "react-date-range/dist/theme/default.css";
 
 import { Calendar } from "react-date-range";
 
-const GroomingCalendar = () => {
-  return <Calendar minDate={new Date()} />;
+interface GroomingCalendarProps {
+  onChange: (date: Date) => void;
+}
+
+const GroomingCalendar: React.FC<GroomingCalendarProps> = ({ onChange }) => {
+  return <Calendar minDate={new Date()} onChange={onChange} />;
 };
 
 export default GroomingCalendar;
