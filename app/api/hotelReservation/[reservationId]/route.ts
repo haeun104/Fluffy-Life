@@ -37,10 +37,8 @@ export async function PUT(
       pet: {
         upsert: {
           update: {
-            name,
             breed,
             age,
-            chipNumber,
             remark,
           },
           create: {
@@ -53,7 +51,6 @@ export async function PUT(
           },
         },
       },
-      petName: name,
     },
   });
 

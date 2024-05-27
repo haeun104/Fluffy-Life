@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { schema } from "../inputs/PetInputs";
 
 interface PetReservationInfoProps {
   reservation: HotelReservationData;
@@ -23,11 +23,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
   const { age, breed, remark } = reservation.pet;
 
   const router = useRouter();
-
-  const schema = z.object({
-    name: z.string().min(1, { message: "Name must be input" }),
-    chipNumber: z.string().min(1, { message: "Chip number must be input" }),
-  });
 
   const {
     register,
@@ -47,7 +42,12 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 
   const updatePetInfo = async (data: FieldValues) => {
     try {
-      const dataToUpdate = { ...data, userId: reservation.userId };
+      const dataToUpdate = {
+        ...data,
+        name: reservation.petName,
+        chipNumber: reservation.petChipNumber,
+        userId: reservation.userId,
+      };
       await axios.put(`/api/hotelReservation/${reservation.id}`, dataToUpdate);
       toast.success("Successfully updated!");
       router.refresh();
@@ -78,16 +78,14 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           label="Name"
           register={register}
           errors={errors}
-          required
-          disabled={disabled}
+          disabled
         />
         <Input
           id="chipNumber"
           label="Chip Number"
           register={register}
           errors={errors}
-          required
-          disabled={disabled}
+          disabled
         />
         <Input
           id="breed"
