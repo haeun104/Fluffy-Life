@@ -92,11 +92,15 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     </>
   );
 
-  const createReservation: SubmitHandler<FieldValues> = (data) => {
+  const createReservation: SubmitHandler<FieldValues> = async (data) => {
     const { chipNumber, mobile, petName } = data;
+    
     if (currentUser !== null) {
-      axios
-        .post("/api/hotelReservation", {
+      try {
+        const petResponse = await axios.get(`/api/pet/${chipNumber}`);
+        const petExists = petResponse.data;        
+
+        await axios.post("/api/hotelReservation", {
           userId: currentUser.id,
           roomId: selectedRoom.id,
           petName: petName,
@@ -104,29 +108,29 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
           startDate: dataRange.startDate,
           endDate: dataRange.endDate,
           totalPrice,
-        })
-        .then(() => {
-          if (profileUpdate) {
-            axios.post("/api/account", {
-              mobile: mobile,
-              userId: currentUser.id,
-            });
-            axios.post("/api/pet", {
+        });
+
+        if (profileUpdate) {
+          await axios.put(`/api/account/${currentUser.id}`, {
+            mobile: mobile,
+          });
+
+          if (!petExists) {
+            await axios.post("/api/pet", {
               name: petName,
               chipNumber: chipNumber,
               userId: currentUser.id,
             });
           }
-        })
-        .then(() => {
-          toast.success("Successfully reserved!");
-          router.push("/");
-          reservationModal.onClose();
-        })
-        .catch((error) => {
-          toast.error("Something went wrong");
-          console.error(error);
-        });
+        }
+
+        toast.success("Successfully reserved!");
+        router.push("/");
+        reservationModal.onClose();
+      } catch (error) {
+        toast.error("Something went wrong");
+        console.error(error);
+      }
     }
   };
 

@@ -41,3 +41,18 @@ export async function PUT(
 
   return NextResponse.json(updatePetInfo);
 }
+
+export async function GET(
+  request: Request,
+  { params }: { params: PetRequestParams }
+) {
+  const { petId } = params;
+
+  const existingPet = await prisma.pet.findUnique({
+    where: {
+      chipNumber: petId,
+    },
+  });
+
+  return NextResponse.json(existingPet);
+}

@@ -84,7 +84,7 @@ model HotelReservation {
   userId        String   @db.ObjectId
   roomId        String   @db.ObjectId
   petName       String
-  petChipNumber String  
+  petChipNumber String   
   startDate     DateTime
   endDate       DateTime
   totalPrice    Int
