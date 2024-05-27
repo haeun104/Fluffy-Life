@@ -27,10 +27,11 @@ model User {
   postalCode     String?
   mobile         String?
 
-  accounts          Account[]
-  pets              Pet[]
-  hotelReservations HotelReservation[]
-  HotelReview       HotelReview[]
+  accounts            Account[]
+  pets                Pet[]
+  hotelReservations   HotelReservation[]
+  HotelReview         HotelReview[]
+  GroomingReservation GroomingReservation[]
 }
 
 model Account {
@@ -84,7 +85,7 @@ model HotelReservation {
   userId        String   @db.ObjectId
   roomId        String   @db.ObjectId
   petName       String
-  petChipNumber String   
+  petChipNumber String
   startDate     DateTime
   endDate       DateTime
   totalPrice    Int
@@ -105,5 +106,16 @@ model HotelReview {
   createdAt     DateTime @default(now())
 
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GroomingReservation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  petName   String
+  date      DateTime
+  time      String
+  createdAt DateTime @default(now())
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

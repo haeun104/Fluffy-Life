@@ -1,5 +1,5 @@
 import { RoomData } from "@/types";
-import Calendar from "../calendar/Calendar";
+import Calendar from "./RoomCalendar";
 import Button from "../Button";
 import { Range } from "react-date-range";
 import bed from "@/public/images/pet-bed-room.png";
