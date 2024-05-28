@@ -4,10 +4,8 @@ import useSearchSubmit from "@/hooks/useSearchSubmit";
 import GroomingCalendar from "./GroomingCalendar";
 import { getFormattedDate } from "@/util";
 import { useEffect, useState } from "react";
-import ReactSelectCreatable from "react-select/creatable";
 import { UserData } from "@/types";
 import getPets from "@/actions/getPets";
-import Button from "../Button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -16,7 +14,7 @@ import GroomingReservationDetail from "./GroomingReservationDetail";
 interface GroomingReservationProps {
   availableTimes: string[] | undefined;
   currentUser: UserData | null;
-  initialDate: string | undefined;
+  initialDate: Date | undefined;
 }
 
 export interface petNames {
@@ -25,9 +23,9 @@ export interface petNames {
 }
 
 const GroomingReservation: React.FC<GroomingReservationProps> = ({
-  availableTimes,
   currentUser,
   initialDate,
+  availableTimes,
 }) => {
   const { submitSearch } = useSearchSubmit();
   const [pets, setPets] = useState<petNames[]>([]);
@@ -48,7 +46,7 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
     } else {
       setSelectedData((prev) => ({
         ...prev,
-        date: new Date(initialDate),
+        date: initialDate,
       }));
     }
   }, [initialDate]);

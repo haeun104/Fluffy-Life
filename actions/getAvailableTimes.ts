@@ -1,9 +1,8 @@
-import { GroomingSearchParams } from "@/app/grooming/page";
+"use server";
+
 import prisma from "@/prisma/prismadb";
 
-export default async function getAvailableTimes(params: GroomingSearchParams) {
-  const { date } = params;
-
+export default async function getAvailableTimes(date: Date | undefined) {
   const times = ["10:00", "12:00", "14:00", "16:00", "18:00"];
 
   if (!date) {
@@ -11,11 +10,9 @@ export default async function getAvailableTimes(params: GroomingSearchParams) {
   }
 
   try {
-    const selectedDate = new Date(date);
-
     const reservations = await prisma.groomingReservation.findMany({
       where: {
-        date: selectedDate,
+        date,
       },
     });
 

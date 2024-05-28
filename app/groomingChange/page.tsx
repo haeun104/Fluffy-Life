@@ -1,18 +1,20 @@
+import getCurrentUser from "@/actions/getCurrentUser";
 import Container from "@/components/Container";
 import GroomingReservationChange from "@/components/grooming/GroomingReservationChange";
 
 interface GroomingChangeParams {
   reservationId: string;
-  date: Date;
+  date: string;
   time: string;
   petName: string;
 }
 
-const GroomingChangePage = ({
+const GroomingChangePage = async ({
   searchParams,
 }: {
   searchParams: GroomingChangeParams;
 }) => {
+  const currentUser = await getCurrentUser();
   const { reservationId, date, time, petName } = searchParams;
 
   return (
@@ -23,9 +25,10 @@ const GroomingChangePage = ({
         </h2>
         <GroomingReservationChange
           reservationId={reservationId}
-          date={date}
+          date={new Date(date)}
           time={time}
           petName={petName}
+          currentUser={currentUser}
         />
       </div>
     </Container>
