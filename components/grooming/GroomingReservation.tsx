@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ReactSelectCreatable from "react-select/creatable";
 import { UserData } from "@/types";
 import getPets from "@/actions/getPets";
+import Button from "../Button";
 
 interface GroomingReservationProps {
   availableTimes: string[] | undefined;
@@ -84,8 +85,8 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
     <div>
       <h3 className="text-accent-light-green font-bold mb-4">Reservation</h3>
       <div className="flex flex-col gap-8 sm:flex-row sm:justify-between sm:gap-4">
-        <div>
-          <h4 className="mb-2">Select date for service</h4>
+        <div className="">
+          <h4 className="mb-4">Select date for service</h4>
           <div className="border-[1px] rounded-md flex justify-center overflow-hidden shadow-md">
             <GroomingCalendar
               onChange={onChangeDate}
@@ -118,8 +119,28 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
               options={pets}
               isClearable
               onChange={onChangePet}
+              placeholder="Select or input pet's name"
             />
           </div>
+          {selectedDate && selectedTime !== "" && selectedPet !== "" && (
+            <div>
+              <h4 className="mb-4 text-main-teal font-bold">
+                Reservation summary
+              </h4>
+              <div>
+                <div className="flex gap-8 items-center">
+                  <span className="font-bold">
+                    {getFormattedDate(selectedDate)}
+                  </span>
+                  <span className="font-bold">{selectedTime}</span>
+                  <span>{selectedPet}</span>
+                </div>
+                <div className="mt-4">
+                  <Button title="Reserve" style="bg-main-teal" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
