@@ -1,7 +1,9 @@
 import getCurrentUser from "@/actions/getCurrentUser";
+import getGroomingReservations from "@/actions/getGroomingReservations";
 import getHotelReservationByUser from "@/actions/getHotelReservationsByUser";
 import getHotelReviews from "@/actions/getHotelReviews";
 import Container from "@/components/Container";
+import GroomingReservations from "@/components/reservation/GroomingReservations";
 import HotelReservations from "@/components/reservation/HotelReservations";
 
 const ReservationsPage = async () => {
@@ -14,6 +16,8 @@ const ReservationsPage = async () => {
       (a, b) => a.startDate.getTime() - b.startDate.getTime()
     );
 
+    const groomingReservations = await getGroomingReservations(currentUser.id);
+
     return (
       <Container>
         <div className="py-10 max-w-[600px] mx-auto">
@@ -23,6 +27,7 @@ const ReservationsPage = async () => {
             hotelReviews={hotelReviews}
             currentUser={currentUser}
           />
+          <GroomingReservations groomingReservations={groomingReservations} />
         </div>
       </Container>
     );

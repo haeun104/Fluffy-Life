@@ -44,8 +44,8 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
   }, [startDate]);
 
   const formatDate = useMemo(() => {
-    const start = format(startDate, "MM/dd/yyyy");
-    const end = format(endDate, "MM/dd/yyyy");
+    const start = format(startDate, "dd/MM/yyyy");
+    const end = format(endDate, "dd/MM/yyyy");
     return {
       start,
       end,
