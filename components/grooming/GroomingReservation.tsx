@@ -8,6 +8,9 @@ import ReactSelectCreatable from "react-select/creatable";
 import { UserData } from "@/types";
 import getPets from "@/actions/getPets";
 import Button from "../Button";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface GroomingReservationProps {
   availableTimes: string[] | undefined;
@@ -30,6 +33,8 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedPet, setSelectedPet] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!initialDate) {
@@ -81,13 +86,35 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
     }
   };
 
+  const createReservation = async () => {
+    if (!currentUser) {
+      toast.error("Login first");
+      return;
+    }
+    try {
+      const data = {
+        userId: currentUser.id,
+        petName: selectedPet,
+        date: selectedDate,
+        time: selectedTime,
+      };
+      await axios.post("/api/grooming", data);
+      toast.success("Successfully reserved");
+      setSelectedDate(new Date());
+      router.push("/");
+    } catch (error) {
+      toast.error("Failed to reserve");
+      console.error(error);
+    }
+  };
+
   return (
-    <div>
+    <div className="mt-10 ">
       <h3 className="text-accent-light-green font-bold mb-4">Reservation</h3>
-      <div className="flex flex-col gap-8 sm:flex-row sm:justify-between sm:gap-4">
+      <div className="flex flex-col gap-8 md:flex-row md:gap-10">
         <div className="">
           <h4 className="mb-4">Select date for service</h4>
-          <div className="border-[1px] rounded-md flex justify-center overflow-hidden shadow-md">
+          <div className="border-[1px] max-w-[350px] rounded-md flex justify-center overflow-hidden shadow-md lg:w-[350px]">
             <GroomingCalendar
               onChange={onChangeDate}
               selectedDate={selectedDate}
@@ -136,7 +163,11 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
                   <span>{selectedPet}</span>
                 </div>
                 <div className="mt-4">
-                  <Button title="Reserve" style="bg-main-teal" />
+                  <Button
+                    title="Reserve"
+                    style="bg-main-teal"
+                    onClick={createReservation}
+                  />
                 </div>
               </div>
             </div>
