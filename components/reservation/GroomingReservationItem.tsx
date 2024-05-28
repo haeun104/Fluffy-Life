@@ -1,8 +1,11 @@
 "use client";
 
-import { format } from "date-fns";
+import axios from "axios";
+import { format, formatISO } from "date-fns";
 import { useRouter } from "next/navigation";
+import queryString from "query-string";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { BsThreeDots } from "react-icons/bs";
 
 interface GroomingReservationItemProps {
@@ -40,6 +43,35 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
     router.push("/grooming");
   };
 
+  const handleCancelClick = async () => {
+    try {
+      await axios.delete(`/api/grooming/${reservationId}`);
+      toast.success("Successfully canceled");
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to cancel");
+      console.error(error);
+    }
+  };
+
+  const handleChangeClick = () => {
+    const formattedDate = formatISO(date);
+    const query = {
+      reservationId,
+      date: formattedDate,
+      time,
+      petName,
+    };
+    const url = queryString.stringifyUrl(
+      {
+        url: "/groomingChange",
+        query,
+      },
+      { skipNull: true }
+    );
+    router.push(url);
+  };
+
   return (
     <div className="border-[1px] border-[#EEEEEE] rounded-md p-4 shadow-md flex justify-between">
       <div className="flex flex-col">
@@ -71,8 +103,12 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
             </div>
           ) : (
             <>
-              <div className="cursor-pointer mb-2">Change reservation</div>
-              <div className="cursor-pointer">Cancel reservation</div>
+              <div className="cursor-pointer mb-2" onClick={handleChangeClick}>
+                Change reservation
+              </div>
+              <div className="cursor-pointer" onClick={handleCancelClick}>
+                Cancel reservation
+              </div>
             </>
           )}
         </div>
