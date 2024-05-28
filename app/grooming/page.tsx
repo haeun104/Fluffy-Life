@@ -1,4 +1,5 @@
 import getAvailableTimes from "@/actions/getAvailableTimes";
+import getCurrentUser from "@/actions/getCurrentUser";
 import Container from "@/components/Container";
 import GroomingReservation from "@/components/grooming/GroomingReservation";
 
@@ -12,7 +13,8 @@ const GroomingPage = async ({
   searchParams: GroomingSearchParams;
 }) => {
   const times = await getAvailableTimes(searchParams);
-
+  const currentUser = await getCurrentUser();
+  
   return (
     <Container>
       <div className="py-10 max-w-[350px] sm:max-w-[800px] flex flex-col gap-4 mx-auto">
@@ -34,7 +36,7 @@ const GroomingPage = async ({
             , and we will contact the owner when it is finished.
           </p>
         </div>
-        <GroomingReservation availableTimes={times}/>
+        <GroomingReservation availableTimes={times} currentUser={currentUser} initialDate={searchParams.date}/>
       </div>
     </Container>
   );

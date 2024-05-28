@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/prisma/prismadb";
 
 export default async function getPets(userId: string) {
