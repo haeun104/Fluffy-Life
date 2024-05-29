@@ -113,17 +113,19 @@ const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
             <GroomingCalendar selectedDate={date} onChange={onChangeDate} />
           </div>
         </div>
-        <GroomingReservationDetail
-          availableTimes={availableTimes}
-          date={date}
-          petName={petName}
-          time={time}
-          pets={pets}
-          onChangeTime={onChangeTime}
-          onChangePet={onChangePet}
-          actionLabel="Change"
-          handleSubmit={handleChangeClick}
-        />
+        {date && (
+          <GroomingReservationDetail
+            availableTimes={availableTimes}
+            date={date}
+            petName={petName}
+            time={time}
+            pets={pets}
+            onChangeTime={onChangeTime}
+            onChangePet={onChangePet}
+            actionLabel="Change"
+            handleSubmit={handleChangeClick}
+          />
+        )}
       </div>
     </div>
   );

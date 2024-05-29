@@ -29,16 +29,14 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
 }) => {
   const { submitSearch } = useSearchSubmit();
   const [pets, setPets] = useState<petNames[]>([]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!initialDate) {
-      setDate(new Date());
-    } else {
+    if (initialDate) {
       setDate(initialDate);
     }
   }, [initialDate]);
@@ -121,17 +119,19 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
             <GroomingCalendar onChange={onChangeDate} selectedDate={date} />
           </div>
         </div>
-        <GroomingReservationDetail
-          pets={pets}
-          availableTimes={availableTimes}
-          onChangeTime={onChangeTime}
-          onChangePet={onChangePet}
-          actionLabel="Reserve"
-          handleSubmit={createReservation}
-          date={date}
-          petName={petName}
-          time={time}
-        />
+        {date && (
+          <GroomingReservationDetail
+            pets={pets}
+            availableTimes={availableTimes}
+            onChangeTime={onChangeTime}
+            onChangePet={onChangePet}
+            actionLabel="Reserve"
+            handleSubmit={createReservation}
+            date={date}
+            petName={petName}
+            time={time}
+          />
+        )}
       </div>
     </div>
   );
