@@ -7,6 +7,7 @@ import queryString from "query-string";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDots } from "react-icons/bs";
+import Button from "../Button";
 
 interface GroomingReservationItemProps {
   reservationId: string;
@@ -82,7 +83,7 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
           <span className="font-bold text-main-teal text-sm">Finished</span>
         )}
       </div>
-      <div className="relative">
+      <div className="relative sm:hidden">
         <div
           className="cursor-pointer"
           onClick={() => setMenuHidden(!menuHidden)}
@@ -110,6 +111,28 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
             </>
           )}
         </div>
+      </div>
+      <div className="hidden sm:flex sm:flex-col sm:gap-2 min-w-[170px]">
+        {isPassedDate ? (
+          <Button
+            title="Reserve again"
+            style="bg-accent-red text-sm font-normal"
+            onClick={goToGroomingPage}
+          />
+        ) : (
+          <>
+            <Button
+              title="Change reservation"
+              style="bg-accent-light-green text-sm font-normal"
+              onClick={handleChangeClick}
+            />
+            <Button
+              title="Cancel reservation"
+              style="bg-[#DDDDDD] text-sm font-normal"
+              onClick={handleCancelClick}
+            />
+          </>
+        )}
       </div>
     </div>
   );
