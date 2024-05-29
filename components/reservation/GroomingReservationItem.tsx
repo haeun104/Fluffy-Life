@@ -59,8 +59,6 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
     const query = {
       reservationId,
       date: formattedDate,
-      time,
-      petName,
     };
     const url = queryString.stringifyUrl(
       {

@@ -29,25 +29,17 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
 }) => {
   const { submitSearch } = useSearchSubmit();
   const [pets, setPets] = useState<petNames[]>([]);
-  const [selectedData, setSelectedData] = useState({
-    date: new Date(),
-    time: "",
-    petName: "",
-  });
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("");
+  const [petName, setPetName] = useState("");
 
   const router = useRouter();
 
   useEffect(() => {
     if (!initialDate) {
-      setSelectedData((prev) => ({
-        ...prev,
-        date: new Date(),
-      }));
+      setDate(new Date());
     } else {
-      setSelectedData((prev) => ({
-        ...prev,
-        date: initialDate,
-      }));
+      setDate(initialDate);
     }
   }, [initialDate]);
 
@@ -75,10 +67,7 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
   }, [currentUser]);
 
   const onChangeDate = (date: Date) => {
-    setSelectedData((prev) => ({
-      ...prev,
-      date,
-    }));
+    setDate(date);
     const queryData = {
       service: "grooming",
       startDate: "",
@@ -90,23 +79,14 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
 
   const onChangePet = (newValue: petNames | null) => {
     if (newValue === null) {
-      setSelectedData((prev) => ({
-        ...prev,
-        petName: "",
-      }));
+      setPetName("");
     } else {
-      setSelectedData((prev) => ({
-        ...prev,
-        petName: newValue.value,
-      }));
+      setPetName(newValue.value);
     }
   };
 
   const onChangeTime = (time: string) => {
-    setSelectedData((prev) => ({
-      ...prev,
-      time,
-    }));
+    setTime(time);
   };
 
   const createReservation = async () => {
@@ -116,16 +96,15 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
     }
     try {
       const data = {
-        ...selectedData,
+        date,
+        time,
+        petName,
         userId: currentUser.id,
       };
       await axios.post("/api/grooming", data);
       toast.success("Successfully reserved");
-      setSelectedData((prev) => ({
-        ...prev,
-        date: new Date(),
-      }));
       router.push("/");
+      router.refresh();
     } catch (error) {
       toast.error("Failed to reserve");
       console.error(error);
@@ -139,20 +118,19 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
         <div className="">
           <h4 className="mb-4">Select date for service</h4>
           <div className="border-[1px] max-w-[350px] rounded-md flex justify-center overflow-hidden shadow-md lg:w-[350px]">
-            <GroomingCalendar
-              onChange={onChangeDate}
-              selectedDate={selectedData.date}
-            />
+            <GroomingCalendar onChange={onChangeDate} selectedDate={date} />
           </div>
         </div>
         <GroomingReservationDetail
           pets={pets}
           availableTimes={availableTimes}
-          selectedData={selectedData}
           onChangeTime={onChangeTime}
           onChangePet={onChangePet}
           actionLabel="Reserve"
           handleSubmit={createReservation}
+          date={date}
+          petName={petName}
+          time={time}
         />
       </div>
     </div>

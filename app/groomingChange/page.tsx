@@ -1,12 +1,12 @@
+import getAvailableTimes from "@/actions/getAvailableTimes";
 import getCurrentUser from "@/actions/getCurrentUser";
+import getGroomingReservationById from "@/actions/getGroomingReservationById";
 import Container from "@/components/Container";
 import GroomingReservationChange from "@/components/grooming/GroomingReservationChange";
 
-interface GroomingChangeParams {
+export interface GroomingChangeParams {
   reservationId: string;
-  date: string;
-  time: string;
-  petName: string;
+  date: Date;
 }
 
 const GroomingChangePage = async ({
@@ -15,7 +15,10 @@ const GroomingChangePage = async ({
   searchParams: GroomingChangeParams;
 }) => {
   const currentUser = await getCurrentUser();
-  const { reservationId, date, time, petName } = searchParams;
+  const { reservationId, date } = searchParams;
+
+  const previousReservation = await getGroomingReservationById(reservationId);
+  const times = await getAvailableTimes(date);
 
   return (
     <Container>
@@ -24,10 +27,9 @@ const GroomingChangePage = async ({
           Grooming Reservation Change
         </h2>
         <GroomingReservationChange
+          previousReservation={previousReservation}
+          availableTimes={times}
           reservationId={reservationId}
-          date={new Date(date)}
-          time={time}
-          petName={petName}
           currentUser={currentUser}
         />
       </div>

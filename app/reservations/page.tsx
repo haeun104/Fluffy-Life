@@ -1,5 +1,5 @@
 import getCurrentUser from "@/actions/getCurrentUser";
-import getGroomingReservations from "@/actions/getGroomingReservations";
+import getGroomingReservations from "@/actions/getGroomingReservationsByUser";
 import getHotelReservationByUser from "@/actions/getHotelReservationsByUser";
 import getHotelReviews from "@/actions/getHotelReviews";
 import Container from "@/components/Container";
