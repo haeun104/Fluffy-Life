@@ -10,6 +10,8 @@ import getPets from "@/actions/getPets";
 import { useRouter } from "next/navigation";
 import { GroomingReservation } from "@prisma/client";
 import queryString from "query-string";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface GroomingReservationChangeProps {
   previousReservation: GroomingReservation | null | undefined;
@@ -86,7 +88,22 @@ const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
     setTime(time);
   };
 
-  const handleChangeClick = () => {};
+  const handleChangeClick = async () => {
+    try {
+      const dataToUpdate = {
+        date,
+        time,
+        petName,
+      };
+      await axios.put(`/api/grooming/${reservationId}`, dataToUpdate);
+      toast.success("Successfully changed");
+      router.push("/reservations");
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to change");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mt-4">
