@@ -22,17 +22,17 @@ const AboutPage = () => {
         <h3 className="font-bold text-accent-light-green text-lg">
           Our Services
         </h3>
-        <div className="flex flex-col max-w-[350px] sm:flex-row sm:max-w-full  gap-2">
-          <div className="animate-fade-in-1 p-2 bg-white rounded-lg shadow-lg">
+        <div className="flex flex-col max-w-[350px] sm:flex-row sm:max-w-full gap-2">
+          <div className="opacity-0 animate-fade-in-1 p-2 bg-white rounded-lg shadow-lg">
             <Image src={room} alt="room" />
           </div>
-          <div className="animate-fade-in-2 p-2 bg-white rounded-lg shadow-lg">
+          <div className="opacity-0 animate-fade-in-2 p-2 bg-white rounded-lg shadow-lg">
             <Image src={grooming} alt="grooming" />
           </div>
-          <div className="animate-fade-in-3 p-2 bg-white rounded-lg shadow-lg">
+          <div className="opacity-0 animate-fade-in-3 p-2 bg-white rounded-lg shadow-lg">
             <Image src={playing} alt="playing" />
           </div>
-          <div className="animate-fade-in-4 p-2 bg-white rounded-lg shadow-lg">
+          <div className="opacity-0 animate-fade-in-4 p-2 bg-white rounded-lg shadow-lg">
             <Image src={event} alt="event" />
           </div>
         </div>

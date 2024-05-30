@@ -30,9 +30,9 @@ const config: Config = {
       animation: {
         heroAnimation: "heroImages 16s ease-in-out infinite",
         "fade-in-1": "fadeIn 1s ease-in-out 0s forwards",
-        "fade-in-2": "fadeIn 1s ease-in-out 1s forwards",
-        "fade-in-3": "fadeIn 1s ease-in-out 2s forwards",
-        "fade-in-4": "fadeIn 1s ease-in-out 3s forwards",
+        "fade-in-2": "fadeIn 1s ease-in-out 0.5s forwards",
+        "fade-in-3": "fadeIn 1s ease-in-out 1s forwards",
+        "fade-in-4": "fadeIn 1s ease-in-out 1.5s forwards",
       },
     },
   },
