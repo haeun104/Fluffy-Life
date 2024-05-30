@@ -32,9 +32,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   const logOut = async () => {
     try {
-      await signOut();
+      await signOut({ callbackUrl: "/" });
       toast.success("Successfully logged out!");
-      router.replace("/");
     } catch (error) {
       console.error(error);
     }
