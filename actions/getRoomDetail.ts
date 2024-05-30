@@ -7,9 +7,8 @@ export default async function getRoomDetail(id: string) {
         id: id,
       },
     });
-    if (room !== undefined) {
-      return room;
-    }
+
+    return room;
   } catch (error) {
     console.error(error);
   }

@@ -44,7 +44,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     reset,
   } = useForm({
@@ -94,11 +94,11 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 
   const createReservation: SubmitHandler<FieldValues> = async (data) => {
     const { chipNumber, mobile, petName } = data;
-    
+
     if (currentUser !== null) {
       try {
         const petResponse = await axios.get(`/api/pet/${chipNumber}`);
-        const petExists = petResponse.data;        
+        const petExists = petResponse.data;
 
         await axios.post("/api/hotelReservation", {
           userId: currentUser.id,
@@ -147,6 +147,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       actionLabel="Confirm Reservation"
       style="bg-accent-red"
       onSubmit={handleSubmit(createReservation)}
+      disabled={isSubmitting}
     />
   );
 };

@@ -103,7 +103,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
         setTotalDays(days);
         setTotalPrice(days * selectedRoom.roomPrice);
       } else {
-        setTotalPrice(selectedRoom.roomPrice);
+        setTotalPrice(0);
       }
     }
   }, [dataRange, selectedRoom]);

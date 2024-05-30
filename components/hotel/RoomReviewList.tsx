@@ -2,7 +2,6 @@
 
 import RoomReviewItem from "./RoomReviewItem";
 import ReviewListModal from "../modals/ReviewListModal";
-import useReviewListModal from "@/hooks/useReviewListModal";
 import { RoomReview } from "@/types";
 import AverageRating from "../AverageRating";
 
@@ -11,8 +10,6 @@ export interface RoomReviewProps {
 }
 
 const RoomReviewList: React.FC<RoomReviewProps> = ({ reviews }) => {
-  const reviewListModal = useReviewListModal();
-
   return (
     <>
       <div>
