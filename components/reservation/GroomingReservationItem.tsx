@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { format, formatISO } from "date-fns";
+import { format, formatISO, isAfter } from "date-fns";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 import { useEffect, useRef, useState } from "react";
@@ -26,7 +26,7 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
 
   const router = useRouter();
 
-  const isPassedDate = date < new Date();
+  const isPassedDate = isAfter(new Date(), date);
 
   // Close the menu when the user clicks outside
   const handleClickOutside = (e: MouseEvent) => {
