@@ -3,6 +3,8 @@
 import RoomItem from "./RoomItem";
 import { RoomData } from "@/types";
 import RoomSearchBar from "./RoomSearchBar";
+import { useEffect, useState } from "react";
+import { FadeLoader } from "react-spinners";
 
 interface RoomListProps {
   rooms: RoomData[] | undefined;
@@ -17,42 +19,58 @@ const RoomList: React.FC<RoomListProps> = ({
   endDate,
   roomType,
 }) => {
-  if (rooms) {
-    return (
-      <div>
-        <h3 className="text-accent-light-green font-bold mb-2">
-          Quick availability check
-        </h3>
-        <RoomSearchBar
-          startDate={startDate}
-          endDate={endDate}
-          roomType={roomType}
-        />
-        {rooms.length === 0 ? (
-          <div className="mt-10">
-            <h4 className="text-center">
-              There is no room available for this period
-            </h4>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4 mt-4">
-            {rooms.map((room) => (
-              <RoomItem
-                key={room.id}
-                id={room.id}
-                roomType={room.roomType}
-                roomPrice={room.roomPrice}
-                groomingInclude={room.groomingInclude}
-                groomingPrice={room.groomingPrice}
-                title={room.title}
-                imageUrl={room.imageUrl}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
+  const [availableRooms, setAvailableRooms] = useState<
+    RoomData[] | undefined
+  >();
+
+  useEffect(() => {
+    if (rooms) {
+      setAvailableRooms(rooms);
+    }
+  }, [rooms]);
+
+  return (
+    <div>
+      <h3 className="text-accent-light-green font-bold mb-2">
+        Quick availability check
+      </h3>
+      <RoomSearchBar
+        startDate={startDate}
+        endDate={endDate}
+        roomType={roomType}
+      />
+      {!availableRooms ? (
+        <div className="h-[350px] flex justify-center items-center">
+          <FadeLoader color="#219C90" />
+        </div>
+      ) : (
+        <>
+          {availableRooms.length === 0 ? (
+            <div className="mt-10">
+              <h4 className="text-center">
+                There is no room available for this period
+              </h4>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4 mt-4">
+              {availableRooms.map((room) => (
+                <RoomItem
+                  key={room.id}
+                  id={room.id}
+                  roomType={room.roomType}
+                  roomPrice={room.roomPrice}
+                  groomingInclude={room.groomingInclude}
+                  groomingPrice={room.groomingPrice}
+                  title={room.title}
+                  imageUrl={room.imageUrl}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default RoomList;
