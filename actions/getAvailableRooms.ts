@@ -10,6 +10,11 @@ export interface RoomSearchParams {
 
 export default async function getAvailableRooms(params: RoomSearchParams) {
   try {
+    if (!params) {
+      const allRooms = await prisma.room.findMany();
+      return allRooms;
+    }
+
     const { roomType, startDate, endDate } = params;
 
     let query: any = {};
