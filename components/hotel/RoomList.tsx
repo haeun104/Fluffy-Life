@@ -5,29 +5,34 @@ import { RoomData } from "@/types";
 import RoomSearchBar from "./RoomSearchBar";
 import { useEffect, useState } from "react";
 import { FadeLoader } from "react-spinners";
+import getAvailableRooms, {
+  RoomSearchParams,
+} from "@/actions/getAvailableRooms";
 
 interface RoomListProps {
-  rooms: RoomData[] | undefined;
-  startDate: string | undefined;
-  endDate: string | undefined;
-  roomType: string | undefined;
+  searchParams: RoomSearchParams;
 }
 
 const RoomList: React.FC<RoomListProps> = ({
-  rooms,
-  startDate,
-  endDate,
-  roomType,
+  searchParams,
 }) => {
   const [availableRooms, setAvailableRooms] = useState<
     RoomData[] | undefined
   >();
 
   useEffect(() => {
-    if (rooms) {
-      setAvailableRooms(rooms);
-    }
-  }, [rooms]);
+    const checkAvailableRooms = async (params: RoomSearchParams) => {
+      const rooms = await getAvailableRooms(params);
+      return rooms;
+    };
+
+    const fetchRooms = async () => {
+      const availableRooms = await checkAvailableRooms(searchParams);
+      setAvailableRooms(availableRooms);
+    };
+
+    fetchRooms();
+  }, [searchParams]);
 
   return (
     <div>
@@ -35,9 +40,9 @@ const RoomList: React.FC<RoomListProps> = ({
         Quick availability check
       </h3>
       <RoomSearchBar
-        startDate={startDate}
-        endDate={endDate}
-        roomType={roomType}
+        startDate={searchParams.startDate}
+        endDate={searchParams.endDate}
+        roomType={searchParams.roomType || "All"}
       />
       {!availableRooms ? (
         <div className="h-[350px] flex justify-center items-center">
