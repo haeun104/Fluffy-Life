@@ -12,9 +12,6 @@ const ReservationsPage = async () => {
   if (currentUser) {
     const hotelReservations = await getHotelReservationByUser(currentUser.id);
     const hotelReviews = await getHotelReviews(currentUser.id, true);
-    hotelReservations?.sort(
-      (a, b) => a.startDate.getTime() - b.startDate.getTime()
-    );
 
     const groomingReservations = await getGroomingReservations(currentUser.id);
 

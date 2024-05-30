@@ -8,7 +8,7 @@ export default async function getGroomingReservations(userId: string) {
       },
     });
 
-    reservations.sort((a, b) => a.date.getTime() - b.date.getTime());
+    reservations.sort((a, b) => b.date.getTime() - a.date.getTime());
 
     return reservations;
   } catch (error) {

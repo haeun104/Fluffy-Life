@@ -13,6 +13,10 @@ export default async function getHotelReservationsByUser(
           room: true,
         },
       });
+
+      reservations.sort(
+        (a, b) => b.startDate.getTime() - a.startDate.getTime()
+      );
       return reservations;
     } catch (error) {
       console.error(error);
