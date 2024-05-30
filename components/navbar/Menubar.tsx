@@ -40,16 +40,20 @@ const Menubar: React.FC<MenubarProps> = ({ currentUser }) => {
     <>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-10">
         <ul className="uppercase font-bold text-main-teal flex gap-6">
-          {menuItems.map((item, index) => (
-            <MenuItem
-              key={index}
-              title={item.title}
-              onClick={() => router.push(item.url)}
-              style={`border-b-solid border-b-[2px] border-b-white hover:border-b-main-teal cursor-pointer ${
-                pathName === item.url && "border-b-main-teal"
-              }`}
-            />
-          ))}
+          {menuItems.map((item, index) => {
+            return (
+              <MenuItem
+                key={index}
+                title={item.title}
+                onClick={() => router.push(item.url)}
+                style={`border-b-[2px] hover:border-b-main-teal cursor-pointer ${
+                  pathName === item.url
+                    ? "border-b-main-teal"
+                    : "border-b-white"
+                }`}
+              />
+            );
+          })}
         </ul>
         <div className={currentUser ? "hidden" : "flex gap-6"}>
           <Button

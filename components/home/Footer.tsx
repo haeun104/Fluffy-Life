@@ -57,11 +57,11 @@ const Footer = () => {
             <h4 className="font-bold uppercase">opening hours</h4>
             <div className="mb-2">
               Hotel Reception
-              <div>Mon-Sun 10:00-19:00</div>
+              <div>Mon-Sun 10:00-20:00</div>
             </div>
             <div>
               Grooming
-              <div>Mon-Fri 12:00-18:00</div>
+              <div>Mon-Fri 10:00-20:00</div>
             </div>
           </div>
           <div className="w-1/2">

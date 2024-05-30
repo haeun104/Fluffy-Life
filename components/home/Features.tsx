@@ -6,14 +6,14 @@ import Image from "next/image";
 const Features = () => {
   return (
     <div className="bg-main-teal py-10 px-6 text-white">
-      <h2 className="text-2xl text-center mb-10">We Can Promise</h2>
+      <h2 className="text-2xl text-center mb-10">We Promise</h2>
       <div className="flex flex-col gap-4 lg:flex-row lg:justify-around max-w-[1536px] mx-auto">
         <div className="flex flex-col text-center gap-4">
           <div className="w-[60px] mx-auto">
             <Image src={dogHouse} alt="dog house" />
           </div>
           <span className="font-bold text-lg">Comfort</span>
-          <p className="">
+          <p>
             Our priority is to ensure
             <br />
             your dog stays
@@ -28,7 +28,7 @@ const Features = () => {
             <Image src={dogToy} alt="dog toy" />
           </div>
           <span className="font-bold text-lg">Fun</span>
-          <p className="">
+          <p>
             Multiple exciting activities
             <br />
             that never leave your dog bored!
@@ -39,7 +39,7 @@ const Features = () => {
             <Image src={petCare} alt="pet care" />
           </div>
           <span className="font-bold text-lg">Safety</span>
-          <p className="">
+          <p>
             We partner with experts
             <br />
             who offer professional
