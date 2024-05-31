@@ -7,7 +7,7 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { z } from "zod";
+import { nullable, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -69,7 +69,7 @@ export const schema = z.object({
     }
     return val;
   }, z.number()),
-  remark: z.string(),
+  remark: z.string().nullable(),
 });
 
 const PetInputs: React.FC<PetInputsProps> = ({
@@ -115,22 +115,33 @@ const PetInputs: React.FC<PetInputsProps> = ({
       return state;
     });
     setInputStates(updatedInputs);
-    // reset({
-    //   name,
-    //   breed,
-    //   age,
-    //   chipNumber,
-    //   remark,
-    // });
+    reset({
+      name,
+      breed,
+      age,
+      chipNumber,
+      remark,
+    });
   };
 
   // Update pet info in DB
-  const updatePetInfo = async (data: FieldValues) => {
+  const updatePetInfo = async (data: FieldValues, inputId: string) => {
     try {
       await axios.put(`/api/pet/${id}`, data);
       toast.success("Successfully updated");
       router.refresh();
-      updateEditableState(id);
+
+      const updatedInputs = inputStates.map((state) => {
+        if (state.id === inputId) {
+          return {
+            ...state,
+            btnLabel: "Edit",
+            editDisable: true,
+          };
+        }
+        return state;
+      });
+      setInputStates(updatedInputs);
     } catch (error) {
       toast.error("Something went wrong");
       console.error(error);
@@ -138,9 +149,9 @@ const PetInputs: React.FC<PetInputsProps> = ({
   };
 
   // Implement user info update and change editable state
-  const handleSaveClick = async (id: string) => {
+  const handleSaveClick = async (inputId: string) => {
     try {
-      await handleSubmit(updatePetInfo)();
+      await handleSubmit(async (data) => updatePetInfo(data, inputId))();
     } catch (error) {
       toast.error("Failed to update pet info");
       console.error(error);
