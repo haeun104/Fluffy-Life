@@ -115,13 +115,13 @@ const PetInputs: React.FC<PetInputsProps> = ({
       return state;
     });
     setInputStates(updatedInputs);
-    reset({
-      name,
-      breed,
-      age,
-      chipNumber,
-      remark,
-    });
+    // reset({
+    //   name,
+    //   breed,
+    //   age,
+    //   chipNumber,
+    //   remark,
+    // });
   };
 
   // Update pet info in DB
