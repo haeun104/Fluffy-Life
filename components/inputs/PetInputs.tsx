@@ -130,6 +130,7 @@ const PetInputs: React.FC<PetInputsProps> = ({
       await axios.put(`/api/pet/${id}`, data);
       toast.success("Successfully updated");
       router.refresh();
+      updateEditableState(id);
     } catch (error) {
       toast.error("Something went wrong");
       console.error(error);
@@ -140,7 +141,6 @@ const PetInputs: React.FC<PetInputsProps> = ({
   const handleSaveClick = async (id: string) => {
     try {
       await handleSubmit(updatePetInfo)();
-      updateEditableState(id);
     } catch (error) {
       toast.error("Failed to update pet info");
       console.error(error);
