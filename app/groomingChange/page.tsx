@@ -22,7 +22,7 @@ const GroomingChangePage = async ({
 
   return (
     <Container>
-      <div className="py-10 max-w-[600px] mx-auto">
+      <div className="py-10 max-w-[350px] sm:max-w-[800px] mx-auto">
         <h2 className="text-main-teal text-lg font-bold">
           Grooming Reservation Change
         </h2>
