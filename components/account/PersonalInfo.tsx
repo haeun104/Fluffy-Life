@@ -68,6 +68,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -93,6 +94,14 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
       return state;
     });
     setInputStates(updatedInputs);
+    reset({
+      name: currentUser?.name,
+      email: currentUser?.email,
+      street: currentUser?.street,
+      city: currentUser?.city,
+      postalCode: currentUser?.postalCode,
+      mobile: currentUser?.mobile,
+    });
   };
 
   // Update user info in DB
