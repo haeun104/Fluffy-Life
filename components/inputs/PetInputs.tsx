@@ -7,7 +7,7 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { nullable, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IoMdCloseCircle } from "react-icons/io";
 

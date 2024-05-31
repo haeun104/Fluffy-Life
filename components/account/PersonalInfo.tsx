@@ -69,7 +69,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
     defaultValues: {
       name: currentUser?.name,
@@ -172,6 +172,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
                 title="Save"
                 style="mb-4 bg-accent-light-green"
                 onClick={() => handleSaveClick(item.id)}
+                disabled={isSubmitting}
               />
             )}
           </div>
