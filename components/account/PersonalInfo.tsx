@@ -105,13 +105,23 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   };
 
   // Update user info in DB
-  const updateUserInfo = async (data: FieldValues) => {
+  const updateUserInfo = async (data: FieldValues, inputId: string) => {
     try {
       if (currentUser) {
         await axios.put(`/api/account/${currentUser.id}`, data);
         toast.success("Successfully updated");
         router.refresh();
-        return;
+        const updatedInputs = inputStates.map((state) => {
+          if (state.id === inputId) {
+            return {
+              ...state,
+              btnLabel: "Edit",
+              editDisable: true,
+            };
+          }
+          return state;
+        });
+        setInputStates(updatedInputs);
       }
     } catch (error) {
       toast.error("Something went wrong");
@@ -120,10 +130,9 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ currentUser }) => {
   };
 
   // Implement user info update and change editable state
-  const handleSaveClick = async (id: string) => {
+  const handleSaveClick = async (inputId: string) => {
     try {
-      await handleSubmit(updateUserInfo)();
-      updateEditableState(id);
+      await handleSubmit(async (data) => updateUserInfo(data, inputId))();
     } catch (error) {
       toast.error("Failed to update user info");
       console.error(error);
