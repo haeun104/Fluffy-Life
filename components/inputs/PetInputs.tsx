@@ -64,11 +64,14 @@ const initialInputStates = [
 export const schema = z.object({
   breed: z.string(),
   age: z.preprocess((val) => {
-    if (typeof val === "string" && val.trim() !== "") {
+    if (typeof val === "string") {
+      if (val.trim() === "") {
+        return undefined;
+      }
       return parseInt(val, 10);
     }
     return val;
-  }, z.number()),
+  }, z.union([z.number(), z.undefined()])),
   remark: z.string().nullable(),
 });
 
