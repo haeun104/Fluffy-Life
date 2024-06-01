@@ -23,20 +23,14 @@ export default async function getAvailableRooms(params: RoomSearchParams) {
       const start = new Date(startDate);
       const end = new Date(endDate);
 
-      query.NOT = {
-        reservation: {
-          some: {
-            OR: [
-              {
-                endDate: { gte: start },
-                startDate: { lte: start },
-              },
-              {
-                startDate: { lte: end },
-                endDate: { gte: end },
-              },
-            ],
-          },
+      query.reservation = {
+        none: {
+          OR: [
+            {
+              startDate: { lte: end },
+              endDate: { gte: start },
+            },
+          ],
         },
       };
     }
