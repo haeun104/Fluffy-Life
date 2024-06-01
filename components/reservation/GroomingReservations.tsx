@@ -13,8 +13,8 @@ const GroomingReservations: React.FC<GroomingReservationsProps> = ({
       <h3 className="font-bold text-accent-light-green text-lg mt-8 mb-4">
         Grooming
       </h3>
-      {!groomingReservations ? (
-        <div>There is no reservations</div>
+      {!groomingReservations || groomingReservations.length === 0 ? (
+        <div className="mt-8">There is no reservations</div>
       ) : (
         <div className="flex flex-col gap-4">
           {groomingReservations.map((reservation) => (

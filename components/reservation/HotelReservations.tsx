@@ -55,7 +55,6 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
   };
 
   const openHotelReviewModal = async (id: string) => {
-
     if (hotelReservations) {
       const reservation = hotelReservations.find(
         (reservation) => reservation.id === id
@@ -76,7 +75,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
           Hotel
         </h3>
         {hotelReservations?.length === 0 || !hotelReservations ? (
-          <div>There is no reservations</div>
+          <div className="mt-8">There is no reservations</div>
         ) : (
           <div className="flex flex-col gap-4 mt-4">
             {hotelReservations.map((reservation) => {
