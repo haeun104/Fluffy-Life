@@ -12,10 +12,10 @@ import { GroomingReservation } from "@prisma/client";
 import queryString from "query-string";
 import axios from "axios";
 import toast from "react-hot-toast";
+import getAvailableTimes from "@/actions/getAvailableTimes";
 
 interface GroomingReservationChangeProps {
   previousReservation: GroomingReservation | null | undefined;
-  availableTimes: string[] | undefined;
   reservationId: string;
   currentUser: UserData | null;
 }
@@ -23,13 +23,33 @@ interface GroomingReservationChangeProps {
 const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
   previousReservation,
   reservationId,
-  availableTimes,
   currentUser,
 }) => {
   const [pets, setPets] = useState<petNames[]>([]);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
+  const [availableTimes, setAvailableTimes] = useState<string[]>();
+
+  useEffect(() => {
+    const fetchTimes = async (selectedDate: Date) => {
+      const times = await getAvailableTimes(selectedDate);
+      return times;
+    };
+
+    const updateAvailableTimes = async () => {
+      if (date) {
+        const availableTimes = await fetchTimes(date);
+        setAvailableTimes(availableTimes);
+        return;
+      }
+
+      return setAvailableTimes(["10:00", "12:00", "14:00", "16:00", "18:00"]);
+    };
+
+    updateAvailableTimes();
+    
+  }, [date]);
 
   const router = useRouter();
 

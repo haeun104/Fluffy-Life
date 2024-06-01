@@ -1,4 +1,3 @@
-import getAvailableTimes from "@/actions/getAvailableTimes";
 import getCurrentUser from "@/actions/getCurrentUser";
 import getGroomingReservationById from "@/actions/getGroomingReservationById";
 import Container from "@/components/Container";
@@ -15,10 +14,9 @@ const GroomingChangePage = async ({
   searchParams: GroomingChangeParams;
 }) => {
   const currentUser = await getCurrentUser();
-  const { reservationId, date } = searchParams;
+  const { reservationId } = searchParams;
 
   const previousReservation = await getGroomingReservationById(reservationId);
-  const times = await getAvailableTimes(date);
 
   return (
     <Container>
@@ -28,7 +26,6 @@ const GroomingChangePage = async ({
         </h2>
         <GroomingReservationChange
           previousReservation={previousReservation}
-          availableTimes={times}
           reservationId={reservationId}
           currentUser={currentUser}
         />

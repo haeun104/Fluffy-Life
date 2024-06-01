@@ -10,9 +10,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import GroomingReservationDetail from "./GroomingReservationDetail";
+import getAvailableTimes from "@/actions/getAvailableTimes";
 
 interface GroomingReservationProps {
-  availableTimes: string[] | undefined;
   currentUser: UserData | null;
   initialDate: Date | undefined;
 }
@@ -25,20 +25,33 @@ export interface petNames {
 const GroomingReservation: React.FC<GroomingReservationProps> = ({
   currentUser,
   initialDate,
-  availableTimes,
 }) => {
   const { submitSearch } = useSearchSubmit();
   const [pets, setPets] = useState<petNames[]>([]);
-  const [date, setDate] = useState<Date | undefined>();
+  const [date, setDate] = useState<Date | undefined>(initialDate);
   const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
+  const [availableTimes, setAvailableTimes] = useState<string[]>();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (initialDate) {
-      setDate(initialDate);
-    }
+    const fetchTimes = async (selectedDate: Date) => {
+      const times = await getAvailableTimes(selectedDate);
+      return times;
+    };
+
+    const updateAvailableTimes = async () => {
+      if (initialDate) {
+        const availableTimes = await fetchTimes(initialDate);
+        setAvailableTimes(availableTimes);
+        return;
+      }
+
+      return setAvailableTimes(["10:00", "12:00", "14:00", "16:00", "18:00"]);
+    };
+
+    updateAvailableTimes();
   }, [initialDate]);
 
   useEffect(() => {

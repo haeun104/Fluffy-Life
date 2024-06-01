@@ -4,6 +4,7 @@ import ReactSelectCreatable from "react-select/creatable";
 import Button from "../Button";
 import { format } from "date-fns";
 import { petNames } from "./GroomingReservation";
+import { FadeLoader } from "react-spinners";
 
 interface GroomingReservationDetailProps {
   availableTimes: string[] | undefined;
@@ -32,29 +33,36 @@ const GroomingReservationDetail: React.FC<GroomingReservationDetailProps> = ({
     <div className="flex flex-col gap-8">
       <div>
         <h4 className="mb-4">Select time that you want</h4>
-        <div>
-          {!availableTimes || availableTimes.length === 0 ? (
-            <div className="text-sm leading-6">
-              There is no time available.
-              <br />
-              Select other date
-            </div>
-          ) : (
-            <div className="flex gap-4 flex-wrap sm:flex-nowrap">
-              {availableTimes.map((time, index) => (
-                <div
-                  key={index}
-                  className={`border-[1px] rounded-md shadow-md py-2 px-4 cursor-pointer text-sm ${
-                    time === selectedTime && "bg-accent-light-green text-white"
-                  }`}
-                  onClick={() => onChangeTime(time)}
-                >
-                  {time}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {!availableTimes ? (
+          <div className="flex flex-col justify-center items-center">
+            <FadeLoader color="#219C90" />
+          </div>
+        ) : (
+          <div>
+            {availableTimes.length === 0 ? (
+              <div className="text-sm leading-6">
+                There is no time available.
+                <br />
+                Select other date
+              </div>
+            ) : (
+              <div className="flex gap-4 flex-wrap sm:flex-nowrap">
+                {availableTimes.map((time, index) => (
+                  <div
+                    key={index}
+                    className={`border-[1px] rounded-md shadow-md py-2 px-4 cursor-pointer text-sm ${
+                      time === selectedTime &&
+                      "bg-accent-light-green text-white"
+                    }`}
+                    onClick={() => onChangeTime(time)}
+                  >
+                    {time}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div
         className={`${

@@ -40,7 +40,6 @@ const GroomingPage = async ({
         <GroomingReservation
           currentUser={currentUser}
           initialDate={searchParams.date}
-          availableTimes={times}
         />
         <GroomingGallery />
       </div>
