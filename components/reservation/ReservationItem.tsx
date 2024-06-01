@@ -137,20 +137,20 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             <BsThreeDots />
           </div>
           <div
-            className={`text-sm text-right absolute top-6 right-0 ${
+            className={`text-md text-right absolute top-6 right-0 ${
               menuHidden ? "hidden" : ""
-            } bg-white border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2 whitespace-nowrap`}
+            } bg-white border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2 whitespace-nowrap z-50`}
           >
             {!isReservationPassed ? (
               <>
                 <div
-                  className="cursor-pointer mb-2"
+                  className="cursor-pointer mt-2 mb-4"
                   onClick={() => goToReservationDetails(id)}
                 >
                   Edit reservation
                 </div>
                 <div
-                  className="cursor-pointer"
+                  className="cursor-pointer mb-2"
                   onClick={() => handleCancelClick(id)}
                 >
                   Cancel reservation
@@ -159,13 +159,13 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             ) : (
               <>
                 <div
-                  className="cursor-pointer mb-2"
+                  className="cursor-pointer mt-2 mb-4"
                   onClick={() => handleModalOpen(id)}
                 >
                   {existingReview ? "Edit your review" : "Write a review"}
                 </div>
                 <div
-                  className="cursor-pointer"
+                  className="cursor-pointer mb-2"
                   onClick={() => goToReservationPage(roomId)}
                 >
                   Reserve again

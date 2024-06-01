@@ -94,18 +94,21 @@ const GroomingReservationItem: React.FC<GroomingReservationItemProps> = ({
           ref={menuRef}
           className={`text-sm text-right absolute top-6 right-0 ${
             menuHidden ? "hidden" : ""
-          } bg-white border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2 whitespace-nowrap`}
+          } bg-white border-[1px] border-[#EEEEEE] rounded-lg px-4 py-2 whitespace-nowrap z-50`}
         >
           {isPassedDate ? (
-            <div className="cursor-pointer" onClick={goToGroomingPage}>
+            <div className="cursor-pointer my-2" onClick={goToGroomingPage}>
               Reserve again
             </div>
           ) : (
             <>
-              <div className="cursor-pointer mb-2" onClick={handleChangeClick}>
+              <div
+                className="cursor-pointer mb-4 mt-2"
+                onClick={handleChangeClick}
+              >
                 Change reservation
               </div>
-              <div className="cursor-pointer" onClick={handleCancelClick}>
+              <div className="cursor-pointer mb-2" onClick={handleCancelClick}>
                 Cancel reservation
               </div>
             </>
