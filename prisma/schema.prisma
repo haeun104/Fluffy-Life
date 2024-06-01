@@ -62,8 +62,7 @@ model Pet {
   chipNumber String  @unique
   remark     String?
 
-  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  HotelReservation HotelReservation[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Room {
@@ -93,7 +92,6 @@ model HotelReservation {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  pet  Pet  @relation(fields: [petChipNumber], references: [chipNumber])
 }
 
 model HotelReview {

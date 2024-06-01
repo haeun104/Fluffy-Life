@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { schema } from "../inputs/PetInputs";
+import { z } from "zod";
 
 interface PetReservationInfoProps {
   reservation: HotelReservationData;
@@ -20,9 +20,12 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
 }) => {
   const [disabled, setDisabled] = useState(true);
 
-  const { age, breed, remark } = reservation.pet;
-
   const router = useRouter();
+
+  const schema = z.object({
+    name: z.string().min(1, { message: "Name must be input" }),
+    chipNumber: z.string().min(1, { message: "Chip number must be input" }),
+  });
 
   const {
     register,
@@ -33,22 +36,13 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
     defaultValues: {
       name: reservation.petName,
       chipNumber: reservation.petChipNumber,
-      breed: breed || "",
-      age: age || null,
-      remark: remark || "",
     },
     resolver: zodResolver(schema),
   });
 
   const updatePetInfo = async (data: FieldValues) => {
     try {
-      const dataToUpdate = {
-        ...data,
-        name: reservation.petName,
-        chipNumber: reservation.petChipNumber,
-        userId: reservation.userId,
-      };
-      await axios.put(`/api/hotelReservation/${reservation.id}`, dataToUpdate);
+      await axios.put(`/api/hotelReservation/${reservation.id}`, data);
       toast.success("Successfully updated!");
       router.refresh();
       setDisabled(true);
@@ -63,9 +57,6 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
     reset({
       name: reservation.petName,
       chipNumber: reservation.petChipNumber,
-      breed: breed || "",
-      age: age || null,
-      remark: remark || "",
     });
   };
 
@@ -78,33 +69,11 @@ const PetReservationInfo: React.FC<PetReservationInfoProps> = ({
           label="Name"
           register={register}
           errors={errors}
-          disabled
+          disabled={disabled}
         />
         <Input
           id="chipNumber"
           label="Chip Number"
-          register={register}
-          errors={errors}
-          disabled
-        />
-        <Input
-          id="breed"
-          label="Breed"
-          register={register}
-          errors={errors}
-          disabled={disabled}
-        />
-        <Input
-          id="age"
-          label="Age"
-          register={register}
-          errors={errors}
-          disabled={disabled}
-          type="number"
-        />
-        <Input
-          id="remark"
-          label="Remark"
           register={register}
           errors={errors}
           disabled={disabled}

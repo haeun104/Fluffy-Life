@@ -25,7 +25,7 @@ export async function PUT(
   { params }: { params: ReservationParams }
 ) {
   const body = await request.json();
-  const { name, breed, age, chipNumber, remark, userId } = body;
+  const { name, chipNumber } = body;
 
   const { reservationId } = params;
 
@@ -34,23 +34,8 @@ export async function PUT(
       id: reservationId,
     },
     data: {
-      pet: {
-        upsert: {
-          update: {
-            breed,
-            age,
-            remark,
-          },
-          create: {
-            userId,
-            name,
-            breed,
-            age,
-            chipNumber,
-            remark,
-          },
-        },
-      },
+      petName: name,
+      petChipNumber: chipNumber,
     },
   });
 

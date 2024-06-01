@@ -19,7 +19,7 @@ const ReservationDetailPage = async ({
     const { imageUrl, roomType } = reservation.room;
     const descriptions = roomDescription.filter((item) =>
       item.rooms.includes(roomType)
-    );
+    );   
 
     return (
       <Container>

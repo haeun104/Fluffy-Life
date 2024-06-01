@@ -40,5 +40,4 @@ export interface HotelReservationData {
   createdAt: Date;
   user: User;
   room: Room;
-  pet: Pet;
 }
