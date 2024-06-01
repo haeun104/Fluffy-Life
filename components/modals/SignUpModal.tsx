@@ -16,6 +16,7 @@ import useLoginModal from "@/hooks/useLoginModal";
 
 const SignUpModal = () => {
   const signUpModal = useSignUpModal();
+  const loginModal = useLoginModal();
 
   //Define schema for form validation
   const schema: ZodType<FieldValues> = z
@@ -84,6 +85,7 @@ const SignUpModal = () => {
             toast.success("Successfully registered!");
             signUpModal.onClose();
             reset();
+            loginModal.onOpen();
           })
           .catch((error) => {
             toast.error("Something went wrong");
