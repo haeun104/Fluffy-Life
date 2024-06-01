@@ -93,7 +93,7 @@ model HotelReservation {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  pet  Pet  @relation(fields: [petChipNumber], references: [chipNumber], onDelete: Cascade)
+  pet  Pet  @relation(fields: [petChipNumber], references: [chipNumber])
 }
 
 model HotelReview {
