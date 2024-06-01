@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className="absolute top-0 left-0 h-full w-full bg-neutral-800/70 flex justify-center items-center z-50">
+    <div className="fixed inset-0 h-screen w-screen bg-neutral-800/70 flex justify-center items-center z-50">
       <div className="bg-white px-6 py-8 rounded-lg relative w-full max-w-[500px]">
         <IoMdClose
           className="cursor-pointer absolute right-4"
