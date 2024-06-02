@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fluffy Life
 
-## Getting Started
+An app for booking pet care services providing the following main functions.
 
-First, run the development server:
+- CRUD reservations, reviews, user profiles, and pet profiles
+- Sign up and login
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- A full-stack application utilizing the app router in Next.js 14
+- Implement a search bar to check booking availability through query strings
+- Enhance the user experience by incorporating DateRange for easy period selection within the calendar
+- Implement responsive web design
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+TypeScript, React, Next.js, MongoDB, Prisma, Tailwind, NextAuth
 
-## Learn More
+## Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+Home
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![home](https://github.com/haeun104/Fluffy-Life/assets/137396129/62462cb9-8812-4216-b8f8-6ae69af603b6)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Room search
 
-## Deploy on Vercel
+![room-search](https://github.com/haeun104/Fluffy-Life/assets/137396129/24d09588-511d-438a-a5f7-095781a3f14d)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Room reservation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![room-reservation1](https://github.com/haeun104/Fluffy-Life/assets/137396129/18acf052-168f-469b-b3bb-2e906b1394a7)
+![room-reservation2](https://github.com/haeun104/Fluffy-Life/assets/137396129/577032ea-430e-4a73-8fa6-844e59231c81)
+![room-reservation3](https://github.com/haeun104/Fluffy-Life/assets/137396129/00d8c60e-5fec-43ea-89ec-f550cef7d23b)
+
+Grooming reservation
+
+![grooming-reservation](https://github.com/haeun104/Fluffy-Life/assets/137396129/e40e5272-e699-446d-b7b2-217202963f6c)
+
+My reservations
+
+![reservations](https://github.com/haeun104/Fluffy-Life/assets/137396129/4e8e576f-ffce-4ce4-af06-e4aa16ac3816)
+
+Review creation/update
+
+![review-edit](https://github.com/haeun104/Fluffy-Life/assets/137396129/0d095c00-01b2-4f7c-8e14-d47a2e29a86c)
+
+## Authors
+
+- [@haeun104](https://github.com/haeun104)
