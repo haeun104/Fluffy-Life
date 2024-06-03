@@ -25,7 +25,7 @@ const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
   const reviewListModal = useReviewListModal();
 
   return (
-    <div className={`py-4 ${modal ? "w-full" : "md:w-1/2"}`}>
+    <div className={`py-4 ${modal ? "w-full" : "md:w-1/2 md:pr-2"}`}>
       <div className="text-sm">{userName}</div>
       <div className="flex">
         {[...Array(5)].map((star, index) => {
