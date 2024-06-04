@@ -30,7 +30,7 @@ const GroomingReservationDetail: React.FC<GroomingReservationDetailProps> = ({
   petName,
 }) => {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 max-w-[410px] md:min-w-[410px]">
       <div>
         <h4 className="mb-4">Select time that you want</h4>
         {!availableTimes ? (
