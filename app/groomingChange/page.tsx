@@ -14,7 +14,7 @@ const GroomingChangePage = async ({
   searchParams: GroomingChangeParams;
 }) => {
   const currentUser = await getCurrentUser();
-  const { reservationId } = searchParams;
+  const { reservationId, date } = searchParams;
 
   const previousReservation = await getGroomingReservationById(reservationId);
 
@@ -27,6 +27,7 @@ const GroomingChangePage = async ({
         <GroomingReservationChange
           previousReservation={previousReservation}
           reservationId={reservationId}
+          newDate={date}
           currentUser={currentUser}
         />
       </div>

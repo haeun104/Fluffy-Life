@@ -17,12 +17,14 @@ import getAvailableTimes from "@/actions/getAvailableTimes";
 interface GroomingReservationChangeProps {
   previousReservation: GroomingReservation | null | undefined;
   reservationId: string;
+  newDate: Date;
   currentUser: UserData | null;
 }
 
 const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
   previousReservation,
   reservationId,
+  newDate,
   currentUser,
 }) => {
   const [pets, setPets] = useState<petNames[]>([]);
@@ -38,18 +40,17 @@ const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
     };
 
     const updateAvailableTimes = async () => {
-      if (date) {
-        const availableTimes = await fetchTimes(date);
+      if (newDate) {
+        console.log(newDate);
+        const availableTimes = await fetchTimes(newDate);
         setAvailableTimes(availableTimes);
+        setDate(newDate);
         return;
       }
-
-      return setAvailableTimes(["10:00", "12:00", "14:00", "16:00", "18:00"]);
     };
 
     updateAvailableTimes();
-    
-  }, [date]);
+  }, [newDate]);
 
   const router = useRouter();
 
@@ -77,8 +78,6 @@ const GroomingReservationChange: React.FC<GroomingReservationChangeProps> = ({
   }, [currentUser]);
 
   const onChangeDate = async (date: Date) => {
-    setDate(date);
-
     const cetDate = addHours(date, 2);
     let query = {
       reservationId,
