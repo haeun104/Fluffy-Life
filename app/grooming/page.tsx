@@ -1,4 +1,3 @@
-import getAvailableTimes from "@/actions/getAvailableTimes";
 import getCurrentUser from "@/actions/getCurrentUser";
 import Container from "@/components/Container";
 import GroomingGallery from "@/components/grooming/GroomingGallery";
@@ -6,6 +5,9 @@ import GroomingReservation from "@/components/grooming/GroomingReservation";
 
 export interface GroomingSearchParams {
   date?: Date;
+  service?: string;
+  startDate?: Date;
+  endDate?: Date;
 }
 
 const GroomingPage = async ({
@@ -13,7 +15,6 @@ const GroomingPage = async ({
 }: {
   searchParams: GroomingSearchParams;
 }) => {
-  const times = await getAvailableTimes(searchParams.date)
   const currentUser = await getCurrentUser();
 
   return (
@@ -39,7 +40,7 @@ const GroomingPage = async ({
         </div>
         <GroomingReservation
           currentUser={currentUser}
-          initialDate={searchParams.date}
+          searchParams={searchParams}
         />
         <GroomingGallery />
       </div>

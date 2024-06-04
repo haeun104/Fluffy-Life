@@ -11,10 +11,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import GroomingReservationDetail from "./GroomingReservationDetail";
 import getAvailableTimes from "@/actions/getAvailableTimes";
+import { GroomingSearchParams } from "@/app/grooming/page";
 
 interface GroomingReservationProps {
   currentUser: UserData | null;
-  initialDate: Date | undefined;
+  searchParams: GroomingSearchParams;
 }
 
 export interface petNames {
@@ -24,11 +25,11 @@ export interface petNames {
 
 const GroomingReservation: React.FC<GroomingReservationProps> = ({
   currentUser,
-  initialDate,
+  searchParams,
 }) => {
   const { submitSearch } = useSearchSubmit();
   const [pets, setPets] = useState<petNames[]>([]);
-  const [date, setDate] = useState<Date | undefined>(initialDate);
+  const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
   const [availableTimes, setAvailableTimes] = useState<string[]>();
@@ -42,17 +43,17 @@ const GroomingReservation: React.FC<GroomingReservationProps> = ({
     };
 
     const updateAvailableTimes = async () => {
-      if (initialDate) {
-        const availableTimes = await fetchTimes(initialDate);
+      if (searchParams && searchParams.date) {
+        console.log(searchParams.date);
+        const availableTimes = await fetchTimes(searchParams.date);
         setAvailableTimes(availableTimes);
+        setDate(searchParams.date)
         return;
       }
-
-      return setAvailableTimes(["10:00", "12:00", "14:00", "16:00", "18:00"]);
     };
 
     updateAvailableTimes();
-  }, [initialDate]);
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchPets = async (userId: string) => {
