@@ -22,6 +22,12 @@ const config: Config = {
           "50%": { backgroundImage: "url('/images/training-dogs.jpg')" },
           "75%": { backgroundImage: "url('/images/swimming-dog.jpg')" },
         },
+        heroImagesSm: {
+          "0%, 100%": { backgroundImage: "url('/images/sleepy-dog-sm.jpg')" },
+          "25%": { backgroundImage: "url('/images/playing-dogs-sm.jpg')" },
+          "50%": { backgroundImage: "url('/images/training-dogs-sm.jpg')" },
+          "75%": { backgroundImage: "url('/images/swimming-dog-sm.jpg')" },
+        },
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -29,6 +35,7 @@ const config: Config = {
       },
       animation: {
         heroAnimation: "heroImages 16s ease-in-out infinite",
+        heroAnimationSm: "heroImagesSm 16s ease-in-out infinite",
         "fade-in-1": "fadeIn 1s ease-in-out 0s forwards",
         "fade-in-2": "fadeIn 1s ease-in-out 0.5s forwards",
         "fade-in-3": "fadeIn 1s ease-in-out 1s forwards",
