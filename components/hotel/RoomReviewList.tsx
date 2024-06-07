@@ -39,7 +39,7 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ roomId }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <>

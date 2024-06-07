@@ -39,7 +39,7 @@ const ReviewListModal: React.FC<RoomReviewProps> = ({ roomId }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const bodyContent = (
     <div>

@@ -41,7 +41,15 @@ const RoomReviewItem: React.FC<RoomReviewItemProps> = ({
       </div>
       <div className="text-xs mt-2">{formattedDate}</div>
       <div className="text-sm mt-2">
-        <p className={`mb-2 ${modal ? "break-words" : "truncate"}`}>{review}</p>
+        <p
+          className={`mb-2 ${
+            modal
+              ? "break-words"
+              : "max-h-[5em] leading-6 overflow-hidden text-ellipsis ellipsis"
+          }`}
+        >
+          {review}
+        </p>
         {review.length >= 70 && !modal && (
           <span
             className="border-b-[1px] border-black cursor-pointer"
