@@ -6,7 +6,7 @@ import RoomReservation from "@/components/hotel/RoomReservation";
 import RoomReviewList from "@/components/hotel/RoomReviewList";
 import ReservationModal from "@/components/modals/ReservationModal";
 import useReservationModal from "@/hooks/useReservationModal";
-import { RoomData, RoomReview, UserData } from "@/types";
+import { RoomData, UserData } from "@/types";
 import { HotelReservation } from "@prisma/client";
 import {
   addDays,
@@ -24,7 +24,6 @@ interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
   reservations: HotelReservation[] | undefined;
-  reviews: RoomReview[] | undefined;
 }
 
 const initialDateRange = {
@@ -37,7 +36,6 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   selectedRoom,
   currentUser,
   reservations,
-  reviews,
 }) => {
   const [dataRange, setDataRange] = useState<Range>(initialDateRange);
   const [earliestDate, setEarliestDate] = useState<Date>(new Date());
@@ -136,7 +134,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
             disableDates={disabledDates}
             earliestDate={earliestDate}
           />
-          <RoomReviewList reviews={reviews} />
+          <RoomReviewList roomId={selectedRoom.id} />
         </div>
       </Container>
       <ReservationModal
