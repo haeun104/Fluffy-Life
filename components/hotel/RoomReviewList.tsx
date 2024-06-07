@@ -1,7 +1,6 @@
 "use client";
 
 import RoomReviewItem from "./RoomReviewItem";
-import ReviewListModal from "../modals/ReviewListModal";
 import { RoomReview } from "@/types";
 import AverageRating from "../AverageRating";
 import { useCallback, useEffect, useState } from "react";
@@ -82,7 +81,6 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ roomId }) => {
           )}
         </div>
       </div>
-      <ReviewListModal />
     </>
   );
 };

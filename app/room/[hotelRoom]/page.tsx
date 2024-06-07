@@ -3,7 +3,7 @@ import HotelRoomClient from "./HotelRoomClient";
 import getRoomDetail from "@/actions/getRoomDetail";
 import getHotelReservation from "@/actions/getReservationsByRoom";
 import { HotelReservation } from "@prisma/client";
-import getHotelReviews from "@/actions/getHotelReviews";
+import ReviewListModal from "@/components/modals/ReviewListModal";
 
 interface HotelRoomParams {
   hotelRoom: string;
@@ -20,11 +20,14 @@ const HotelRoomPage = async ({ params }: { params: HotelRoomParams }) => {
   }
 
   return (
-    <HotelRoomClient
-      selectedRoom={room}
-      currentUser={currentUser}
-      reservations={reservations}
-    />
+    <>
+      <HotelRoomClient
+        selectedRoom={room}
+        currentUser={currentUser}
+        reservations={reservations}
+      />
+      <ReviewListModal roomId={params.hotelRoom} />
+    </>
   );
 };
 

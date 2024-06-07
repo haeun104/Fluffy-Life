@@ -5,63 +5,66 @@ import { RoomReviewProps } from "../hotel/RoomReviewList";
 import Modal from "./Modal";
 import RoomReviewItem from "../hotel/RoomReviewItem";
 import AverageRating from "../AverageRating";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { RoomReview } from "@/types";
+import getHotelReviews from "@/actions/getHotelReviews";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const ReviewListModal: React.FC<RoomReviewProps> = ({ reviews }) => {
+const ReviewListModal: React.FC<RoomReviewProps> = ({ roomId }) => {
   const reviewListModal = useReviewListModal();
+  const [reviews, setReviews] = useState<RoomReview[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [visibleReviews, setVisibleReviews] = useState(2);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const take = 2;
+      const skip = visibleCount * take;
+      const response = await getHotelReviews(roomId, false, skip, take);
+      if (response && response.length > 0) {
+        setReviews((prev) => [...prev, ...response]);
+        setVisibleCount((prev) => prev + 1);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error: any) {
+      console.error(error);
+      setHasMore(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [roomId, visibleCount]);
 
   useEffect(() => {
-    const handleObserver = (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && reviews) {
-        setVisibleReviews((prev) => Math.min(prev + 1, reviews.length));
-      }
-    };
-
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: "20px",
-      threshold: 1.0,
-    });
-
-    const currentLoadMoreRef = loadMoreRef.current;
-    if (currentLoadMoreRef) {
-      observer.observe(currentLoadMoreRef);
-    }
-
-    return () => {
-      if (currentLoadMoreRef) {
-        observer.unobserve(currentLoadMoreRef);
-      }
-    };
-  }, [reviews]);
+    fetchData();
+  }, []);
 
   const bodyContent = (
     <div>
       <h2 className="font-bold">Reviews</h2>
       <AverageRating reviews={reviews} />
       <div className="flex flex-col w-full max-h-[350px] overflow-auto">
-        {reviews?.slice(0, visibleReviews).map((review, index) => (
-          <RoomReviewItem
-            key={review.id}
-            rating={review.rating}
-            review={review.review}
-            createdAt={review.createdAt}
-            userName={review.user.name}
-            modal={true}
-          />
-        ))}
-        {reviews && visibleReviews < reviews.length && (
-          <div
-            ref={loadMoreRef}
-            className="w-full h-10 flex justify-center items-center"
-          >
-            <span>Loading more reviews...</span>
-          </div>
-        )}
+        <InfiniteScroll
+          dataLength={reviews.length}
+          next={fetchData}
+          hasMore={hasMore}
+          loader={<p>Loading...</p>}
+          scrollableTarget="scrollableDiv"
+        >
+          {reviews.map((review) => (
+            <RoomReviewItem
+              key={review.id}
+              rating={review.rating}
+              review={review.review}
+              createdAt={review.createdAt}
+              userName={review.user.name}
+              modal={true}
+            />
+          ))}
+        </InfiniteScroll>
+        {isLoading && <div>Loading...</div>}
       </div>
     </div>
   );
