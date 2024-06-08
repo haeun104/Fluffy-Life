@@ -1,5 +1,6 @@
 "use client";
 
+import AverageRating from "@/components/AverageRating";
 import Container from "@/components/Container";
 import RoomDetails from "@/components/hotel/RoomDetails";
 import RoomReservation from "@/components/hotel/RoomReservation";
@@ -24,6 +25,7 @@ interface HotelRoomClientProps {
   selectedRoom: RoomData;
   currentUser: UserData | null;
   reservations: HotelReservation[] | undefined;
+  rating: number | undefined;
 }
 
 const initialDateRange = {
@@ -36,6 +38,7 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
   selectedRoom,
   currentUser,
   reservations,
+  rating,
 }) => {
   const [dataRange, setDataRange] = useState<Range>(initialDateRange);
   const [earliestDate, setEarliestDate] = useState<Date>(new Date());
@@ -134,6 +137,10 @@ const HotelRoomClient: React.FC<HotelRoomClientProps> = ({
             disableDates={disabledDates}
             earliestDate={earliestDate}
           />
+          <div>
+            <h2 className="font-bold text-lg">Reviews</h2>
+            <AverageRating rating={rating || 0} />
+          </div>
           <RoomReviewList roomId={selectedRoom.id} />
         </div>
       </Container>

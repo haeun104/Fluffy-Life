@@ -4,6 +4,7 @@ import getRoomDetail from "@/actions/getRoomDetail";
 import getHotelReservation from "@/actions/getReservationsByRoom";
 import { HotelReservation } from "@prisma/client";
 import ReviewListModal from "@/components/modals/ReviewListModal";
+import getAverageRating from "@/actions/getAverageRating";
 
 interface HotelRoomParams {
   hotelRoom: string;
@@ -14,21 +15,21 @@ const HotelRoomPage = async ({ params }: { params: HotelRoomParams }) => {
   const reservations: HotelReservation[] | undefined =
     await getHotelReservation(params.hotelRoom);
   const currentUser = await getCurrentUser();
+  const rating = await getAverageRating(params.hotelRoom);
 
-  if (!room) {
-    return null;
+  if (room && currentUser && reservations) {
+    return (
+      <>
+        <HotelRoomClient
+          selectedRoom={room}
+          currentUser={currentUser}
+          reservations={reservations}
+          rating={rating}
+        />
+        <ReviewListModal roomId={params.hotelRoom} rating={rating} />
+      </>
+    );
   }
-
-  return (
-    <>
-      <HotelRoomClient
-        selectedRoom={room}
-        currentUser={currentUser}
-        reservations={reservations}
-      />
-      <ReviewListModal roomId={params.hotelRoom} />
-    </>
-  );
 };
 
 export default HotelRoomPage;

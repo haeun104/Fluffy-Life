@@ -1,7 +1,6 @@
 "use client";
 
 import useReviewListModal from "@/hooks/useReviewListModal";
-import { RoomReviewProps } from "../hotel/RoomReviewList";
 import Modal from "./Modal";
 import RoomReviewItem from "../hotel/RoomReviewItem";
 import AverageRating from "../AverageRating";
@@ -10,7 +9,15 @@ import { RoomReview } from "@/types";
 import getHotelReviews from "@/actions/getHotelReviews";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const ReviewListModal: React.FC<RoomReviewProps> = ({ roomId }) => {
+interface ReviewListModalProps {
+  roomId: string;
+  rating: number | undefined;
+}
+
+const ReviewListModal: React.FC<ReviewListModalProps> = ({
+  roomId,
+  rating,
+}) => {
   const reviewListModal = useReviewListModal();
   const [reviews, setReviews] = useState<RoomReview[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -44,7 +51,7 @@ const ReviewListModal: React.FC<RoomReviewProps> = ({ roomId }) => {
   const bodyContent = (
     <div>
       <h2 className="font-bold">Reviews</h2>
-      <AverageRating reviews={reviews} />
+      <AverageRating rating={rating || 0} />
       <div className="flex flex-col w-full max-h-[350px] overflow-auto">
         <InfiniteScroll
           dataLength={reviews.length}
