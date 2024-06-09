@@ -29,6 +29,7 @@ const ReviewListModal: React.FC<ReviewListModalProps> = ({
     try {
       const take = 2;
       const skip = visibleCount * take;
+      console.log(`Fetching reviews: skip=${skip}, take=${take}`);
       const response = await getHotelReviews(roomId, false, skip, take);
       if (response && response.length > 0) {
         setReviews((prev) => [...prev, ...response]);
@@ -45,20 +46,25 @@ const ReviewListModal: React.FC<ReviewListModalProps> = ({
   }, [roomId, visibleCount]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (reviewListModal.isOpen) {
+      fetchData();
+    }
+  }, [reviewListModal]);
 
   const bodyContent = (
     <div>
       <h2 className="font-bold">Reviews</h2>
       <AverageRating rating={rating || 0} />
-      <div className="flex flex-col w-full max-h-[350px] overflow-auto">
+      <div
+        className="flex flex-col w-full max-h-[350px] overflow-auto"
+        id="modalScrollableDiv"
+      >
         <InfiniteScroll
           dataLength={reviews.length}
           next={fetchData}
           hasMore={hasMore}
           loader={<p>Loading...</p>}
-          scrollableTarget="scrollableDiv"
+          scrollableTarget="modalScrollableDiv"
         >
           {reviews.map((review) => (
             <RoomReviewItem

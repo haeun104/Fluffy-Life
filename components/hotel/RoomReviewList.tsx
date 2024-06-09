@@ -68,7 +68,7 @@ const RoomReviewList: React.FC<RoomReviewProps> = ({ roomId }) => {
           <div
             className={`${
               reviews.length <= 2 && "hidden"
-            } absolute inset-x-0 bottom-0 h-[250px] bg-gradient-to-t from-white to-transparent`}
+            } absolute inset-x-0 bottom-0 h-[200px] bg-gradient-to-t from-white to-transparent`}
           ></div>
         </div>
       )}
