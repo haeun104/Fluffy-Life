@@ -38,7 +38,7 @@ Grooming reservation
 
 My reservations
 
-![reservations](https://github.com/haeun104/Fluffy-Life/assets/137396129/4e8e576f-ffce-4ce4-af06-e4aa16ac3816)
+![reservations](https://github.com/haeun104/Fluffy-Life/assets/137396129/95957955-e3fc-475d-8b8e-8b3efb5b769d)
 
 Review creation/update
 
