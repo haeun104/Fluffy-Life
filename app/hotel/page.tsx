@@ -1,6 +1,13 @@
 import RoomList from "@/components/hotel/RoomList";
 import Container from "@/components/Container";
 import { RoomSearchParams } from "@/actions/getAvailableRooms";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fluffy Life - Hotel",
+  description:
+    "Reserve premium dog rooms with luxurious amenities and personalized care at our pet hotel",
+};
 
 const HotelPage = async ({
   searchParams,

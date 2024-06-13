@@ -6,6 +6,18 @@ import { HotelReservation } from "@prisma/client";
 import ReviewListModal from "@/components/modals/ReviewListModal";
 import getAverageRating from "@/actions/getAverageRating";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: HotelRoomParams;
+}) {
+  const room = await getRoomDetail(params.hotelRoom);
+  return {
+    title: `Fluffy Life - ${room?.roomType}`,
+    description: room?.description,
+  };
+}
+
 interface HotelRoomParams {
   hotelRoom: string;
 }

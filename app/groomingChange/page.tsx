@@ -2,6 +2,21 @@ import getCurrentUser from "@/actions/getCurrentUser";
 import getGroomingReservationById from "@/actions/getGroomingReservationById";
 import Container from "@/components/Container";
 import GroomingReservationChange from "@/components/grooming/GroomingReservationChange";
+import { format } from "date-fns";
+
+export function generateMetadata({
+  searchParams,
+}: {
+  searchParams: GroomingChangeParams;
+}) {
+  const date = format(searchParams.date, "yyyy-MM-dd");
+
+  return {
+    title: `Reservation change - grooming ${date}`,
+    description:
+      "Easily modify your dog's grooming appointments with our convenient booking management tool.",
+  };
+}
 
 export interface GroomingChangeParams {
   reservationId: string;

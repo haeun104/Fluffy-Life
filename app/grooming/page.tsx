@@ -2,6 +2,13 @@ import getCurrentUser from "@/actions/getCurrentUser";
 import Container from "@/components/Container";
 import GroomingGallery from "@/components/grooming/GroomingGallery";
 import GroomingReservation from "@/components/grooming/GroomingReservation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fluffy Life - Grooming",
+  description:
+    "Give your dog the ultimate grooming experience with our professional grooming services.",
+};
 
 export interface GroomingSearchParams {
   date?: Date;

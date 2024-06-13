@@ -1,4 +1,11 @@
 import Container from "@/components/Container";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fluffy Life - Event",
+  description:
+    "Join us for exciting dog events featuring fun activities, professional training sessions, and socialization opportunities.",
+};
 
 const EventPage = () => {
   return (

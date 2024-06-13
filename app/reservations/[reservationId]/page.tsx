@@ -4,6 +4,19 @@ import { roomDescription } from "@/components/hotel/RoomReservation";
 import PetReservationInfo from "@/components/reservation/PetReservationInfo";
 import Image from "next/image";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: ReservationDetailParams;
+}) {
+  const reservation = await getHotelReservationById(params.reservationId);
+  return {
+    title: `Reservation - ${reservation?.room.roomType} ${reservation?.startDate}`,
+    description:
+      "Easily modify your dog's stay with our convenient booking management tool.",
+  };
+}
+
 interface ReservationDetailParams {
   reservationId: string;
 }
@@ -19,7 +32,7 @@ const ReservationDetailPage = async ({
     const { imageUrl, roomType } = reservation.room;
     const descriptions = roomDescription.filter((item) =>
       item.rooms.includes(roomType)
-    );   
+    );
 
     return (
       <Container>

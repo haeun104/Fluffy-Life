@@ -4,6 +4,13 @@ import getHotelReservationByUser from "@/actions/getHotelReservationsByUser";
 import Container from "@/components/Container";
 import GroomingReservations from "@/components/reservation/GroomingReservations";
 import HotelReservations from "@/components/reservation/HotelReservations";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fluffy Life - My Reservations",
+  description:
+    "View and manage your hotel bookings easily with our user-friendly reservation dashboard.",
+};
 
 const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();

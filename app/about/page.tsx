@@ -5,6 +5,12 @@ import grooming from "@/public/images/grooming-about.png";
 import playing from "@/public/images/playing-about.png";
 import event from "@/public/images/event-about.png";
 import Map from "@/components/contact/Map";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fluffy Life - About Us",
+  description: "Premium dog care services",
+};
 
 const AboutPage = () => {
   return (
