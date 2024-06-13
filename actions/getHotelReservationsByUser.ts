@@ -6,8 +6,8 @@ import { HotelReview } from "@prisma/client";
 
 export default async function getHotelReservationsByUser(
   userId: string | null,
-  skip: number = 0,
-  take: number = 3
+  skip?: number,
+  take?: number
 ) {
   if (userId !== null) {
     try {

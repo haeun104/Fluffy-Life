@@ -3,7 +3,7 @@
 import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
 import ReviewRegistrationModal from "../modals/ReviewRegistrationModal";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RoomData } from "@/types";
 import useHotelReviewModal from "@/hooks/useReviewRegistrationModal";
 import getHotelReservationsByUser from "@/actions/getHotelReservationsByUser";
@@ -24,16 +24,16 @@ export interface HotelReservation {
 
 interface HotelReservationsProps {
   initialReservations:
-    | (HotelReservation & {
-        review: HotelReview | undefined;
-      })[]
+    | (HotelReservation & { review: HotelReview | undefined })[]
     | undefined;
   currentUser: string;
+  reservationCount: number | undefined;
 }
 
 const HotelReservations: React.FC<HotelReservationsProps> = ({
   initialReservations,
   currentUser,
+  reservationCount,
 }) => {
   const [reservationsWithReviews, setReservationsWithReviews] =
     useState(initialReservations);
@@ -43,11 +43,18 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     null
   );
   const [visibleCount, setVisibleCount] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [remainedCount, setRemainedCount] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const hotelReviewModal = useHotelReviewModal();
+
+  useEffect(() => {
+    if (reservationCount && initialReservations) {
+      const initialCount = reservationCount - initialReservations.length;
+      setRemainedCount(initialCount);
+    }
+  }, [reservationCount, initialReservations]);
 
   const fetchReservations = async () => {
     try {
@@ -66,12 +73,14 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
           return [...prev, ...response];
         });
         setVisibleCount((prev) => prev + 1);
-      } else {
-        setHasMore(false);
+        setRemainedCount((prev) => {
+          if (prev) {
+            return prev - response.length;
+          }
+        });
       }
     } catch (error: any) {
       console.error(error);
-      setHasMore(false);
     }
   };
 
@@ -91,7 +100,11 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
   const hidePreviousReservation = () => {
     setVisibleCount(1);
     setReservationsWithReviews(initialReservations);
-    setHasMore(true);
+
+    if (reservationCount && initialReservations) {
+      const initialCount = reservationCount - initialReservations.length;
+      setRemainedCount(initialCount);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -145,7 +158,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
         )}
         {reservationsWithReviews && !isLoading ? (
           <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
-            {hasMore ? (
+            {remainedCount !== 0 ? (
               <div
                 onClick={loadMoreReservations}
                 className="cursor-pointer"
