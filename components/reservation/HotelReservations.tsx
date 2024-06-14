@@ -49,6 +49,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
 
   const hotelReviewModal = useHotelReviewModal();
 
+  // Calculate and update initial count of reservations
   useEffect(() => {
     if (reservationCount && initialReservations) {
       const initialCount = reservationCount - initialReservations.length;
@@ -56,6 +57,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
   }, [reservationCount, initialReservations]);
 
+  // Fetch 3 next reservations and their reviews
   const fetchReservations = async () => {
     try {
       const take = 3;
@@ -84,10 +86,12 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
   };
 
+// Implement fetching next reservations once load more is clicked
   const loadMoreReservations = async () => {
     setIsLoading(true);
     try {
       await fetchReservations();
+      // Scroll page to get the load more button on user's view
       if (loadMoreRef.current) {
         loadMoreRef.current.scrollIntoView({ behavior: "smooth" });
       }
@@ -97,6 +101,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
   };
 
+  // Reset the reservation list to its initial one
   const hidePreviousReservation = () => {
     setVisibleCount(1);
     setReservationsWithReviews(initialReservations);
@@ -107,6 +112,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
 
   const openHotelReviewModal = async (id: string) => {
     if (reservationsWithReviews) {
