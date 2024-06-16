@@ -9,6 +9,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { revalidatePath } from "next/cache";
 
 interface ReservationItemProps {
   id: string;
@@ -75,7 +76,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
     try {
       await axios.delete(`/api/hotelReservation/${reservationId}`);
       toast.success("Successfully deleted");
-      router.refresh();
+      revalidatePath("/reservations");
     } catch (error) {
       toast.error("Failed to delete the reservation");
       console.error(error);
