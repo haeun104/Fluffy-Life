@@ -22,10 +22,8 @@ const ReviewListModal: React.FC<ReviewListModalProps> = ({
   const [reviews, setReviews] = useState<RoomReview[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [visibleCount, setVisibleCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    setIsLoading(true);
     try {
       const take = 2;
       const skip = visibleCount * take;
@@ -40,8 +38,6 @@ const ReviewListModal: React.FC<ReviewListModalProps> = ({
     } catch (error: any) {
       console.error(error);
       setHasMore(false);
-    } finally {
-      setIsLoading(false);
     }
   }, [roomId, visibleCount]);
 
@@ -77,7 +73,6 @@ const ReviewListModal: React.FC<ReviewListModalProps> = ({
             />
           ))}
         </InfiniteScroll>
-        {isLoading && <div>Loading...</div>}
       </div>
     </div>
   );
