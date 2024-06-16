@@ -13,9 +13,7 @@ interface RoomListProps {
   searchParams: RoomSearchParams;
 }
 
-const RoomList: React.FC<RoomListProps> = ({
-  searchParams,
-}) => {
+const RoomList: React.FC<RoomListProps> = ({ searchParams }) => {
   const [availableRooms, setAvailableRooms] = useState<
     RoomData[] | undefined
   >();
@@ -42,7 +40,7 @@ const RoomList: React.FC<RoomListProps> = ({
       <RoomSearchBar
         startDate={searchParams.startDate}
         endDate={searchParams.endDate}
-        roomType={searchParams.roomType || "All"}
+        roomType={searchParams.roomType}
       />
       {!availableRooms ? (
         <div className="h-[350px] flex justify-center items-center">
