@@ -1,9 +1,12 @@
+"use client";
+
 import useRoomSearchModal from "@/hooks/useRoomSearchModal";
 import Modal from "./Modal";
 import RoomSearchInputs from "../inputs/RoomSearchInputs";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../hotel/RoomSearchBar";
+import { useEffect } from "react";
 
 interface RoomSearchModalProps {
   searchAvailableRoom: (data: FieldValues) => void;
@@ -17,6 +20,8 @@ const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
   const {
     register,
     handleSubmit,
+    clearErrors,
+    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
@@ -27,6 +32,16 @@ const RoomSearchModal: React.FC<RoomSearchModalProps> = ({
     },
     resolver: zodResolver(schema),
   });
+
+  // Watch changes on input values
+  const startDateWatch = watch("startDate");
+  const endDateWatch = watch("endDate");
+  const roomTypeWatch = watch("roomType");
+
+  // Reset error messages whenever input values are changed
+  useEffect(() => {
+    clearErrors();
+  }, [startDateWatch, endDateWatch, roomTypeWatch, clearErrors]);
 
   const bodyContent = (
     <div>

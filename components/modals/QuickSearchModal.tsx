@@ -8,6 +8,7 @@ import Input from "../inputs/Input";
 import useSearchSubmit from "@/hooks/useSearchSubmit";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 export const schema = z
   .object({
@@ -66,6 +67,7 @@ const QuickSearchModal = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
@@ -78,7 +80,16 @@ const QuickSearchModal = () => {
     resolver: zodResolver(schema),
   });
 
+  // Watch changes on input values
   const service = watch("service");
+  const date = watch("date");
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
+
+  // Reset error messages whenever input values are changed
+  useEffect(() => {
+    clearErrors();
+  }, [service, date, startDate, endDate, clearErrors]);
 
   const submitQuickSearch = (data: FieldValues) => {
     let searchData;

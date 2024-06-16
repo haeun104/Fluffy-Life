@@ -62,6 +62,7 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
     roomType: "All",
   });
 
+  // Update initial dates and room type for searching by using props
   useEffect(() => {
     if (startDate && endDate) {
       const start = changeDateFromString(startDate);
@@ -84,6 +85,8 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
   const {
     register,
     handleSubmit,
+    clearErrors,
+    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues>({
@@ -95,11 +98,23 @@ const RoomSearchBar: React.FC<RoomSearchProps> = ({
     resolver: zodResolver(schema),
   });
 
+  // Watch changes on input values
+  const startDateWatch = watch("startDate");
+  const endDateWatch = watch("endDate");
+  const roomTypeWatch = watch("roomType");
+
+  // Reset error messages whenever input values are changed
+  useEffect(() => {
+    clearErrors();
+  }, [startDateWatch, endDateWatch, roomTypeWatch, clearErrors]);
+
+  // Send search query to url when search button is clicked
   const searchAvailableRoom = (data: FieldValues) => {
     const searchData = { ...data, service: "hotel" };
     submitSearch(searchData);
   };
 
+  // Reset query to initial state
   const resetSearch = () => {
     setSearchData({
       startDate: "DD/MM/YYYY",
