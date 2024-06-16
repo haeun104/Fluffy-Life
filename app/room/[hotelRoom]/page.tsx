@@ -29,7 +29,7 @@ const HotelRoomPage = async ({ params }: { params: HotelRoomParams }) => {
   const currentUser = await getCurrentUser();
   const rating = await getAverageRating(params.hotelRoom);
 
-  if (room && currentUser && reservations) {
+  if (room && reservations) {
     return (
       <>
         <HotelRoomClient
