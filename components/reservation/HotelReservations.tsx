@@ -161,30 +161,36 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
                 );
               })}
             </div>
-            {!isLoading ? (
-              <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
-                {remainedCount !== 0 ? (
-                  <div
-                    onClick={loadMoreReservations}
-                    className="cursor-pointer"
-                    ref={loadMoreRef}
-                  >
-                    Load previous reservations
-                  </div>
-                ) : (
-                  <div
-                    onClick={hidePreviousReservation}
-                    className="cursor-pointer"
-                  >
-                    Hide previous reservations
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex justify-center py-2">
-                <FadeLoader color="#219C90" />
-              </div>
-            )}
+            <div
+              className={`${
+                reservationCount && reservationCount <= 3 && "hidden"
+              }`}
+            >
+              {!isLoading ? (
+                <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
+                  {remainedCount !== 0 ? (
+                    <div
+                      onClick={loadMoreReservations}
+                      className="cursor-pointer"
+                      ref={loadMoreRef}
+                    >
+                      Load previous reservations
+                    </div>
+                  ) : (
+                    <div
+                      onClick={hidePreviousReservation}
+                      className="cursor-pointer"
+                    >
+                      Hide previous reservations
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex justify-center py-2">
+                  <FadeLoader color="#219C90" />
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>
