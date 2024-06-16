@@ -15,11 +15,12 @@ const useSearchSubmit = () => {
       query = queryString.parse(params.toString());
     }
 
-    let updatedQuery: any = { ...query, ...data };
+    let updatedQuery: any = { ...query };
 
     if (data.service === "hotel") {
       updatedQuery.startDate = formatISO(data.startDate);
       updatedQuery.endDate = formatISO(data.endDate);
+      updatedQuery.roomType = data.roomType ? data.roomType : "All";
     }
     if (data.service === "grooming") {
       updatedQuery.date = formatISO(data.date);
