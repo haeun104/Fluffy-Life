@@ -56,7 +56,9 @@ const GroomingReservations: React.FC<GroomingReservationsProps> = ({
               ))}
           </div>
           <div
-            className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]"
+            className={`border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE] ${
+              groomingReservations.length <= 3 && "hidden"
+            }`}
             ref={loadMoreRef}
           >
             {visibleReservations < groomingReservations.length ? (
