@@ -86,7 +86,7 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
   };
 
-// Implement fetching next reservations once load more is clicked
+  // Implement fetching next reservations once load more is clicked
   const loadMoreReservations = async () => {
     setIsLoading(true);
     try {
@@ -112,7 +112,6 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
 
   const openHotelReviewModal = async (id: string) => {
     if (reservationsWithReviews) {
@@ -142,46 +141,51 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
         {reservationsWithReviews?.length === 0 || !reservationsWithReviews ? (
           <div className="mt-8">There is no reservations</div>
         ) : (
-          <div className="flex flex-col gap-4 mt-4">
-            {reservationsWithReviews.map((reservation) => {
-              const { imageUrl, roomType, id } = reservation.room;
-              return (
-                <ReservationItem
-                  key={reservation.id}
-                  id={reservation.id}
-                  startDate={reservation.startDate}
-                  endDate={reservation.endDate}
-                  totalPrice={reservation.totalPrice}
-                  imageUrl={imageUrl}
-                  roomType={roomType}
-                  roomId={id}
-                  existingReview={reservation.review ? true : false}
-                  openHotelReviewModal={openHotelReviewModal}
-                />
-              );
-            })}
-          </div>
-        )}
-        {reservationsWithReviews && !isLoading ? (
-          <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
-            {remainedCount !== 0 ? (
-              <div
-                onClick={loadMoreReservations}
-                className="cursor-pointer"
-                ref={loadMoreRef}
-              >
-                Load previous reservations
+          <>
+            <div className="flex flex-col gap-4 mt-4">
+              {reservationsWithReviews.map((reservation) => {
+                const { imageUrl, roomType, id } = reservation.room;
+                return (
+                  <ReservationItem
+                    key={reservation.id}
+                    id={reservation.id}
+                    startDate={reservation.startDate}
+                    endDate={reservation.endDate}
+                    totalPrice={reservation.totalPrice}
+                    imageUrl={imageUrl}
+                    roomType={roomType}
+                    roomId={id}
+                    existingReview={reservation.review ? true : false}
+                    openHotelReviewModal={openHotelReviewModal}
+                  />
+                );
+              })}
+            </div>
+            {!isLoading ? (
+              <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
+                {remainedCount !== 0 ? (
+                  <div
+                    onClick={loadMoreReservations}
+                    className="cursor-pointer"
+                    ref={loadMoreRef}
+                  >
+                    Load previous reservations
+                  </div>
+                ) : (
+                  <div
+                    onClick={hidePreviousReservation}
+                    className="cursor-pointer"
+                  >
+                    Hide previous reservations
+                  </div>
+                )}
               </div>
             ) : (
-              <div onClick={hidePreviousReservation} className="cursor-pointer">
-                Hide previous reservations
+              <div className="flex justify-center py-2">
+                <FadeLoader color="#219C90" />
               </div>
             )}
-          </div>
-        ) : (
-          <div className="flex justify-center py-2">
-            <FadeLoader color="#219C90" />
-          </div>
+          </>
         )}
       </div>
       <ReviewRegistrationModal
