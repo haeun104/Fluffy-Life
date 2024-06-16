@@ -7,6 +7,7 @@ import useQuickSearchModal from "@/hooks/useQuickSearchModal";
 import useSearchSubmit from "@/hooks/useSearchSubmit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../modals/QuickSearchModal";
+import { useEffect } from "react";
 
 const QuickSearchBar = () => {
   const quickSearchModal = useQuickSearchModal();
@@ -16,6 +17,7 @@ const QuickSearchBar = () => {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -28,6 +30,14 @@ const QuickSearchBar = () => {
   });
 
   const service = watch("service");
+  const date = watch("date");
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
+
+  // Reset errors whenever input values are changed
+  useEffect(() => {
+    clearErrors();
+  }, [date, startDate, endDate, service, clearErrors]);
 
   const submitQuickSearch = (data: FieldValues) => {
     submitSearch(data);
@@ -102,7 +112,7 @@ const QuickSearchBar = () => {
             />
           </div>
         </div>
-        <div>
+        <div className="flex flex-col mt-2">
           {errors["startDate"] && (
             <span className="text-accent-red text-sm">
               {(errors["startDate"] as FieldError).message}
