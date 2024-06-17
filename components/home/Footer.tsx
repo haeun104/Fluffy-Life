@@ -19,25 +19,25 @@ const Footer = () => {
             <ul>
               <li
                 className="cursor-pointer hover:underline"
-                onClick={() => router.push("/about")}
+                onClick={() => router.push("/about", { scroll: true })}
               >
                 About us
               </li>
               <li
                 className="cursor-pointer hover:underline"
-                onClick={() => router.push("/hotel")}
+                onClick={() => router.push("/hotel", { scroll: true })}
               >
                 Hotel
               </li>
               <li
                 className="cursor-pointer hover:underline"
-                onClick={() => router.push("/grooming")}
+                onClick={() => router.push("/grooming", { scroll: true })}
               >
                 Grooming
               </li>
               <li
                 className="cursor-pointer hover:underline"
-                onClick={() => router.push("/events")}
+                onClick={() => router.push("/events", { scroll: true })}
               >
                 Events
               </li>

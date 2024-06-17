@@ -25,7 +25,7 @@ export default async function getHotelReservationsByUser(
         orderBy: {
           startDate: "desc",
         },
-        skip: skip,
+        skip,
         take: take,
       });
 

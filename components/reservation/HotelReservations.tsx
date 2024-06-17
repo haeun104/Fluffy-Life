@@ -90,11 +90,11 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
   const loadMoreReservations = async () => {
     setIsLoading(true);
     try {
-      await fetchReservations();
       // Scroll page to get the load more button on user's view
       if (loadMoreRef.current) {
         loadMoreRef.current.scrollIntoView({ behavior: "smooth" });
       }
+      await fetchReservations();
     } catch (error) {
     } finally {
       setIsLoading(false);
