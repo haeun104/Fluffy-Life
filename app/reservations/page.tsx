@@ -1,7 +1,6 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import getGroomingReservations from "@/actions/getGroomingReservationsByUser";
 import getHotelReservationByUser from "@/actions/getHotelReservationsByUser";
-import getReservationCount from "@/actions/getReservationCount";
 import Container from "@/components/Container";
 import GroomingReservations from "@/components/reservation/GroomingReservations";
 import HotelReservations from "@/components/reservation/HotelReservations";
@@ -19,11 +18,9 @@ const ReservationsPage = async () => {
   if (currentUser) {
     const initialReservations = await getHotelReservationByUser(
       currentUser.id,
-      0,
-      3
+      0
     );
     const groomingReservations = await getGroomingReservations(currentUser.id);
-    const hotelReservationCount = await getReservationCount("hotel", currentUser.id);
 
     if (initialReservations) {
       return (
@@ -35,7 +32,6 @@ const ReservationsPage = async () => {
             <HotelReservations
               initialReservations={initialReservations}
               currentUser={currentUser.id}
-              reservationCount={hotelReservationCount}
             />
             <GroomingReservations groomingReservations={groomingReservations} />
           </div>

@@ -6,8 +6,8 @@ import { HotelReview } from "@prisma/client";
 
 export default async function getHotelReservationsByUser(
   userId: string | null,
-  skip?: number,
-  take?: number
+  skip: number,
+  currentCount: number = 0
 ) {
   if (userId !== null) {
     try {
@@ -15,6 +15,7 @@ export default async function getHotelReservationsByUser(
         review: HotelReview | undefined;
       })[] = [];
 
+      // Fetch 3 next reservations from DB
       const reservations = await prisma.hotelReservation.findMany({
         where: {
           userId,
@@ -26,7 +27,7 @@ export default async function getHotelReservationsByUser(
           startDate: "desc",
         },
         skip,
-        take: take,
+        take: 3,
       });
 
       if (reservations.length > 0) {
@@ -38,6 +39,7 @@ export default async function getHotelReservationsByUser(
           (reservation) => reservation.id
         );
 
+        // Fetch reviews on 3 reservations from DB if existing
         const reviews = await prisma.hotelReview.findMany({
           where: {
             reservationId: {
@@ -46,6 +48,7 @@ export default async function getHotelReservationsByUser(
           },
         });
 
+        // Combine fetched reservations ans their reviews
         reservations.forEach((reservation) => {
           const matchingReview = reviews.find(
             (review) => review.reservationId === reservation.id
@@ -57,10 +60,31 @@ export default async function getHotelReservationsByUser(
         });
       }
 
-      return reservationsWithReviews;
+      // Check total count of user's reservation
+      let hasMoreReservations = false;
+
+      const allReservations = await prisma.hotelReservation.findMany({
+        where: {
+          userId,
+        },
+      });
+
+      const count = allReservations.length - reservations.length - currentCount;
+
+      if (count && count > 0) {
+        hasMoreReservations = true;
+      }
+
+      return {
+        reservationsWithReviews,
+        hasMoreReservations,
+      };
     } catch (error) {
       console.error(error);
-      return [];
+      return {
+        reservationsWithReviews: [],
+        hasMoreReservations: false,
+      };
     }
   }
 }

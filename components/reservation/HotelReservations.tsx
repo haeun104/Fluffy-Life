@@ -3,7 +3,7 @@
 import { HotelReview, Room } from "@prisma/client";
 import ReservationItem from "./ReservationItem";
 import ReviewRegistrationModal from "../modals/ReviewRegistrationModal";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { RoomData } from "@/types";
 import useHotelReviewModal from "@/hooks/useReviewRegistrationModal";
 import getHotelReservationsByUser from "@/actions/getHotelReservationsByUser";
@@ -22,64 +22,67 @@ export interface HotelReservation {
   room: Room;
 }
 
+interface ReservationsByUser {
+  reservationsWithReviews: (HotelReservation & {
+    review: HotelReview | undefined;
+  })[];
+  hasMoreReservations: boolean;
+}
+
 interface HotelReservationsProps {
-  initialReservations:
-    | (HotelReservation & { review: HotelReview | undefined })[]
-    | undefined;
+  initialReservations: ReservationsByUser;
   currentUser: string;
-  reservationCount: number | undefined;
 }
 
 const HotelReservations: React.FC<HotelReservationsProps> = ({
   initialReservations,
   currentUser,
-  reservationCount,
 }) => {
-  const [reservationsWithReviews, setReservationsWithReviews] =
-    useState(initialReservations);
+  const [reservationsWithReviews, setReservationsWithReviews] = useState(
+    initialReservations.reservationsWithReviews
+  );
   const [bookingForReview, setBookingForReview] = useState<HotelReservation>();
   const [reservationRoom, setReservationRoom] = useState<RoomData>();
   const [reviewToUpdate, setReviewToUpdate] = useState<HotelReview | null>(
     null
   );
-  const [visibleCount, setVisibleCount] = useState(1);
-  const [remainedCount, setRemainedCount] = useState<number>();
+  const [visiblePage, setVisiblePage] = useState(1);
+  const [currentCount, setCurrentCount] = useState<number | undefined>(
+    initialReservations.reservationsWithReviews.length
+  );
+  const [hasMore, setHasMore] = useState(
+    initialReservations.hasMoreReservations
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const hotelReviewModal = useHotelReviewModal();
 
-  // Calculate and update initial count of reservations
-  useEffect(() => {
-    if (reservationCount && initialReservations) {
-      const initialCount = reservationCount - initialReservations.length;
-      setRemainedCount(initialCount);
-    }
-  }, [reservationCount, initialReservations]);
-
   // Fetch 3 next reservations and their reviews
   const fetchReservations = async () => {
     try {
-      const take = 3;
-      const skip = visibleCount * take;
+      const skip = visiblePage * 3;
       const response = await getHotelReservationsByUser(
         currentUser,
         skip,
-        take
+        currentCount
       );
-      if (response && response.length > 0) {
-        setReservationsWithReviews((prev) => {
-          if (!prev) {
-            return [...response];
-          }
-          return [...prev, ...response];
-        });
-        setVisibleCount((prev) => prev + 1);
-        setRemainedCount((prev) => {
-          if (prev) {
-            return prev - response.length;
-          }
-        });
+      if (response) {
+        if (response.reservationsWithReviews.length > 0) {
+          setReservationsWithReviews((prev) => {
+            if (!prev) {
+              return [...response.reservationsWithReviews];
+            }
+            return [...prev, ...response.reservationsWithReviews];
+          });
+          setVisiblePage((prev) => prev + 1);
+          setCurrentCount((prev) => {
+            if (prev) {
+              return prev + response.reservationsWithReviews.length;
+            }
+          });
+        }
+        setHasMore(response.hasMoreReservations);
       }
     } catch (error: any) {
       console.error(error);
@@ -103,13 +106,10 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
 
   // Reset the reservation list to its initial one
   const hidePreviousReservation = () => {
-    setVisibleCount(1);
-    setReservationsWithReviews(initialReservations);
-
-    if (reservationCount && initialReservations) {
-      const initialCount = reservationCount - initialReservations.length;
-      setRemainedCount(initialCount);
-    }
+    setVisiblePage(1);
+    setReservationsWithReviews(initialReservations.reservationsWithReviews);
+    setCurrentCount(initialReservations.reservationsWithReviews.length);
+    setHasMore(initialReservations.hasMoreReservations);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -163,12 +163,12 @@ const HotelReservations: React.FC<HotelReservationsProps> = ({
             </div>
             <div
               className={`${
-                reservationCount && reservationCount <= 3 && "hidden"
+                currentCount && currentCount <= 3 && !hasMore && "hidden"
               }`}
             >
               {!isLoading ? (
                 <div className="border-[1px] border-[#EEEEEE] rounded-md p-2 shadow-md flex gap-4 mt-4 justify-center hover:bg-[#EEEEEE]">
-                  {remainedCount !== 0 ? (
+                  {hasMore ? (
                     <div
                       onClick={loadMoreReservations}
                       className="cursor-pointer"
